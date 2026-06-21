@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a5d64090a4fe2642388d9b9ff963d6e",
+    "content-hash": "29521afabb8eeb983b964c5bc1783676",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2383,16 +2383,16 @@
         },
         {
             "name": "lattice-php/lattice",
-            "version": "0.10.0",
+            "version": "0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lattice-php/lattice.git",
-                "reference": "eb12c596434542fa3c3864e1c8906e43f853cc75"
+                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/eb12c596434542fa3c3864e1c8906e43f853cc75",
-                "reference": "eb12c596434542fa3c3864e1c8906e43f853cc75",
+                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
+                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
                 "shasum": ""
             },
             "require": {
@@ -2466,7 +2466,7 @@
                 "issues": "https://github.com/lattice-php/lattice/issues",
                 "source": "https://github.com/lattice-php/lattice"
             },
-            "time": "2026-06-20T08:23:04+00:00"
+            "time": "2026-06-21T23:04:47+00:00"
         },
         {
             "name": "league/commonmark",
