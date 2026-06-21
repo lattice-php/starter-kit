@@ -38,22 +38,22 @@ class ProfileSettingsForm extends FormDefinition
                 Grid::make('profile-fields')
                     ->columns(1)
                     ->schema([
-                        TextInput::make('name', 'Name')
+                        TextInput::make('name', __('common.field.name'))
                             ->value($user->name)
                             ->autoComplete('name')
-                            ->placeholder('Full name')
+                            ->placeholder(__('common.placeholder.full-name'))
                             ->required()
                             ->rules(['string', 'max:255']),
-                        TextInput::make('email', 'Email address')
+                        TextInput::make('email', __('common.field.email-address'))
                             ->email()
                             ->value($user->email)
                             ->autoComplete('username')
-                            ->placeholder('Email address')
+                            ->placeholder(__('common.field.email-address'))
                             ->required()
                             ->rules(['string', 'max:255', Rule::unique(User::class)->ignore($user->id)]),
                     ]),
                 ...$this->verificationNotice($user, $request),
-                Button::make('Save')->submit(),
+                Button::make(__('common.action.save'))->submit(),
             ])
             ->withoutSubmitButton();
     }
@@ -70,7 +70,7 @@ class ProfileSettingsForm extends FormDefinition
 
         $user->save();
 
-        return $this->toast(Variant::Success, __('Profile updated.'))->toRoute('settings.edit');
+        return $this->toast(Variant::Success, __('settings.profile.updated'))->toRoute('settings.edit');
     }
 
     /**
@@ -87,13 +87,13 @@ class ProfileSettingsForm extends FormDefinition
                 ->direction('row')
                 ->gap(Gap::ExtraSmall)
                 ->schema([
-                    Text::make('Your email address is unverified.'),
+                    Text::make(__('settings.profile.unverified')),
                     Action::use(SendVerificationEmailAction::class),
                 ]),
         ];
 
         if ($request->session()->get('status') === 'verification-link-sent') {
-            $components[] = Text::make('A new verification link has been sent to your email address.');
+            $components[] = Text::make(__('settings.profile.verification-sent'));
         }
 
         return $components;

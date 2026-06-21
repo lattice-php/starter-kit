@@ -27,7 +27,7 @@ final class WelcomePage extends Page
 
     public function title(): string
     {
-        return 'Lattice';
+        return __('welcome.title');
     }
 
     protected function boot(Request $request): void
@@ -46,9 +46,9 @@ final class WelcomePage extends Page
                     Stack::make('welcome-hero')
                         ->gap(Gap::Large)
                         ->schema([
-                            Badge::make('Lattice Starter Kit'),
-                            Heading::make('Server-driven React for Laravel'),
-                            Text::make('Compose pages, forms, tables, and actions in PHP while React renders a typed, registry-driven interface.'),
+                            Badge::make(__('welcome.badge')),
+                            Heading::make(__('welcome.heading')),
+                            Text::make(__('welcome.subtitle')),
                             Stack::make('welcome-actions')
                                 ->gap(Gap::Small)
                                 ->schema($this->actions()),
@@ -56,9 +56,9 @@ final class WelcomePage extends Page
                     Grid::make('welcome-capabilities')
                         ->columns(3)
                         ->schema([
-                            Card::make('Forms first', 'Define form schemas and handlers as independent server-side objects, then mount several of them on the same page.'),
-                            Card::make('Tables as primitives', 'Render query-backed lists with sorting, filtering, pagination, and actions without requiring a resource class.'),
-                            Card::make('Pages compose everything', 'Use pages as the serialization boundary for layouts, interactive fragments, forms, and tables.'),
+                            Card::make(__('welcome.capabilities.forms.title'), __('welcome.capabilities.forms.body')),
+                            Card::make(__('welcome.capabilities.tables.title'), __('welcome.capabilities.tables.body')),
+                            Card::make(__('welcome.capabilities.pages.title'), __('welcome.capabilities.pages.body')),
                         ]),
                 ]),
         ]);
@@ -71,16 +71,16 @@ final class WelcomePage extends Page
     {
         if ($this->user instanceof Authenticatable) {
             return [
-                Button::make('Open dashboard')
+                Button::make(__('welcome.actions.dashboard'))
                     ->href($this->dashboardUrl()),
             ];
         }
 
         return [
-            Button::make('Log in')
+            Button::make(__('common.action.log-in'))
                 ->href($this->namedRouteUrl('login'))
                 ->variant(ButtonVariant::Secondary),
-            Button::make('Register')
+            Button::make(__('welcome.actions.register'))
                 ->href($this->namedRouteUrl('register')),
         ];
     }

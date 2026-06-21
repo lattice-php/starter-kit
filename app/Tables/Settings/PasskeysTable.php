@@ -35,13 +35,13 @@ class PasskeysTable extends TableDefinition
     {
         return [
             StackColumn::make('passkey')
-                ->label('Passkey')
+                ->label(__('settings.passkeys.column'))
                 ->columns([
-                    TextColumn::make('name')->label('Name'),
-                    TextColumn::make('authenticator')->label('Authenticator'),
-                    TextColumn::make('created_at_diff')->label('Created'),
+                    TextColumn::make('name')->label(__('common.field.name')),
+                    TextColumn::make('authenticator')->label(__('settings.passkeys.authenticator')),
+                    TextColumn::make('created_at_diff')->label(__('settings.passkeys.created')),
                 ]),
-            TextColumn::make('last_used_at_diff')->label('Last used'),
+            TextColumn::make('last_used_at_diff')->label(__('settings.passkeys.last-used')),
         ];
     }
 
@@ -71,10 +71,10 @@ class PasskeysTable extends TableDefinition
                         'id' => $passkey->id,
                         'name' => $passkey->name,
                         'authenticator' => $passkey->authenticator ?? '',
-                        'created_at_diff' => 'Added '.$passkey->created_at->diffForHumans(),
+                        'created_at_diff' => __('settings.passkeys.added', ['time' => $passkey->created_at->diffForHumans()]),
                         'last_used_at_diff' => $passkey->last_used_at === null
-                            ? 'Never used'
-                            : 'Last used '.$passkey->last_used_at->diffForHumans(),
+                            ? __('settings.passkeys.never-used')
+                            : __('settings.passkeys.last-used-at', ['time' => $passkey->last_used_at->diffForHumans()]),
                     ]),
             );
         });

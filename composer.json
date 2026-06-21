@@ -13,6 +13,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "bambamboole/laravel-i18next": "^0.6.0",
+        "bambamboole/laravel-translation-dumper": "^2.2",
         "inertiajs/inertia-laravel": "^3.1",
         "laravel/chisel": "^0.1.1",
         "laravel/fortify": "^1.37.2",

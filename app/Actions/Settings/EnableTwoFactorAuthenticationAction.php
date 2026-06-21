@@ -24,7 +24,7 @@ class EnableTwoFactorAuthenticationAction extends ActionDefinition
     public function definition(ActionComponent $action): ActionComponent
     {
         return $action
-            ->label('Enable 2FA')
+            ->label(__('settings.two-factor.enable'))
             ->method(HttpMethod::Post);
     }
 
@@ -37,7 +37,7 @@ class EnableTwoFactorAuthenticationAction extends ActionDefinition
         ($this->enable)($user);
 
         return ActionResult::success()
-            ->toast(Variant::Info, __('Two-factor authentication setup started.'))
+            ->toast(Variant::Info, __('settings.two-factor.setup-started'))
             ->openModal('settings.two-factor-setup');
     }
 }

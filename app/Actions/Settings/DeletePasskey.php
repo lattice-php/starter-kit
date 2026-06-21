@@ -20,12 +20,12 @@ class DeletePasskey extends ActionDefinition
     public function definition(Action $action): Action
     {
         return $action
-            ->label('Remove passkey')
+            ->label(__('settings.passkeys.remove'))
             ->variant(ButtonVariant::Destructive)
             ->confirm(
-                title: 'Remove passkey?',
-                description: 'You will no longer be able to use this passkey to sign in.',
-                confirmLabel: 'Remove passkey',
+                title: __('settings.passkeys.remove-confirm-title'),
+                description: __('settings.passkeys.remove-confirm-description'),
+                confirmLabel: __('settings.passkeys.remove'),
             );
     }
 
@@ -40,7 +40,7 @@ class DeletePasskey extends ActionDefinition
         $this->currentUser()->passkeys()->whereKey($this->context('passkey'))->delete();
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Passkey removed.'))
+            ->toast(Variant::Success, __('settings.passkeys.removed'))
             ->reloadComponent('settings.passkeys');
     }
 }

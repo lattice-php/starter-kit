@@ -13,7 +13,7 @@ enum TeamRole: string implements HasLabel
 
     public function getLabel(): string
     {
-        return ucfirst($this->value);
+        return __('teams.roles.'.$this->value);
     }
 
     /**

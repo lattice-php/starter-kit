@@ -4,6 +4,7 @@ import type { RendererComponent } from "@lattice-php/lattice/core/types";
 import { Input } from "@lattice-php/lattice/form/components/base/input";
 import InputError from "@lattice-php/lattice/form/components/base/input-error";
 import { Label } from "@lattice-php/lattice/form/components/base/label";
+import { useT } from "@lattice-php/lattice/i18n";
 import { useState } from "react";
 
 declare module "@lattice-php/lattice/core/types" {
@@ -12,7 +13,7 @@ declare module "@lattice-php/lattice/core/types" {
     }
 }
 
-function suggestedPasskeyName(): string {
+function suggestedPasskeyName(connector: string): string {
     const ua = navigator.userAgent;
 
     const browser = ["Chrome", "Firefox", "Safari", "Edge", "Opera"].find((candidate) =>
@@ -23,11 +24,12 @@ function suggestedPasskeyName(): string {
         new RegExp(candidate).test(ua),
     );
 
-    return [browser, os].filter(Boolean).join(" on ") || "";
+    return [browser, os].filter(Boolean).join(` ${connector} `) || "";
 }
 
 const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = () => {
-    const [name, setName] = useState(suggestedPasskeyName);
+    const { t } = useT("app");
+    const [name, setName] = useState(() => suggestedPasskeyName(t("passkey.on", "on")));
     const [showForm, setShowForm] = useState(false);
     const { register, isLoading, error, isSupported } = usePasskeyRegister({
         onSuccess: () => {
@@ -55,7 +57,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
     if (!isSupported) {
         return (
             <div className="text-sm text-lt-muted-fg">
-                Passkeys are not supported in this browser.
+                {t("passkey.not-supported", "Passkeys are not supported in this browser.")}
             </div>
         );
     }
@@ -63,7 +65,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
     if (!showForm) {
         return (
             <Button variant="outline" onClick={() => setShowForm(true)}>
-                Add passkey
+                {t("passkey.add", "Add passkey")}
             </Button>
         );
     }
@@ -74,18 +76,18 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
             className="space-y-4 rounded-lt border border-lt-border bg-lt-muted/50 p-4"
         >
             <div className="grid gap-2">
-                <Label htmlFor="passkey-name">Passkey name</Label>
+                <Label htmlFor="passkey-name">{t("passkey.name-label", "Passkey name")}</Label>
                 <Input
                     id="passkey-name"
                     type="text"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    placeholder="e.g., MacBook Pro, iPhone"
+                    placeholder={t("passkey.name-placeholder", "e.g., MacBook Pro, iPhone")}
                     className="mt-1 block w-full"
                     autoFocus
                 />
                 <p className="text-xs text-lt-muted-fg">
-                    A name helps you identify this passkey later.
+                    {t("passkey.name-help", "A name helps you identify this passkey later.")}
                 </p>
             </div>
 
@@ -93,7 +95,9 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
 
             <div className="flex gap-2">
                 <Button type="submit" disabled={isLoading || !name.trim()}>
-                    {isLoading ? "Registering..." : "Register passkey"}
+                    {isLoading
+                        ? t("passkey.registering", "Registering...")
+                        : t("passkey.register", "Register passkey")}
                 </Button>
                 <Button
                     type="button"
@@ -103,7 +107,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
                         setName("");
                     }}
                 >
-                    Cancel
+                    {t("passkey.cancel", "Cancel")}
                 </Button>
             </div>
         </form>

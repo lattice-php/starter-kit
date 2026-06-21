@@ -23,10 +23,10 @@ trait ListensForUserNotifications
         return [
             Listen::private('App.Models.User.'.$user->id)
                 ->on('.TeamInvitationReceived')
-                ->toast(__('You have a new team invitation.'), Variant::Info),
+                ->toast(__('teams.notification.received-toast'), Variant::Info),
             Listen::private('App.Models.User.'.$user->id)
                 ->on('.RemovedFromTeam')
-                ->toast(__('You were removed from a team.'), Variant::Warning),
+                ->toast(__('teams.notification.removed-toast'), Variant::Warning),
         ];
     }
 }

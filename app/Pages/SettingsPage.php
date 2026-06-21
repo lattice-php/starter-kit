@@ -45,7 +45,7 @@ class SettingsPage extends Page
 
     public function title(): string
     {
-        return 'Settings';
+        return __('settings.title');
     }
 
     public function render(PageSchema $schema, TwoFactorAuthenticationRequest $request): PageSchema
@@ -62,14 +62,14 @@ class SettingsPage extends Page
                     Stack::make('settings-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Settings', 1),
-                            Text::make('Manage your profile, security, and appearance settings.'),
+                            Heading::make(__('settings.heading'), 1),
+                            Text::make(__('settings.subtitle')),
                         ]),
                     Tabs::make('settings-tabs')
                         ->defaultValue('profile')
                         ->schema([
-                            Tab::make('profile', 'Profile')->schema($this->profileTab()),
-                            Tab::make('security', 'Security')
+                            Tab::make('profile', __('settings.tabs.profile'))->schema($this->profileTab()),
+                            Tab::make('security', __('settings.tabs.security'))
                                 ->confirm(route('password.confirm', absolute: false))
                                 ->schema($this->securityTab(
                                     canManageTwoFactor: $canManageTwoFactor,
@@ -79,7 +79,7 @@ class SettingsPage extends Page
                                         ? $user->recoveryCodes()
                                         : [],
                                 )),
-                            Tab::make('appearance', 'Appearance')->schema($this->appearanceTab(
+                            Tab::make('appearance', __('settings.tabs.appearance'))->schema($this->appearanceTab(
                                 $this->currentAppearance($request),
                             )),
                         ]),
@@ -96,8 +96,8 @@ class SettingsPage extends Page
             Stack::make('profile-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Profile', 2),
-                    Text::make('Update your name and email address.'),
+                    Heading::make(__('settings.profile.heading'), 2),
+                    Text::make(__('settings.profile.subtitle')),
                 ]),
             Form::use(ProfileSettingsForm::class),
             Form::use(DeleteAccountForm::class),
@@ -118,14 +118,14 @@ class SettingsPage extends Page
             Stack::make('security-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Security', 2),
-                    Text::make('Update your password and manage sign-in security.'),
+                    Heading::make(__('settings.security.heading'), 2),
+                    Text::make(__('settings.security.subtitle')),
                 ]),
             Form::use(PasswordSettingsForm::class),
             Stack::make('two-factor-authentication')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Two-factor authentication', 2),
+                    Heading::make(__('settings.two-factor.heading'), 2),
                     Text::make($this->twoFactorDescription($twoFactorEnabled)),
                     Action::use(EnableTwoFactorAuthenticationAction::class)
                         ->when(! $twoFactorEnabled),
@@ -134,8 +134,8 @@ class SettingsPage extends Page
                 ])
                 ->when($canManageTwoFactor),
             Modal::make('settings.two-factor-setup')
-                ->title('Set up two-factor authentication')
-                ->description('Scan the QR code with your authenticator app.')
+                ->title(__('settings.two-factor.setup-title'))
+                ->description(__('settings.two-factor.setup-description'))
                 ->schema([
                     Fragment::lazy(TwoFactorSetupFragment::class),
                 ])
@@ -145,8 +145,8 @@ class SettingsPage extends Page
             Stack::make('passkey-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Passkeys', 2),
-                    Text::make('Manage your passkeys for passwordless sign-in.'),
+                    Heading::make(__('settings.passkeys.heading'), 2),
+                    Text::make(__('settings.passkeys.subtitle')),
                 ])
                 ->when($canManagePasskeys),
             Table::lazy(PasskeysTable::class)
@@ -159,10 +159,10 @@ class SettingsPage extends Page
     private function twoFactorDescription(bool $twoFactorEnabled): string
     {
         if ($twoFactorEnabled) {
-            return 'You will be prompted for a secure one-time code during sign in.';
+            return __('settings.two-factor.description-enabled');
         }
 
-        return 'Add an authenticator app code requirement to protect your account during sign in.';
+        return __('settings.two-factor.description-disabled');
     }
 
     /**
@@ -179,8 +179,8 @@ class SettingsPage extends Page
         return Stack::make('two-factor-recovery-codes')
             ->gap(Gap::Small)
             ->schema([
-                Heading::make('Recovery codes', 2),
-                Text::make('Store these codes in a safe place. Each one can be used once to access your account if you lose your authenticator.'),
+                Heading::make(__('settings.recovery-codes.heading'), 2),
+                Text::make(__('settings.recovery-codes.description')),
                 Stack::make('recovery-codes-list')
                     ->gap(Gap::Small)
                     ->schema($codeNodes),
@@ -197,16 +197,16 @@ class SettingsPage extends Page
             Stack::make('appearance-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Appearance settings', 2),
-                    Text::make('Update the appearance settings for your account.'),
+                    Heading::make(__('settings.appearance.heading'), 2),
+                    Text::make(__('settings.appearance.subtitle')),
                 ]),
-            SegmentedControl::make('appearance', 'Appearance')
+            SegmentedControl::make('appearance', __('settings.appearance.label'))
                 ->value($appearance)
                 ->emits('lattice:appearance-change')
                 ->options([
-                    SegmentedControl::option('Light', 'light'),
-                    SegmentedControl::option('Dark', 'dark'),
-                    SegmentedControl::option('System', 'system'),
+                    SegmentedControl::option(__('settings.appearance.light'), 'light'),
+                    SegmentedControl::option(__('settings.appearance.dark'), 'dark'),
+                    SegmentedControl::option(__('settings.appearance.system'), 'system'),
                 ]),
         ];
     }

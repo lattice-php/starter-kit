@@ -40,12 +40,12 @@ class TeamMembersTable extends TableDefinition
     {
         return [
             StackColumn::make('member')
-                ->label('Member')
+                ->label(__('teams.members.column'))
                 ->columns([
-                    TextColumn::make('name')->label('Name'),
-                    TextColumn::make('email')->label('Email'),
+                    TextColumn::make('name')->label(__('common.field.name')),
+                    TextColumn::make('email')->label(__('common.field.email')),
                 ]),
-            TextColumn::make('role_label')->label('Role'),
+            TextColumn::make('role_label')->label(__('common.field.role')),
         ];
     }
 
@@ -79,7 +79,7 @@ class TeamMembersTable extends TableDefinition
 
         return [
             ActionGroup::make("teams.members.{$row['id']}.actions")
-                ->label('Member actions')
+                ->label(__('teams.members.actions-label'))
                 ->actions($actions),
         ];
     }

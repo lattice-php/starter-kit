@@ -26,13 +26,13 @@ class RemoveMember extends ActionDefinition
     public function definition(Action $action): Action
     {
         return $action
-            ->label(__('Remove'))
+            ->label(__('teams.members.remove'))
             ->method(HttpMethod::Delete)
             ->variant(ButtonVariant::Destructive)
             ->confirm(
-                title: __('Remove member?'),
-                description: __('This user will lose access to the team.'),
-                confirmLabel: __('Remove member'),
+                title: __('teams.members.remove-confirm-title'),
+                description: __('teams.members.remove-confirm-description'),
+                confirmLabel: __('teams.members.remove-confirm-label'),
             );
     }
 
@@ -47,7 +47,7 @@ class RemoveMember extends ActionDefinition
         $team = $this->teamFromContext();
         $member = User::findOrFail($this->contextInt('member'));
 
-        abort_if($team->owner()?->is($member), 403, __('The team owner cannot be removed.'));
+        abort_if($team->owner()?->is($member), 403, __('teams.members.owner-cannot-be-removed'));
 
         $team->memberships()->where('user_id', $member->id)->delete();
 
@@ -62,7 +62,7 @@ class RemoveMember extends ActionDefinition
         }
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Member removed.'))
+            ->toast(Variant::Success, __('teams.members.removed'))
             ->reloadComponent('teams.members');
     }
 }

@@ -27,11 +27,11 @@ class UpdateMemberRole extends ActionDefinition
     public function definition(Action $action): Action
     {
         return $action
-            ->label(__('Change role'))
+            ->label(__('teams.members.change-role'))
             ->method(HttpMethod::Patch)
             ->variant(ButtonVariant::Secondary)
             ->form([
-                Choice::make('role', __('Role'))
+                Choice::make('role', __('common.field.role'))
                     ->enum(TeamRole::assignableCases())
                     ->rules([Rule::enum(TeamRole::class)->only(TeamRole::assignableCases())])
                     ->required(),
@@ -56,7 +56,7 @@ class UpdateMemberRole extends ActionDefinition
             ->update(['role' => TeamRole::from((string) $validated['role'])]);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Member role updated.'))
+            ->toast(Variant::Success, __('teams.members.role-updated'))
             ->reloadComponent('teams.members');
     }
 }

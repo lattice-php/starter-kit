@@ -28,17 +28,17 @@ class DeleteAccountForm extends FormDefinition
         return $form
             ->method(HttpMethod::Delete)
             ->schema([
-                Heading::make('Delete account', 2),
-                Text::make('Delete your account and all of its resources. This action cannot be undone. Enter your password to confirm.'),
-                PasswordInput::make('password', 'Password')
+                Heading::make(__('settings.delete-account.heading'), 2),
+                Text::make(__('settings.delete-account.description')),
+                PasswordInput::make('password', __('common.field.password'))
                     ->autoComplete('current-password')
-                    ->placeholder('Password')
+                    ->placeholder(__('common.placeholder.password'))
                     ->required()
                     ->rules(['current_password']),
                 Stack::make('delete-account-actions')
                     ->direction('row')
                     ->schema([
-                        Button::make('Delete account')->submit()->variant(ButtonVariant::Destructive),
+                        Button::make(__('settings.delete-account.submit'))->submit()->variant(ButtonVariant::Destructive),
                     ]),
             ])
             ->resetOnSuccess()

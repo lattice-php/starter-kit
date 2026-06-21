@@ -23,13 +23,13 @@ class CancelInvitation extends ActionDefinition
     public function definition(Action $action): Action
     {
         return $action
-            ->label(__('Cancel'))
+            ->label(__('teams.invitations.cancel'))
             ->method(HttpMethod::Delete)
             ->variant(ButtonVariant::Destructive)
             ->confirm(
-                title: __('Cancel invitation?'),
-                description: __('The invitation link will stop working.'),
-                confirmLabel: __('Cancel invitation'),
+                title: __('teams.invitations.cancel-confirm-title'),
+                description: __('teams.invitations.cancel-confirm-description'),
+                confirmLabel: __('teams.invitations.cancel-confirm-label'),
             );
     }
 
@@ -49,7 +49,7 @@ class CancelInvitation extends ActionDefinition
             ->delete();
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Invitation cancelled.'))
+            ->toast(Variant::Success, __('teams.invitations.cancelled'))
             ->reloadComponent('teams.invitations');
     }
 }

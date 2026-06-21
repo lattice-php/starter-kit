@@ -6,6 +6,7 @@ import { Spinner } from "@lattice-php/lattice/core/components/spinner";
 import type { RendererComponent } from "@lattice-php/lattice/core/types";
 import InputError from "@lattice-php/lattice/form/components/base/input-error";
 import { IconRenderer } from "@lattice-php/lattice/icons";
+import { useT } from "@lattice-php/lattice/i18n";
 
 declare module "@lattice-php/lattice/core/types" {
     interface ComponentProps {
@@ -30,6 +31,7 @@ type PasskeyVerifyProps = {
 };
 
 function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerifyProps = {}) {
+    const { t } = useT("app");
     const { verify, isLoading, error, isSupported } = usePasskeyVerify({
         ...(routes && {
             routes: {
@@ -64,8 +66,8 @@ function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerify
                         <IconRenderer icon="key-round" className="h-4 w-4" />
                     )}
                     {isLoading
-                        ? (loadingLabel ?? "Authenticating...")
-                        : (label ?? "Sign in with a passkey")}
+                        ? (loadingLabel ?? t("passkey.authenticating", "Authenticating..."))
+                        : (label ?? t("passkey.sign-in", "Sign in with a passkey"))}
                 </Button>
                 {error && <InputError message={error} className="text-center" />}
             </div>
@@ -76,7 +78,7 @@ function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerify
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                     <span className="bg-lt-bg px-2 text-lt-muted-fg">
-                        {separator ?? "Or continue with email"}
+                        {separator ?? t("passkey.separator", "Or continue with email")}
                     </span>
                 </div>
             </div>

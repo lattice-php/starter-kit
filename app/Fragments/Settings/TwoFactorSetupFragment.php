@@ -34,7 +34,7 @@ class TwoFactorSetupFragment extends FragmentDefinition
 
         if ($user->hasEnabledTwoFactorAuthentication() || $user->two_factor_secret === null) {
             return $schema->schema([
-                Text::make('Two-factor authentication is enabled. You can close this dialog.'),
+                Text::make(__('settings.two-factor.already-enabled')),
             ]);
         }
 
@@ -44,7 +44,7 @@ class TwoFactorSetupFragment extends FragmentDefinition
                 ->gap(Gap::Medium)
                 ->schema([
                     RawBlock::make('two-factor-qr-code')->html($user->twoFactorQrCodeSvg()),
-                    Text::make('Or enter this setup key in your authenticator app:'),
+                    Text::make(__('settings.two-factor.setup-key')),
                     Text::make(Fortify::currentEncrypter()->decrypt($user->two_factor_secret)),
                     Form::use(ConfirmTwoFactorForm::class),
                 ]),

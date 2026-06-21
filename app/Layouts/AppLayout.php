@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Layouts;
 
+use App\Actions\SetLocaleAction;
 use App\Actions\Teams\SwitchTeam;
 use App\Models\Team;
 use App\Models\User;
@@ -56,7 +57,7 @@ class AppLayout extends LayoutDefinition
                                 Stack::make('sidebar-top')->schema([
                                     $this->teamSwitcher($user),
                                     Menu::make('sidebar')->items([
-                                        MenuItem::fromPage(DashboardPage::class)->label('Dashboard')->prefix(Icon::LayoutDashboard),
+                                        MenuItem::fromPage(DashboardPage::class)->label(__('navigation.dashboard'))->prefix(Icon::LayoutDashboard),
                                     ]),
                                 ]),
                                 $this->userMenu($user),
@@ -84,13 +85,13 @@ class AppLayout extends LayoutDefinition
             })
             ->all();
 
-        $items[] = MenuItem::make('Team settings')
+        $items[] = MenuItem::make(__('navigation.team-settings'))
             ->href(route('teams.index', absolute: false))
             ->prefix(Icon::Settings);
 
         return Dropdown::make('team-switcher')
             ->placement(Placement::Right)
-            ->trigger($this->dropdownTrigger('users', $currentTeam->name ?? 'Select team'))
+            ->trigger($this->dropdownTrigger('users', $currentTeam->name ?? __('navigation.select-team')))
             ->items($items);
     }
 
@@ -121,12 +122,32 @@ class AppLayout extends LayoutDefinition
                     ]),
             ])
             ->items([
-                MenuItem::fromPage(SettingsPage::class)->label('Settings')->prefix(Icon::Settings),
-                MenuItem::make('Log out')
+                MenuItem::fromPage(SettingsPage::class)->label(__('navigation.settings'))->prefix(Icon::Settings),
+                ...$this->languageMenuItems(),
+                MenuItem::make(__('common.action.log-out'))
                     ->href(route('logout', absolute: false))
                     ->prefix(Affix::icon('log-out'))
                     ->method(HttpMethod::Post),
             ]);
+    }
+
+    /**
+     * @return array<int, MenuItem>
+     */
+    private function languageMenuItems(): array
+    {
+        $current = app()->getLocale();
+        $configured = config('lattice.i18n.locales', []);
+        $locales = is_array($configured)
+            ? array_values(array_filter($configured, is_string(...)))
+            : [];
+
+        return array_map(function (string $locale) use ($current): MenuItem {
+            $item = MenuItem::make(__('language.'.$locale))
+                ->action(SetLocaleAction::class, ['locale' => $locale]);
+
+            return $locale === $current ? $item->suffix(Icon::Check) : $item;
+        }, $locales);
     }
 
     private function dropdownTrigger(string $icon, string $label): array

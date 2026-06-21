@@ -27,7 +27,7 @@ class TeamsPage extends Page
 
     public function title(): string
     {
-        return 'Teams';
+        return __('teams.index.title');
     }
 
     public function render(PageSchema $schema, Request $request): PageSchema
@@ -40,8 +40,8 @@ class TeamsPage extends Page
                     Stack::make('teams-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Teams', 1),
-                            Text::make('Manage your teams and team memberships.'),
+                            Heading::make(__('teams.index.heading'), 1),
+                            Text::make(__('teams.index.subtitle')),
                         ]),
                     Form::use(CreateTeamForm::class),
                     Table::use(TeamsTable::class),

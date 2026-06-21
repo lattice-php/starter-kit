@@ -25,13 +25,13 @@ class RegenerateRecoveryCodesAction extends ActionDefinition
     public function definition(ActionComponent $action): ActionComponent
     {
         return $action
-            ->label('Regenerate codes')
+            ->label(__('settings.recovery-codes.regenerate'))
             ->method(HttpMethod::Post)
             ->variant(ButtonVariant::Secondary)
             ->confirm(
-                title: 'Regenerate recovery codes?',
-                description: 'Your existing recovery codes will stop working and be replaced with a new set.',
-                confirmLabel: 'Regenerate codes',
+                title: __('settings.recovery-codes.regenerate-confirm-title'),
+                description: __('settings.recovery-codes.regenerate-confirm-description'),
+                confirmLabel: __('settings.recovery-codes.regenerate'),
             );
     }
 
@@ -44,7 +44,7 @@ class RegenerateRecoveryCodesAction extends ActionDefinition
         ($this->generate)($user);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Recovery codes regenerated.'))
+            ->toast(Variant::Success, __('settings.recovery-codes.regenerated'))
             ->reloadPage();
     }
 }

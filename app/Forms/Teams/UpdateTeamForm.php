@@ -33,13 +33,13 @@ class UpdateTeamForm extends FormDefinition
                 Grid::make('teams-update-fields')
                     ->columns(1)
                     ->schema([
-                        TextInput::make('name', 'Team name')
+                        TextInput::make('name', __('teams.fields.name'))
                             ->value($team instanceof Team ? $team->name : null)
-                            ->placeholder('Team name')
+                            ->placeholder(__('teams.fields.name'))
                             ->required()
                             ->rules(['string', 'max:255']),
                     ]),
-                Button::make('Save team')->submit(),
+                Button::make(__('teams.update.submit'))->submit(),
             ])
             ->withoutSubmitButton();
     }
@@ -60,6 +60,6 @@ class UpdateTeamForm extends FormDefinition
             return $team;
         });
 
-        return $this->toast(Variant::Success, __('Team updated.'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return $this->toast(Variant::Success, __('teams.update.updated'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }
