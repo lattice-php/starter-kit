@@ -24,11 +24,11 @@ class ConfirmTwoFactorForm extends FormDefinition
     public function definition(Form $form, Request $request): Form
     {
         return $form
-            ->submitLabel('Confirm')
+            ->submitLabel(__('settings.two-factor.confirm'))
             ->schema([
-                OtpInput::make('code', 'Authentication code')
+                OtpInput::make('code', __('settings.two-factor.code'))
                     ->length(6)
-                    ->helperText('Enter the code from your authenticator application.')
+                    ->helperText(__('settings.two-factor.code-help'))
                     ->rules(['required', 'string']),
             ]);
     }
@@ -41,6 +41,6 @@ class ConfirmTwoFactorForm extends FormDefinition
 
         ($this->confirm)($user, (string) $request->input('code'));
 
-        return $this->toast(Variant::Success, __('Two-factor authentication enabled.'))->back();
+        return $this->toast(Variant::Success, __('settings.two-factor.enabled-toast'))->back();
     }
 }

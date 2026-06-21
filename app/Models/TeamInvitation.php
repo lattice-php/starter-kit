@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
  * @property CarbonImmutable|null $updated_at
  * @property-read User $inviter
  * @property-read Team|null $team
+ *
  * @method static \Database\Factories\TeamInvitationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TeamInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TeamInvitation newQuery()
@@ -40,6 +41,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TeamInvitation whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TeamInvitation whereTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TeamInvitation whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 #[Fillable(['team_id', 'email', 'role', 'invited_by', 'expires_at', 'accepted_at'])]

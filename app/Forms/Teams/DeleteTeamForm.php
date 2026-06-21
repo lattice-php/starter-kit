@@ -36,17 +36,17 @@ class DeleteTeamForm extends FormDefinition
         return $form
             ->method(HttpMethod::Delete)
             ->schema([
-                Text::make('Please proceed with caution, this cannot be undone.'),
-                TextInput::make('name', 'Confirm team name')
+                Text::make(__('teams.delete.warning')),
+                TextInput::make('name', __('teams.delete.confirm-name'))
                     ->placeholder($team instanceof Team ? $team->name : '')
                     ->required()
                     ->rules(['string'])
                     ->rules(fn (): array => [function (string $attribute, mixed $value, Closure $fail): void {
                         if ((string) $value !== $this->teamFromContext()->name) {
-                            $fail(__('The team name does not match.'));
+                            $fail(__('teams.delete.name-mismatch'));
                         }
                     }]),
-                Button::make('Delete team')->submit()->variant(ButtonVariant::Destructive),
+                Button::make(__('teams.delete.submit'))->submit()->variant(ButtonVariant::Destructive),
             ])
             ->withoutSubmitButton();
     }
@@ -59,6 +59,6 @@ class DeleteTeamForm extends FormDefinition
 
         $this->deleteTeam->handle($this->currentUser(), $team);
 
-        return $this->toast(Variant::Success, __('Team deleted.'))->toRoute('teams.index');
+        return $this->toast(Variant::Success, __('teams.delete.deleted'))->toRoute('teams.index');
     }
 }

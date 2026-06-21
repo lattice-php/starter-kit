@@ -31,7 +31,7 @@ class DashboardPage extends Page
 
     public function title(): string
     {
-        return 'Dashboard';
+        return __('dashboard.title');
     }
 
     /**
@@ -45,7 +45,7 @@ class DashboardPage extends Page
 
         return [
             [
-                'title' => 'Dashboard',
+                'title' => __('dashboard.title'),
                 'href' => route('dashboard', ['current_team' => $this->team->slug], absolute: false),
             ],
         ];
@@ -65,17 +65,17 @@ class DashboardPage extends Page
                     Stack::make('dashboard-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Dashboard', 1),
-                            Text::make('Welcome back, '.$user->name.'. You are viewing '.$current_team->name.'.'),
+                            Heading::make(__('dashboard.heading'), 1),
+                            Text::make(__('dashboard.welcome', ['name' => $user->name, 'team' => $current_team->name])),
                         ]),
                     Grid::make('dashboard-overview')
                         ->columns(3)
                         ->schema([
-                            Card::make('Server-driven pages', 'This dashboard is rendered from a Lattice page definition.'),
-                            Card::make('Team context', 'Routes, breadcrumbs, and layout are resolved on the server.'),
-                            Card::make('Composable UI', 'Pages can compose cards, grids, forms, tables, and actions.'),
+                            Card::make(__('dashboard.cards.server-driven.title'), __('dashboard.cards.server-driven.body')),
+                            Card::make(__('dashboard.cards.team-context.title'), __('dashboard.cards.team-context.body')),
+                            Card::make(__('dashboard.cards.composable.title'), __('dashboard.cards.composable.body')),
                         ]),
-                    Card::make('Next steps', 'Replace these starter metrics with real team activity as the kit grows.'),
+                    Card::make(__('dashboard.cards.next-steps.title'), __('dashboard.cards.next-steps.body')),
                 ]),
         ]);
     }

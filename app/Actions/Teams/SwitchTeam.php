@@ -20,7 +20,7 @@ class SwitchTeam extends ActionDefinition
 
     public function definition(Action $action): Action
     {
-        return $action->label(__('Switch team'));
+        return $action->label(__('teams.switch.label'));
     }
 
     #[\Override]
@@ -36,7 +36,7 @@ class SwitchTeam extends ActionDefinition
         $this->currentUser()->switchTeam($team);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Switched to :team.', ['team' => $team->name]))
+            ->toast(Variant::Success, __('teams.switch.switched', ['team' => $team->name]))
             ->toRoute('dashboard', ['current_team' => $team->slug]);
     }
 }

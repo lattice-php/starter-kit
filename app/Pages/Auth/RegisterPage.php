@@ -27,7 +27,7 @@ class RegisterPage extends Page
 {
     public function title(): string
     {
-        return 'Register';
+        return __('auth.register.title');
     }
 
     public function render(PageSchema $schema): PageSchema
@@ -36,8 +36,8 @@ class RegisterPage extends Page
             Stack::make('register-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Create an account', 2),
-                    Text::make('Enter your details below to create your account')
+                    Heading::make(__('auth.register.heading'), 2),
+                    Text::make(__('auth.register.subtitle'))
                         ->align(Align::Center),
                 ]),
             Form::make('register-form')
@@ -58,30 +58,30 @@ class RegisterPage extends Page
             Grid::make('register-fields')
                 ->columns(1)
                 ->schema([
-                    TextInput::make('name', 'Name')
+                    TextInput::make('name', __('common.field.name'))
                         ->autoComplete('name')
                         ->autoFocus()
-                        ->placeholder('Full name')
+                        ->placeholder(__('common.placeholder.full-name'))
                         ->required(),
-                    TextInput::make('email', 'Email address')
+                    TextInput::make('email', __('common.field.email-address'))
                         ->email()
                         ->autoComplete('email')
-                        ->placeholder('email@example.com')
+                        ->placeholder(__('common.placeholder.email'))
                         ->required(),
-                    PasswordInput::make('password', 'Password')
+                    PasswordInput::make('password', __('common.field.password'))
                         ->autoComplete('new-password')
-                        ->placeholder('Password')
+                        ->placeholder(__('common.placeholder.password'))
                         ->required()
                         ->needsConfirmation(),
                 ]),
-            Button::make('Create account')->submit(),
+            Button::make(__('auth.register.submit'))->submit(),
             Stack::make('register-login-prompt')
                 ->align(Align::Center)
                 ->direction('row')
                 ->gap(Gap::ExtraSmall)
                 ->schema([
-                    Text::make('Already have an account?'),
-                    Link::make('Log in')
+                    Text::make(__('auth.register.have-account')),
+                    Link::make(__('common.action.log-in'))
                         ->href(route('login', absolute: false)),
                 ]),
         ];

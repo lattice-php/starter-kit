@@ -27,7 +27,7 @@ class VerifyEmailPage extends Page
 
     public function title(): string
     {
-        return 'Email verification';
+        return __('auth.verify-email.title');
     }
 
     public function render(PageSchema $schema, Request $request): PageSchema
@@ -36,16 +36,16 @@ class VerifyEmailPage extends Page
             Stack::make('verify-email-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Email verification', 2),
-                    Text::make('Please verify your email address by clicking on the link we just emailed to you.')
+                    Heading::make(__('auth.verify-email.heading'), 2),
+                    Text::make(__('auth.verify-email.subtitle'))
                         ->align(Align::Center),
                 ]),
             Form::make('verify-email-form')
                 ->action(route('verification.send', absolute: false))
                 ->method(HttpMethod::Post)
                 ->schema([
-                    Button::make('Resend verification email')->submit(),
-                    Link::make('Log out')
+                    Button::make(__('auth.verify-email.resend'))->submit(),
+                    Link::make(__('common.action.log-out'))
                         ->href(route('logout', absolute: false))
                         ->method(HttpMethod::Post),
                 ])
@@ -60,6 +60,6 @@ class VerifyEmailPage extends Page
             return null;
         }
 
-        return 'A new verification link has been sent to the email address you provided during registration.';
+        return __('auth.verify-email.sent');
     }
 }

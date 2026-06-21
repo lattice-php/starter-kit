@@ -34,7 +34,7 @@ class LoginPage extends Page
 
     public function title(): string
     {
-        return 'Log in';
+        return __('auth.login.title');
     }
 
     public function render(PageSchema $schema, Request $request): PageSchema
@@ -45,8 +45,8 @@ class LoginPage extends Page
             Stack::make('login-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Log in to your account', 2),
-                    Text::make('Enter your email and password below to log in')
+                    Heading::make(__('auth.login.heading'), 2),
+                    Text::make(__('auth.login.subtitle'))
                         ->align(Align::Center),
                 ]),
             PasskeyVerify::make(
@@ -72,23 +72,23 @@ class LoginPage extends Page
             Grid::make('login-fields')
                 ->columns(1)
                 ->schema([
-                    TextInput::make('email', 'Email address')
+                    TextInput::make('email', __('common.field.email-address'))
                         ->email()
                         ->autoComplete('email')
                         ->autoFocus()
-                        ->placeholder('email@example.com')
+                        ->placeholder(__('common.placeholder.email'))
                         ->required(),
                     $this->passwordInput($canResetPassword),
-                    Checkbox::make('remember', 'Remember me'),
+                    Checkbox::make('remember', __('auth.login.remember')),
                 ]),
-            Button::make('Log in')->submit(),
+            Button::make(__('common.action.log-in'))->submit(),
             Stack::make('login-register-prompt')
                 ->align(Align::Center)
                 ->direction('row')
                 ->gap(Gap::ExtraSmall)
                 ->schema([
-                    Text::make("Don't have an account?"),
-                    Link::make('Sign up')
+                    Text::make(__('auth.login.no-account')),
+                    Link::make(__('auth.login.sign-up'))
                         ->href(route('register', absolute: false)),
                 ]),
         ];
@@ -96,15 +96,15 @@ class LoginPage extends Page
 
     private function passwordInput(bool $canResetPassword): PasswordInput
     {
-        $input = PasswordInput::make('password', 'Password')
+        $input = PasswordInput::make('password', __('common.field.password'))
             ->autoComplete('current-password')
-            ->placeholder('Password')
+            ->placeholder(__('common.placeholder.password'))
             ->required();
 
         if (! $canResetPassword) {
             return $input;
         }
 
-        return $input->labelAction('Forgot your password?', route('password.request', absolute: false));
+        return $input->labelAction(__('auth.login.forgot-password'), route('password.request', absolute: false));
     }
 }

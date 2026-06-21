@@ -39,12 +39,12 @@ class TeamInvitationsTable extends TableDefinition
     {
         return [
             StackColumn::make('invitation')
-                ->label('Invitation')
+                ->label(__('teams.invitations.column'))
                 ->columns([
-                    TextColumn::make('email')->label('Email'),
-                    TextColumn::make('role_label')->label('Role'),
+                    TextColumn::make('email')->label(__('common.field.email')),
+                    TextColumn::make('role_label')->label(__('common.field.role')),
                 ]),
-            TextColumn::make('created_at')->label('Sent'),
+            TextColumn::make('created_at')->label(__('teams.invitations.sent-column')),
         ];
     }
 
@@ -59,7 +59,7 @@ class TeamInvitationsTable extends TableDefinition
 
         return [
             ActionGroup::make("teams.invitations.{$row['id']}.actions")
-                ->label('Invitation actions')
+                ->label(__('teams.invitations.actions-label'))
                 ->actions([
                     Action::use(CancelInvitation::class, ['team' => $team->slug, 'invitation' => $row['code']]),
                 ]),

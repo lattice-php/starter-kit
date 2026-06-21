@@ -28,7 +28,7 @@ class ResetPasswordPage extends Page
 {
     public function title(): string
     {
-        return 'Reset password';
+        return __('auth.reset-password.title');
     }
 
     public function render(PageSchema $schema, Request $request): PageSchema
@@ -40,8 +40,8 @@ class ResetPasswordPage extends Page
             Stack::make('reset-password-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Reset your password', 2),
-                    Text::make('Enter a new password for your account.')->align(Align::Center),
+                    Heading::make(__('auth.reset-password.heading'), 2),
+                    Text::make(__('auth.reset-password.subtitle'))->align(Align::Center),
                 ]),
             Form::make('reset-password-form')
                 ->action(route('password.update', absolute: false))
@@ -62,20 +62,20 @@ class ResetPasswordPage extends Page
                 ->columns(1)
                 ->schema([
                     HiddenInput::make('token', $token),
-                    TextInput::make('email', 'Email address')
+                    TextInput::make('email', __('common.field.email-address'))
                         ->email()
                         ->autoComplete('email')
                         ->value($email)
                         ->readOnly()
                         ->required(),
-                    PasswordInput::make('password', 'Password')
+                    PasswordInput::make('password', __('common.field.password'))
                         ->autoComplete('new-password')
                         ->autoFocus()
-                        ->placeholder('Password')
+                        ->placeholder(__('common.placeholder.password'))
                         ->required()
                         ->needsConfirmation(),
                 ]),
-            Button::make('Reset password')->submit(),
+            Button::make(__('auth.reset-password.submit'))->submit(),
         ];
     }
 }

@@ -21,7 +21,7 @@ class SendVerificationEmailAction extends ActionDefinition
     public function definition(ActionComponent $action): ActionComponent
     {
         return $action
-            ->label('Resend verification email')
+            ->label(__('settings.profile.resend-verification'))
             ->method(HttpMethod::Post)
             ->variant(ButtonVariant::Link);
     }
@@ -31,11 +31,11 @@ class SendVerificationEmailAction extends ActionDefinition
         $user = $this->currentUser();
 
         if ($user->hasVerifiedEmail()) {
-            return ActionResult::success()->toast(Variant::Info, __('Your email address is already verified.'));
+            return ActionResult::success()->toast(Variant::Info, __('settings.profile.already-verified'));
         }
 
         $user->sendEmailVerificationNotification();
 
-        return ActionResult::success()->toast(Variant::Success, __('A new verification link has been sent to your email address.'));
+        return ActionResult::success()->toast(Variant::Success, __('settings.profile.verification-sent'));
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12f8bc3af972dbb0700bf73bf7db4f34",
+    "content-hash": "29521afabb8eeb983b964c5bc1783676",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -60,6 +60,139 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/v3.1.1"
             },
             "time": "2026-04-05T21:06:35+00:00"
+        },
+        {
+            "name": "bambamboole/laravel-i18next",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bambamboole/laravel-i18next.git",
+                "reference": "bc07bc76a583b3815e43420828c6e9ada9327bc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bambamboole/laravel-i18next/zipball/bc07bc76a583b3815e43420828c6e9ada9327bc8",
+                "reference": "bc07bc76a583b3815e43420828c6e9ada9327bc8",
+                "shasum": ""
+            },
+            "require": {
+                "bambamboole/laravel-translation-dumper": "^2.2",
+                "illuminate/cache": "^11.0 || ^12.0 || ^13.0",
+                "illuminate/filesystem": "^11.0 || ^12.0 || ^13.0",
+                "illuminate/http": "^11.0 || ^12.0 || ^13.0",
+                "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+                "illuminate/translation": "^11.0 || ^12.0 || ^13.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.16 || ^2.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.16",
+                "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+                "pestphp/pest": "^3.0 || ^4.0",
+                "pestphp/pest-plugin-browser": "^4.3",
+                "pestphp/pest-plugin-laravel": "^3.0 || ^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bambamboole\\LaravelI18Next\\I18NextServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bambamboole\\LaravelI18Next\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Manuel Christlieb",
+                    "email": "manuel@christlieb.eu"
+                }
+            ],
+            "description": "A laravel package which provides a HTTP backend for i18next.js",
+            "homepage": "https://github.com/bambamboole/laravel-i18next",
+            "keywords": [
+                "bambamboole",
+                "i18next",
+                "laravel",
+                "translations"
+            ],
+            "support": {
+                "issues": "https://github.com/bambamboole/laravel-i18next/issues",
+                "source": "https://github.com/bambamboole/laravel-i18next/tree/0.6.0"
+            },
+            "time": "2026-06-13T18:53:49+00:00"
+        },
+        {
+            "name": "bambamboole/laravel-translation-dumper",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bambamboole/laravel-translation-dumper.git",
+                "reference": "c31106eb0f964b1df68873bdb40898da8341269b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bambamboole/laravel-translation-dumper/zipball/c31106eb0f964b1df68873bdb40898da8341269b",
+                "reference": "c31106eb0f964b1df68873bdb40898da8341269b",
+                "shasum": ""
+            },
+            "require": {
+                "brick/varexporter": "^0.6.0",
+                "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+                "illuminate/translation": "^11.0 || ^12.0 || ^13.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.16",
+                "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+                "pestphp/pest": "^3.0 || ^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0 || ^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bambamboole\\LaravelTranslationDumper\\LaravelTranslationDumperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bambamboole\\LaravelTranslationDumper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Manuel Christlieb",
+                    "email": "manuel@christlieb.eu"
+                }
+            ],
+            "description": "A laravel package to dump missing translation keys into the translation files",
+            "homepage": "https://github.com/bambamboole/laravel-translation-dumper",
+            "keywords": [
+                "bambamboole",
+                "laravel",
+                "translation-dumper",
+                "translations"
+            ],
+            "support": {
+                "issues": "https://github.com/bambamboole/laravel-translation-dumper/issues",
+                "source": "https://github.com/bambamboole/laravel-translation-dumper/tree/2.2.0"
+            },
+            "time": "2026-06-13T18:30:24+00:00"
         },
         {
             "name": "brick/math",
@@ -119,6 +252,55 @@
                 }
             ],
             "time": "2026-05-25T20:34:43+00:00"
+        },
+        {
+            "name": "brick/varexporter",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/varexporter.git",
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/af98bfc2b702a312abbcaff37656dbe419cec5bc",
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^5.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": "6.8.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\VarExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
+            "keywords": [
+                "var_export"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/varexporter/issues",
+                "source": "https://github.com/brick/varexporter/tree/0.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-20T17:42:39+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -2201,16 +2383,16 @@
         },
         {
             "name": "lattice-php/lattice",
-            "version": "0.10.0",
+            "version": "0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lattice-php/lattice.git",
-                "reference": "eb12c596434542fa3c3864e1c8906e43f853cc75"
+                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/eb12c596434542fa3c3864e1c8906e43f853cc75",
-                "reference": "eb12c596434542fa3c3864e1c8906e43f853cc75",
+                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
+                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
                 "shasum": ""
             },
             "require": {
@@ -2284,7 +2466,7 @@
                 "issues": "https://github.com/lattice-php/lattice/issues",
                 "source": "https://github.com/lattice-php/lattice"
             },
-            "time": "2026-06-20T08:23:04+00:00"
+            "time": "2026-06-21T23:04:47+00:00"
         },
         {
             "name": "league/commonmark",

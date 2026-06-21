@@ -23,7 +23,7 @@ class TwoFactorChallengePage extends Page
 {
     public function title(): string
     {
-        return 'Two-factor authentication';
+        return __('auth.two-factor.title');
     }
 
     public function render(PageSchema $schema): PageSchema
@@ -32,21 +32,21 @@ class TwoFactorChallengePage extends Page
             Stack::make('two-factor-challenge-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Two-factor authentication', 2),
-                    Text::make('Enter the code from your authenticator app to continue')
+                    Heading::make(__('auth.two-factor.heading'), 2),
+                    Text::make(__('auth.two-factor.subtitle'))
                         ->align(Align::Center),
                 ]),
             Form::make('two-factor-challenge')
                 ->action(route('two-factor.login.store', absolute: false))
-                ->submitLabel('Continue')
+                ->submitLabel(__('auth.two-factor.continue'))
                 ->schema([
-                    OtpInput::make('code', 'Authentication code')
+                    OtpInput::make('code', __('auth.two-factor.code'))
                         ->length(6)
                         ->visibleWhen('use_recovery_code', false),
-                    TextInput::make('recovery_code', 'Recovery code')
-                        ->helperText('Confirm access by entering one of your emergency recovery codes.')
+                    TextInput::make('recovery_code', __('auth.two-factor.recovery-code'))
+                        ->helperText(__('auth.two-factor.recovery-help'))
                         ->visibleWhen('use_recovery_code', true),
-                    Checkbox::make('use_recovery_code', 'Use a recovery code instead'),
+                    Checkbox::make('use_recovery_code', __('auth.two-factor.use-recovery')),
                 ]),
         ]);
     }

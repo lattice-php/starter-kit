@@ -37,22 +37,22 @@ class InviteTeamMemberForm extends FormDefinition
                 Grid::make('teams-invite-fields')
                     ->columns(1)
                     ->schema([
-                        TextInput::make('email', 'Email address')
+                        TextInput::make('email', __('common.field.email-address'))
                             ->email()
-                            ->placeholder('colleague@example.com')
+                            ->placeholder(__('teams.invite.email-placeholder'))
                             ->required()
                             ->rules(['string', 'max:255'])
                             ->rules(fn (): array => [function (string $attribute, mixed $value, Closure $fail): void {
                                 if ($this->teamFromContext()->hasMemberOrPendingInvitation((string) $value)) {
-                                    $fail(__('This email is already a member or has a pending invitation.'));
+                                    $fail(__('teams.invite.already-member'));
                                 }
                             }]),
-                        Choice::make('role', 'Role')
+                        Choice::make('role', __('common.field.role'))
                             ->value(TeamRole::Member->value)
                             ->enum(TeamRole::assignableCases())
                             ->required(),
                     ]),
-                Button::make('Send invitation')->submit(),
+                Button::make(__('teams.invite.submit'))->submit(),
             ])
             ->withoutSubmitButton();
     }
@@ -75,6 +75,6 @@ class InviteTeamMemberForm extends FormDefinition
         Notification::route('mail', $invitation->email)
             ->notify(new TeamInvitation($invitation));
 
-        return $this->toast(Variant::Success, __('Invitation sent.'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return $this->toast(Variant::Success, __('teams.invite.sent'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }

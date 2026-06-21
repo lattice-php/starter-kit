@@ -21,11 +21,11 @@ class AcceptTeamInvitationRequest extends FormRequest
                 $user = $this->user();
 
                 if (! $value instanceof TeamInvitation || ! $user instanceof User || strtolower($value->email) !== strtolower($user->email)) {
-                    $fail(__('This invitation was sent to a different email address.'));
+                    $fail(__('teams.accept.wrong-email'));
                 } elseif ($value->isAccepted()) {
-                    $fail(__('This invitation has already been accepted.'));
+                    $fail(__('teams.accept.already-accepted'));
                 } elseif ($value->isExpired()) {
-                    $fail(__('This invitation has expired.'));
+                    $fail(__('teams.accept.expired'));
                 }
             }],
         ];

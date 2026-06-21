@@ -30,7 +30,7 @@ class ForgotPasswordPage extends Page
 
     public function title(): string
     {
-        return 'Forgot password';
+        return __('auth.forgot-password.title');
     }
 
     public function render(PageSchema $schema, Request $request): PageSchema
@@ -39,8 +39,8 @@ class ForgotPasswordPage extends Page
             Stack::make('forgot-password-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Forgot password', 2),
-                    Text::make('Enter your email to receive a password reset link')
+                    Heading::make(__('auth.forgot-password.heading'), 2),
+                    Text::make(__('auth.forgot-password.subtitle'))
                         ->align(Align::Center),
                 ]),
             Form::make('forgot-password-form')
@@ -62,21 +62,21 @@ class ForgotPasswordPage extends Page
             Grid::make('forgot-password-fields')
                 ->columns(1)
                 ->schema([
-                    TextInput::make('email', 'Email address')
+                    TextInput::make('email', __('common.field.email-address'))
                         ->email()
                         ->autoComplete('off')
                         ->autoFocus()
-                        ->placeholder('email@example.com')
+                        ->placeholder(__('common.placeholder.email'))
                         ->required(),
                 ]),
-            Button::make('Email password reset link')->submit(),
+            Button::make(__('auth.forgot-password.submit'))->submit(),
             Stack::make('forgot-password-login-prompt')
                 ->align(Align::Center)
                 ->direction('row')
                 ->gap(Gap::ExtraSmall)
                 ->schema([
-                    Text::make('Or, return to'),
-                    Link::make('log in')
+                    Text::make(__('auth.forgot-password.return')),
+                    Link::make(__('auth.forgot-password.login-link'))
                         ->href(route('login', absolute: false)),
                 ]),
         ];

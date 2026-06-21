@@ -36,13 +36,13 @@ class TeamsTable extends TableDefinition
     {
         return [
             StackColumn::make('team')
-                ->label('Team')
+                ->label(__('teams.columns.team'))
                 ->columns([
                     TextColumn::make('name')
-                        ->label('Name'),
-                    TextColumn::make('roleLabel')->label('Role'),
+                        ->label(__('common.field.name')),
+                    TextColumn::make('roleLabel')->label(__('common.field.role')),
                 ]),
-            TextColumn::make('status')->label('Status'),
+            TextColumn::make('status')->label(__('common.field.status')),
         ];
     }
 
@@ -61,7 +61,7 @@ class TeamsTable extends TableDefinition
         return [
             Action::make("teams.{$row['id']}.edit")
                 ->endpoint(route('teams.edit', ['team' => $slug], absolute: false))
-                ->label('Edit')
+                ->label(__('teams.actions.edit'))
                 ->method(HttpMethod::Get)
                 ->variant(ButtonVariant::Secondary),
         ];
@@ -91,8 +91,8 @@ class TeamsTable extends TableDefinition
     private function statusFor(bool $isPersonal, ?bool $isCurrent): string
     {
         return collect([
-            $isPersonal ? 'Personal' : null,
-            $isCurrent ? 'Current' : null,
+            $isPersonal ? __('teams.status.personal') : null,
+            $isCurrent ? __('teams.status.current') : null,
         ])->filter()->implode(' / ');
     }
 }

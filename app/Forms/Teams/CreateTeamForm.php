@@ -31,12 +31,12 @@ class CreateTeamForm extends FormDefinition
                 Grid::make('teams-create-fields')
                     ->columns(1)
                     ->schema([
-                        TextInput::make('name', 'Team name')
-                            ->placeholder('My team')
+                        TextInput::make('name', __('teams.fields.name'))
+                            ->placeholder(__('teams.create.name-placeholder'))
                             ->required()
                             ->rules(['string', 'max:255']),
                     ]),
-                Button::make('Create team')->submit(),
+                Button::make(__('teams.create.submit'))->submit(),
             ])
             ->withoutSubmitButton();
     }
@@ -47,6 +47,6 @@ class CreateTeamForm extends FormDefinition
 
         $team = $this->createTeam->handle($this->currentUser(), (string) $validated['name']);
 
-        return $this->toast(Variant::Success, __('Team created.'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return $this->toast(Variant::Success, __('teams.create.created'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }

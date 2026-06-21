@@ -25,13 +25,13 @@ class DisableTwoFactorAuthenticationAction extends ActionDefinition
     public function definition(ActionComponent $action): ActionComponent
     {
         return $action
-            ->label('Disable 2FA')
+            ->label(__('settings.two-factor.disable'))
             ->method(HttpMethod::Post)
             ->variant(ButtonVariant::Destructive)
             ->confirm(
-                title: 'Disable two-factor authentication?',
-                description: 'Your account will no longer require a one-time code during sign in.',
-                confirmLabel: 'Disable 2FA',
+                title: __('settings.two-factor.disable-confirm-title'),
+                description: __('settings.two-factor.disable-confirm-description'),
+                confirmLabel: __('settings.two-factor.disable'),
             );
     }
 
@@ -44,7 +44,7 @@ class DisableTwoFactorAuthenticationAction extends ActionDefinition
         ($this->disable)($user);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('Two-factor authentication disabled.'))
+            ->toast(Variant::Success, __('settings.two-factor.disabled-toast'))
             ->reloadPage();
     }
 }

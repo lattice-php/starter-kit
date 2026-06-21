@@ -53,13 +53,13 @@ class TeamPage extends Page
                         ->gap(Gap::Small)
                         ->schema([
                             Heading::make($team->name, 1),
-                            Text::make('Manage team settings, members, and invitations.'),
+                            Text::make(__('teams.show.subtitle')),
                         ]),
                     Stack::make('team-details-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Team details', 2),
-                            Text::make('Update your team name.'),
+                            Heading::make(__('teams.show.details-heading'), 2),
+                            Text::make(__('teams.show.details-subtitle')),
                         ])
                         ->when($user->can('update', $team)),
                     Form::use(UpdateTeamForm::class, ['team' => $team->slug])
@@ -67,8 +67,8 @@ class TeamPage extends Page
                     Stack::make('team-invite-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Invite a member', 2),
-                            Text::make('Send an invitation to add someone to this team.'),
+                            Heading::make(__('teams.show.invite-heading'), 2),
+                            Text::make(__('teams.show.invite-subtitle')),
                         ])
                         ->when($user->can('inviteMember', $team)),
                     Form::use(InviteTeamMemberForm::class, ['team' => $team->slug])
@@ -76,15 +76,15 @@ class TeamPage extends Page
                     Stack::make('team-members-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Team members', 2),
-                            Text::make('Manage who belongs to this team.'),
+                            Heading::make(__('teams.show.members-heading'), 2),
+                            Text::make(__('teams.show.members-subtitle')),
                         ]),
                     Table::lazy(TeamMembersTable::class, ['team' => $team->slug]),
                     Stack::make('team-invitations-heading')
                         ->gap(Gap::Small)
                         ->schema([
-                            Heading::make('Pending invitations', 2),
-                            Text::make("Invitations that haven't been accepted yet."),
+                            Heading::make(__('teams.show.invitations-heading'), 2),
+                            Text::make(__('teams.show.invitations-subtitle')),
                         ]),
                     Table::lazy(TeamInvitationsTable::class, ['team' => $team->slug]),
                     Form::use(DeleteTeamForm::class, ['team' => $team->slug])

@@ -26,7 +26,7 @@ class ConfirmPasswordPage extends Page
 {
     public function title(): string
     {
-        return 'Confirm password';
+        return __('auth.confirm-password.title');
     }
 
     public function render(PageSchema $schema): PageSchema
@@ -35,17 +35,17 @@ class ConfirmPasswordPage extends Page
             Stack::make('confirm-password-heading')
                 ->gap(Gap::Small)
                 ->schema([
-                    Heading::make('Confirm password', 2),
-                    Text::make('This is a secure area of the application. Please confirm your password before continuing.')
+                    Heading::make(__('auth.confirm-password.heading'), 2),
+                    Text::make(__('auth.confirm-password.subtitle'))
                         ->align(Align::Center),
                 ]),
             PasskeyVerify::make(
                 route('passkey.confirm-options', absolute: false),
                 route('passkey.confirm', absolute: false),
             )
-                ->label('Confirm with passkey')
-                ->loadingLabel('Confirming...')
-                ->separator('Or confirm with password'),
+                ->label(__('auth.confirm-password.passkey-label'))
+                ->loadingLabel(__('auth.confirm-password.passkey-loading'))
+                ->separator(__('auth.confirm-password.passkey-separator')),
             Form::make('confirm-password-form')
                 ->action(route('password.confirm.store', absolute: false))
                 ->method(HttpMethod::Post)
@@ -64,13 +64,13 @@ class ConfirmPasswordPage extends Page
             Grid::make('confirm-password-fields')
                 ->columns(1)
                 ->schema([
-                    PasswordInput::make('password', 'Password')
+                    PasswordInput::make('password', __('common.field.password'))
                         ->autoComplete('current-password')
                         ->autoFocus()
-                        ->placeholder('Password')
+                        ->placeholder(__('common.placeholder.password'))
                         ->required(),
                 ]),
-            Button::make('Confirm password')->submit(),
+            Button::make(__('auth.confirm-password.submit'))->submit(),
         ];
     }
 }

@@ -29,19 +29,19 @@ class PasswordSettingsForm extends FormDefinition
                 Grid::make('password-fields')
                     ->columns(1)
                     ->schema([
-                        PasswordInput::make('current_password', 'Current password')
+                        PasswordInput::make('current_password', __('settings.password.current'))
                             ->autoComplete('current-password')
-                            ->placeholder('Current password')
+                            ->placeholder(__('settings.password.current'))
                             ->required()
                             ->rules(['current_password']),
-                        PasswordInput::make('password', 'New password')
+                        PasswordInput::make('password', __('settings.password.new'))
                             ->autoComplete('new-password')
-                            ->placeholder('New password')
+                            ->placeholder(__('settings.password.new'))
                             ->passwordRules(Password::defaults()->toPasswordRulesString())
                             ->needsConfirmation()
                             ->required(),
                     ]),
-                Button::make('Save')->submit(),
+                Button::make(__('common.action.save'))->submit(),
             ])
             ->resetOnError(['password', 'password_confirmation', 'current_password'])
             ->resetOnSuccess()
@@ -58,6 +58,6 @@ class PasswordSettingsForm extends FormDefinition
             'password' => $validated['password'],
         ]);
 
-        return $this->toast(Variant::Success, __('Password updated.'))->back();
+        return $this->toast(Variant::Success, __('settings.password.updated'))->back();
     }
 }
