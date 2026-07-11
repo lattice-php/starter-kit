@@ -9,7 +9,7 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
+use Lattice\Lattice\Ui\Enums\ButtonVariant;
 
 #[AsAction('app.locale.set')]
 class SetLocaleAction extends ActionDefinition

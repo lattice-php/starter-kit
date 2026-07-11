@@ -27,10 +27,10 @@ use Lattice\Lattice\Core\Components\Stack;
 use Lattice\Lattice\Core\Components\Tab;
 use Lattice\Lattice\Core\Components\Tabs;
 use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\Gap;
-use Lattice\Lattice\Core\Enums\PageContainer;
-use Lattice\Lattice\Core\Enums\PageLayout;
-use Lattice\Lattice\Core\Enums\Width;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\PageContainer;
+use Lattice\Lattice\Ui\Enums\PageLayout;
+use Lattice\Lattice\Ui\Enums\Width;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Fragments\Components\Fragment;
@@ -128,31 +128,31 @@ class SettingsPage extends Page
                     Heading::make(__('settings.two-factor.heading'), 2),
                     Text::make($this->twoFactorDescription($twoFactorEnabled)),
                     Action::use(EnableTwoFactorAuthenticationAction::class)
-                        ->when(! $twoFactorEnabled),
+                        ->visible(! $twoFactorEnabled),
                     Action::use(DisableTwoFactorAuthenticationAction::class)
-                        ->when($twoFactorEnabled),
+                        ->visible($twoFactorEnabled),
                 ])
-                ->when($canManageTwoFactor),
+                ->visible($canManageTwoFactor),
             Modal::make('settings.two-factor-setup')
                 ->title(__('settings.two-factor.setup-title'))
                 ->description(__('settings.two-factor.setup-description'))
                 ->schema([
                     Fragment::lazy(TwoFactorSetupFragment::class),
                 ])
-                ->when($canManageTwoFactor),
+                ->visible($canManageTwoFactor),
             $this->recoveryCodesSection($recoveryCodes)
-                ->when($canManageTwoFactor && $twoFactorEnabled),
+                ->visible($canManageTwoFactor && $twoFactorEnabled),
             Stack::make('passkey-heading')
                 ->gap(Gap::Small)
                 ->schema([
                     Heading::make(__('settings.passkeys.heading'), 2),
                     Text::make(__('settings.passkeys.subtitle')),
                 ])
-                ->when($canManagePasskeys),
+                ->visible($canManagePasskeys),
             Table::lazy(PasskeysTable::class)
-                ->when($canManagePasskeys),
+                ->visible($canManagePasskeys),
             PasskeyRegistration::make()
-                ->when($canManagePasskeys),
+                ->visible($canManagePasskeys),
         ];
     }
 

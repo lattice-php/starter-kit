@@ -6,6 +6,10 @@ return [
         base_path('app'),
     ],
 
+    'discovery' => [
+        'cache_path' => null,
+    ],
+
     'security' => [
         'ref_lifetime' => 30,
     ],
@@ -23,6 +27,13 @@ return [
 
     'realtime' => [
         'enabled' => env('LATTICE_REALTIME_ENABLED', true),
+    ],
+
+    'frontend' => [
+        'dist_path' => null,
+        'path' => 'vendor/lattice',
+        'theme' => [],
+        'echo' => null,
     ],
 
     'forms' => [
@@ -53,6 +64,14 @@ return [
     'bulk-actions' => [
         'endpoint' => 'lattice/bulk-actions/{bulkAction}',
         'middleware' => ['web', 'auth'],
+    ],
+
+    'notifications' => [
+        'endpoint' => 'lattice/notifications',
+        'middleware' => ['web', 'auth'],
+        'per_page' => 15,
+        'polling_interval' => null,
+        'prune_after_days' => 30,
     ],
 
     'typescript' => [
