@@ -7,11 +7,14 @@ use App\Models\Team;
 use App\Models\User;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsTable;
-use Lattice\Lattice\Core\Components\Component;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
+use Lattice\Lattice\Ui\Components\Component;
+use Lattice\Lattice\Ui\Enums\ButtonVariant;
 use Lattice\Lattice\Core\Enums\HttpMethod;
 use Lattice\Lattice\Tables\CallbackTableSource;
 use Lattice\Lattice\Tables\Columns\StackColumn;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Color;
+use Lattice\Lattice\Ui\Enums\Size;
 use Lattice\Lattice\Tables\Columns\TextColumn;
 use Lattice\Lattice\Tables\Contracts\TableSource;
 use Lattice\Lattice\Tables\Enums\PaginationType;
@@ -37,10 +40,9 @@ class TeamsTable extends TableDefinition
         return [
             StackColumn::make('team')
                 ->label(__('teams.columns.team'))
-                ->columns([
-                    TextColumn::make('name')
-                        ->label(__('common.field.name')),
-                    TextColumn::make('roleLabel')->label(__('common.field.role')),
+                ->schema([
+                    Text::make('')->dataKey('text', 'name')->color(Color::Default),
+                    Text::make('')->dataKey('text', 'roleLabel')->size(Size::Sm),
                 ]),
             TextColumn::make('status')->label(__('common.field.status')),
         ];

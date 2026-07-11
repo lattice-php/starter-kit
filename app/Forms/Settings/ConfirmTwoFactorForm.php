@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Core\Enums\Variant;
+use Lattice\Lattice\Ui\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Forms\Components\OtpInput;
 use Lattice\Lattice\Forms\FormDefinition;

@@ -33,7 +33,7 @@ test('team member roles cannot be updated by non owners', function () {
     $team->members()->attach($member, ['role' => TeamRole::Member->value]);
 
     $this->actingAs($admin)
-        ->callAction(UpdateMemberRole::class, ['role' => TeamRole::Admin->value], ['team' => $team->slug, 'member' => $member->id])
+        ->callActionForged(UpdateMemberRole::class, ['role' => TeamRole::Admin->value], ['team' => $team->slug, 'member' => $member->id])
         ->assertForbidden();
 });
 
@@ -63,7 +63,7 @@ test('team members cannot be removed by non owners', function () {
     $team->members()->attach($member, ['role' => TeamRole::Member->value]);
 
     $this->actingAs($admin)
-        ->callAction(RemoveMember::class, [], ['team' => $team->slug, 'member' => $member->id])
+        ->callActionForged(RemoveMember::class, [], ['team' => $team->slug, 'member' => $member->id])
         ->assertForbidden();
 });
 

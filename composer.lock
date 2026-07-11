@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29521afabb8eeb983b964c5bc1783676",
+    "content-hash": "534b06d6a0534ffd44bb74586b22e9bb",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2383,16 +2383,16 @@
         },
         {
             "name": "lattice-php/lattice",
-            "version": "0.11.0",
+            "version": "0.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lattice-php/lattice.git",
-                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c"
+                "reference": "ddb0143fb65a4e49371de53bc5e6ffd26ca69154"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
-                "reference": "e071ecbf73a55fc1e7553160b41ae617e47c0c5c",
+                "url": "https://api.github.com/repos/lattice-php/lattice/zipball/ddb0143fb65a4e49371de53bc5e6ffd26ca69154",
+                "reference": "ddb0143fb65a4e49371de53bc5e6ffd26ca69154",
                 "shasum": ""
             },
             "require": {
@@ -2415,6 +2415,7 @@
                 "laravel/boost": "^2.4",
                 "laravel/pint": "^1.16",
                 "laravel/reverb": "^1.10",
+                "lattice-php/signature-example": "@dev",
                 "league/flysystem-aws-s3-v3": "^3.34",
                 "mrpunyapal/peststan": "^0.2.10",
                 "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
@@ -2466,7 +2467,7 @@
                 "issues": "https://github.com/lattice-php/lattice/issues",
                 "source": "https://github.com/lattice-php/lattice"
             },
-            "time": "2026-06-21T23:04:47+00:00"
+            "time": "2026-07-11T09:23:29+00:00"
         },
         {
             "name": "league/commonmark",
