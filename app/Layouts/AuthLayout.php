@@ -5,8 +5,8 @@ namespace App\Layouts;
 
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsLayout;
-use Lattice\Lattice\Core\Components\Icon;
-use Lattice\Lattice\Core\Components\Stack;
+use Lattice\Lattice\Ui\Components\Icon;
+use Lattice\Lattice\Ui\Components\Stack;
 use Lattice\Lattice\Ui\Enums\Align;
 use Lattice\Lattice\Ui\Enums\Gap;
 use Lattice\Lattice\Ui\Enums\Height;

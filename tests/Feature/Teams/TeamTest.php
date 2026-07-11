@@ -236,7 +236,7 @@ test('users cannot switch to team they dont belong to', function () {
     $team = Team::factory()->create();
 
     $this->actingAs($user)
-        ->callAction(SwitchTeam::class, [], ['team' => $team->slug])
+        ->callActionForged(SwitchTeam::class, [], ['team' => $team->slug])
         ->assertForbidden();
 });
 
