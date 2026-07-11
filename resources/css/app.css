@@ -5,7 +5,6 @@
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../vendor/lattice-php/lattice/resources/js';
 
 @custom-variant dark (&:is(.dark *));
 

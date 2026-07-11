@@ -4,6 +4,7 @@ import {
     lazyComponent,
     registry as packageRegistry,
 } from "@lattice-php/lattice";
+import plugins from "virtual:lattice/plugins";
 
 export const registry = extendRegistry(
     packageRegistry,
@@ -16,4 +17,5 @@ export const registry = extendRegistry(
         },
         name: "app",
     }),
+    ...plugins,
 );

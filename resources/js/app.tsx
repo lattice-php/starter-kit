@@ -1,4 +1,5 @@
 /// <reference types="@lattice-php/lattice/svg-sprite-client" />
+/// <reference types="@lattice-php/lattice/vite-client" />
 import { createInertiaApp } from "@inertiajs/react";
 import { configureEcho } from "@laravel/echo-react";
 import {
