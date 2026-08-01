@@ -60,7 +60,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
 
     if (!showForm) {
         return (
-            <Button variant="outline" onClick={() => setShowForm(true)}>
+            <Button emphasis="outline" onClick={() => setShowForm(true)}>
                 {t("passkey.add", "Add passkey")}
             </Button>
         );
@@ -97,7 +97,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
                 </Button>
                 <Button
                     type="button"
-                    variant="ghost"
+                    emphasis="ghost"
                     onClick={() => {
                         setShowForm(false);
                         setName("");

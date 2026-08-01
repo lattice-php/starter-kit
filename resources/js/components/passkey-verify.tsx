@@ -53,7 +53,7 @@ function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerify
             <div className="grid gap-2">
                 <Button
                     type="button"
-                    variant="outline"
+                    emphasis="outline"
                     className="w-full"
                     onClick={verify}
                     disabled={isLoading}
