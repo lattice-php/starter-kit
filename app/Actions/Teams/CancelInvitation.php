@@ -10,8 +10,7 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.invitations.cancel')]
@@ -25,7 +24,7 @@ class CancelInvitation extends ActionDefinition
         return $action
             ->label(__('teams.invitations.cancel'))
             ->method(HttpMethod::Delete)
-            ->variant(ButtonVariant::Destructive)
+            ->variant(Variant::Danger)
             ->confirm(
                 title: __('teams.invitations.cancel-confirm-title'),
                 description: __('teams.invitations.cancel-confirm-description'),
@@ -49,7 +48,7 @@ class CancelInvitation extends ActionDefinition
             ->delete();
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('teams.invitations.cancelled'))
+            ->toast(__('teams.invitations.cancelled'))
             ->reloadComponent('teams.invitations');
     }
 }

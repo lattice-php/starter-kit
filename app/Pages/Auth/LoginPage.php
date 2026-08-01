@@ -8,6 +8,12 @@ use App\Concerns\ResolvesFlashStatus;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Features;
 use Lattice\Lattice\Attributes\AsPage;
+use Lattice\Lattice\Core\PageSchema;
+use Lattice\Lattice\Forms\Components\Checkbox;
+use Lattice\Lattice\Forms\Components\Form;
+use Lattice\Lattice\Forms\Components\PasswordInput;
+use Lattice\Lattice\Forms\Components\TextInput;
+use Lattice\Lattice\Http\Page;
 use Lattice\Lattice\Ui\Components\Button;
 use Lattice\Lattice\Ui\Components\Component;
 use Lattice\Lattice\Ui\Components\Grid;
@@ -17,15 +23,10 @@ use Lattice\Lattice\Ui\Components\Stack;
 use Lattice\Lattice\Ui\Components\Text;
 use Lattice\Lattice\Ui\Enums\Align;
 use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 use Lattice\Lattice\Ui\Enums\PageContainer;
 use Lattice\Lattice\Ui\Enums\PageLayout;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Forms\Components\Checkbox;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\PasswordInput;
-use Lattice\Lattice\Forms\Components\TextInput;
-use Lattice\Lattice\Http\Page;
+use Lattice\Lattice\Ui\Enums\StackDirection;
 
 #[AsPage(layout: PageLayout::Auth, container: PageContainer::Default)]
 class LoginPage extends Page
@@ -84,7 +85,7 @@ class LoginPage extends Page
             Button::make(__('common.action.log-in'))->submit(),
             Stack::make('login-register-prompt')
                 ->align(Align::Center)
-                ->direction('row')
+                ->direction(StackDirection::Row)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('auth.login.no-account')),

@@ -9,7 +9,6 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\ButtonVariant;
 use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.passkeys.delete')]
@@ -21,7 +20,7 @@ class DeletePasskey extends ActionDefinition
     {
         return $action
             ->label(__('settings.passkeys.remove'))
-            ->variant(ButtonVariant::Destructive)
+            ->variant(Variant::Danger)
             ->confirm(
                 title: __('settings.passkeys.remove-confirm-title'),
                 description: __('settings.passkeys.remove-confirm-description'),
@@ -40,7 +39,7 @@ class DeletePasskey extends ActionDefinition
         $this->currentUser()->passkeys()->whereKey($this->context('passkey'))->delete();
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('settings.passkeys.removed'))
+            ->toast(__('settings.passkeys.removed'))
             ->reloadComponent('settings.passkeys');
     }
 }

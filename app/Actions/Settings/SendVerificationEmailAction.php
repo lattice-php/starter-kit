@@ -9,8 +9,8 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action as ActionComponent;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Emphasis;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.send-verification-email')]
@@ -23,7 +23,7 @@ class SendVerificationEmailAction extends ActionDefinition
         return $action
             ->label(__('settings.profile.resend-verification'))
             ->method(HttpMethod::Post)
-            ->variant(ButtonVariant::Link);
+            ->emphasis(Emphasis::Link);
     }
 
     public function handle(Request $request): ActionResult
@@ -31,11 +31,11 @@ class SendVerificationEmailAction extends ActionDefinition
         $user = $this->currentUser();
 
         if ($user->hasVerifiedEmail()) {
-            return ActionResult::success()->toast(Variant::Info, __('settings.profile.already-verified'));
+            return ActionResult::success()->toast(__('settings.profile.already-verified'), Variant::Info);
         }
 
         $user->sendEmailVerificationNotification();
 
-        return ActionResult::success()->toast(Variant::Success, __('settings.profile.verification-sent'));
+        return ActionResult::success()->toast(__('settings.profile.verification-sent'));
     }
 }

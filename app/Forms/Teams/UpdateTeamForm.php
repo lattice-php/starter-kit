@@ -9,14 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Ui\Components\Button;
-use Lattice\Lattice\Ui\Components\Grid;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Form as FormComponent;
 use Lattice\Lattice\Forms\Components\TextInput;
 use Lattice\Lattice\Forms\FormDefinition;
 use Lattice\Lattice\Http\LatticeResponse;
+use Lattice\Lattice\Ui\Components\Button;
+use Lattice\Lattice\Ui\Components\Grid;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 
 #[AsForm('teams.update')]
 class UpdateTeamForm extends FormDefinition
@@ -60,6 +59,6 @@ class UpdateTeamForm extends FormDefinition
             return $team;
         });
 
-        return $this->toast(Variant::Success, __('teams.update.updated'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return $this->toast(__('teams.update.updated'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }

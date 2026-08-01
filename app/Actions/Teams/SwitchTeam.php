@@ -10,7 +10,6 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.switch')]
 class SwitchTeam extends ActionDefinition
@@ -36,7 +35,7 @@ class SwitchTeam extends ActionDefinition
         $this->currentUser()->switchTeam($team);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('teams.switch.switched', ['team' => $team->name]))
+            ->toast(__('teams.switch.switched', ['team' => $team->name]))
             ->toRoute('dashboard', ['current_team' => $team->slug]);
     }
 }

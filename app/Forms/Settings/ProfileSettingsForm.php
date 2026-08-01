@@ -10,18 +10,18 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsForm;
+use Lattice\Lattice\Forms\Components\Form;
+use Lattice\Lattice\Forms\Components\TextInput;
+use Lattice\Lattice\Forms\FormDefinition;
+use Lattice\Lattice\Http\LatticeResponse;
 use Lattice\Lattice\Ui\Components\Button;
 use Lattice\Lattice\Ui\Components\Component;
 use Lattice\Lattice\Ui\Components\Grid;
 use Lattice\Lattice\Ui\Components\Stack;
 use Lattice\Lattice\Ui\Components\Text;
 use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Variant;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\TextInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Http\LatticeResponse;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\StackDirection;
 
 #[AsForm('settings.profile')]
 class ProfileSettingsForm extends FormDefinition
@@ -70,7 +70,7 @@ class ProfileSettingsForm extends FormDefinition
 
         $user->save();
 
-        return $this->toast(Variant::Success, __('settings.profile.updated'))->toRoute('settings.edit');
+        return $this->toast(__('settings.profile.updated'))->toRoute('settings.edit');
     }
 
     /**
@@ -84,7 +84,7 @@ class ProfileSettingsForm extends FormDefinition
 
         $components = [
             Stack::make('profile-verification-notice')
-                ->direction('row')
+                ->direction(StackDirection::Row)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('settings.profile.unverified')),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Testing\TestResponse;
 use Laravel\Fortify\Features;
 use Lattice\Lattice\Attributes\AsAction;
@@ -24,7 +25,7 @@ abstract class TestCase extends BaseTestCase
      * @param  class-string  $action
      * @param  array<string, mixed>  $data
      * @param  array<string, mixed>  $context
-     * @return TestResponse<\Illuminate\Http\JsonResponse>
+     * @return TestResponse<JsonResponse>
      */
     protected function callActionForged(string $action, array $data = [], array $context = []): TestResponse
     {

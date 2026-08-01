@@ -13,8 +13,7 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.members.remove')]
@@ -28,7 +27,7 @@ class RemoveMember extends ActionDefinition
         return $action
             ->label(__('teams.members.remove'))
             ->method(HttpMethod::Delete)
-            ->variant(ButtonVariant::Destructive)
+            ->variant(Variant::Danger)
             ->confirm(
                 title: __('teams.members.remove-confirm-title'),
                 description: __('teams.members.remove-confirm-description'),
@@ -62,7 +61,7 @@ class RemoveMember extends ActionDefinition
         }
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('teams.members.removed'))
+            ->toast(__('teams.members.removed'))
             ->reloadComponent('teams.members');
     }
 }

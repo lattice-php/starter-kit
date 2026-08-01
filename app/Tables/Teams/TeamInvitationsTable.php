@@ -11,17 +11,17 @@ use App\Models\User;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Actions\Components\ActionGroup;
 use Lattice\Lattice\Attributes\AsTable;
+use Lattice\Lattice\Core\Enums\ColorName;
 use Lattice\Lattice\Tables\CallbackTableSource;
 use Lattice\Lattice\Tables\Columns\StackColumn;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Color;
-use Lattice\Lattice\Ui\Enums\Size;
 use Lattice\Lattice\Tables\Columns\TextColumn;
 use Lattice\Lattice\Tables\Contracts\TableSource;
 use Lattice\Lattice\Tables\Enums\PaginationType;
 use Lattice\Lattice\Tables\TableDefinition;
 use Lattice\Lattice\Tables\TableQuery;
 use Lattice\Lattice\Tables\TableResult;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Size;
 
 #[AsTable('teams.invitations')]
 class TeamInvitationsTable extends TableDefinition
@@ -44,7 +44,7 @@ class TeamInvitationsTable extends TableDefinition
             StackColumn::make('invitation')
                 ->label(__('teams.invitations.column'))
                 ->schema([
-                    Text::make('')->dataKey('text', 'email')->color(Color::Default),
+                    Text::make('')->dataKey('text', 'email')->color(ColorName::Default),
                     Text::make('')->dataKey('text', 'role_label')->size(Size::Sm),
                 ]),
             TextColumn::make('created_at')->label(__('teams.invitations.sent-column')),

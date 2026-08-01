@@ -9,14 +9,14 @@ use App\Models\User;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Lattice\Lattice\Attributes\AsFragment;
+use Lattice\Lattice\Core\PageSchema;
+use Lattice\Lattice\Forms\Components\Form;
+use Lattice\Lattice\Fragments\FragmentDefinition;
 use Lattice\Lattice\Ui\Components\RawBlock;
 use Lattice\Lattice\Ui\Components\Stack;
 use Lattice\Lattice\Ui\Components\Text;
 use Lattice\Lattice\Ui\Enums\Align;
 use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Fragments\FragmentDefinition;
 
 #[AsFragment('settings.two-factor-setup')]
 class TwoFactorSetupFragment extends FragmentDefinition

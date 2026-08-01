@@ -6,6 +6,9 @@ namespace App\Pages\Auth;
 use App\Concerns\ResolvesFlashStatus;
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsPage;
+use Lattice\Lattice\Core\PageSchema;
+use Lattice\Lattice\Forms\Components\Form;
+use Lattice\Lattice\Http\Page;
 use Lattice\Lattice\Ui\Components\Button;
 use Lattice\Lattice\Ui\Components\Heading;
 use Lattice\Lattice\Ui\Components\Link;
@@ -13,12 +16,9 @@ use Lattice\Lattice\Ui\Components\Stack;
 use Lattice\Lattice\Ui\Components\Text;
 use Lattice\Lattice\Ui\Enums\Align;
 use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 use Lattice\Lattice\Ui\Enums\PageContainer;
 use Lattice\Lattice\Ui\Enums\PageLayout;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Http\Page;
 
 #[AsPage(layout: PageLayout::Auth, container: PageContainer::Default)]
 class VerifyEmailPage extends Page

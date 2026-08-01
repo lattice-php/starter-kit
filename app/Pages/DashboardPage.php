@@ -9,6 +9,9 @@ use App\Models\Team;
 use App\Pages\Concerns\ListensForUserNotifications;
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsPage;
+use Lattice\Lattice\Core\Breadcrumb;
+use Lattice\Lattice\Core\PageSchema;
+use Lattice\Lattice\Http\Page;
 use Lattice\Lattice\Ui\Components\Card;
 use Lattice\Lattice\Ui\Components\Grid;
 use Lattice\Lattice\Ui\Components\Heading;
@@ -18,8 +21,6 @@ use Lattice\Lattice\Ui\Enums\Gap;
 use Lattice\Lattice\Ui\Enums\PageContainer;
 use Lattice\Lattice\Ui\Enums\PageLayout;
 use Lattice\Lattice\Ui\Enums\Width;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Http\Page;
 
 #[AsPage(route: '{current_team}/dashboard', name: 'dashboard', layout: PageLayout::App, container: PageContainer::Default, middleware: ['web', 'auth', 'verified', 'can:view,current_team', SwitchesCurrentTeam::class])]
 class DashboardPage extends Page
@@ -35,7 +36,7 @@ class DashboardPage extends Page
     }
 
     /**
-     * @return array<int, array{title: string, href: string}>
+     * @return array<int, Breadcrumb>
      */
     public function breadcrumbs(): array
     {
@@ -44,10 +45,10 @@ class DashboardPage extends Page
         }
 
         return [
-            [
-                'title' => __('dashboard.title'),
-                'href' => route('dashboard', ['current_team' => $this->team->slug], absolute: false),
-            ],
+            Breadcrumb::make(
+                __('dashboard.title'),
+                route('dashboard', ['current_team' => $this->team->slug], absolute: false),
+            ),
         ];
     }
 

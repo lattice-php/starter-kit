@@ -12,20 +12,7 @@ use App\Pages\SettingsPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Lattice\Lattice\Attributes\AsLayout;
-use Lattice\Lattice\Ui\Components\Icon as IconComponent;
-use Lattice\Lattice\Ui\Components\RawBlock;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Align;
-use Lattice\Lattice\Ui\Enums\Color;
-use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Ui\Enums\Height;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Icon;
-use Lattice\Lattice\Ui\Enums\Justify;
-use Lattice\Lattice\Ui\Enums\Placement;
-use Lattice\Lattice\Ui\Enums\Size;
-use Lattice\Lattice\Ui\Enums\Width;
+use Lattice\Lattice\Core\Enums\ColorName;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Layouts\Components\Dropdown;
 use Lattice\Lattice\Layouts\Components\Menu;
@@ -34,6 +21,20 @@ use Lattice\Lattice\Layouts\Components\Outlet;
 use Lattice\Lattice\Layouts\Components\Sidebar;
 use Lattice\Lattice\Layouts\LayoutDefinition;
 use Lattice\Lattice\Support\Affix;
+use Lattice\Lattice\Ui\Components\Icon as IconComponent;
+use Lattice\Lattice\Ui\Components\RawBlock;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Align;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\Height;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Icon;
+use Lattice\Lattice\Ui\Enums\Justify;
+use Lattice\Lattice\Ui\Enums\Placement;
+use Lattice\Lattice\Ui\Enums\Size;
+use Lattice\Lattice\Ui\Enums\StackDirection;
+use Lattice\Lattice\Ui\Enums\Width;
 
 #[AsLayout('app')]
 class AppLayout extends LayoutDefinition
@@ -46,7 +47,7 @@ class AppLayout extends LayoutDefinition
 
         return $schema->schema([
             Stack::make('app-shell')
-                ->direction('row')
+                ->direction(StackDirection::Row)
                 ->height(Height::Screen)
                 ->schema([
                     Sidebar::make('app-sidebar')->collapsible()->items([
@@ -101,7 +102,7 @@ class AppLayout extends LayoutDefinition
             ->placement(Placement::Top)
             ->trigger([
                 Stack::make()
-                    ->direction('row')
+                    ->direction(StackDirection::Row)
                     ->align(Align::Center)
                     ->gap(Gap::Medium)
                     ->schema([
@@ -112,11 +113,11 @@ class AppLayout extends LayoutDefinition
                             ->schema([
                                 Text::make($user->name)
                                     ->size(Size::Sm)
-                                    ->color(Color::Default)
+                                    ->color(ColorName::Default)
                                     ->hideWhenCollapsed(),
                                 Text::make($user->email)
                                     ->size(Size::Xs)
-                                    ->color(Color::Muted)
+                                    ->color(ColorName::Muted)
                                     ->hideWhenCollapsed(),
                             ]),
                     ]),
@@ -154,14 +155,14 @@ class AppLayout extends LayoutDefinition
     {
         return [
             Stack::make()
-                ->direction('row')
+                ->direction(StackDirection::Row)
                 ->align(Align::Center)
                 ->gap(Gap::Small)
                 ->schema([
                     IconComponent::make($icon),
                     Text::make($label)
                         ->size(Size::Sm)
-                        ->color(Color::Default)
+                        ->color(ColorName::Default)
                         ->hideWhenCollapsed(),
                 ]),
         ];
