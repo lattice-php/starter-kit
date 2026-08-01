@@ -8,15 +8,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Core\Components\Button;
-use Lattice\Lattice\Core\Components\Heading;
-use Lattice\Lattice\Core\Components\Stack;
-use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Forms\Components\PasswordInput;
 use Lattice\Lattice\Forms\FormDefinition;
+use Lattice\Lattice\Ui\Components\Button;
+use Lattice\Lattice\Ui\Components\Heading;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\StackDirection;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsForm('settings.delete-account')]
 class DeleteAccountForm extends FormDefinition
@@ -36,9 +37,9 @@ class DeleteAccountForm extends FormDefinition
                     ->required()
                     ->rules(['current_password']),
                 Stack::make('delete-account-actions')
-                    ->direction('row')
+                    ->direction(StackDirection::Row)
                     ->schema([
-                        Button::make(__('settings.delete-account.submit'))->submit()->variant(ButtonVariant::Destructive),
+                        Button::make(__('settings.delete-account.submit'))->submit()->variant(Variant::Danger),
                     ]),
             ])
             ->resetOnSuccess()

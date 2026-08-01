@@ -9,14 +9,14 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
+use Lattice\Lattice\Ui\Enums\Emphasis;
 
 #[AsAction('app.locale.set')]
 class SetLocaleAction extends ActionDefinition
 {
     public function definition(Action $action): Action
     {
-        return $action->variant(ButtonVariant::Ghost);
+        return $action->emphasis(Emphasis::Ghost);
     }
 
     public function handle(Request $request): ActionResult

@@ -12,15 +12,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Core\Components\Button;
-use Lattice\Lattice\Core\Components\Grid;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Core\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Choice;
 use Lattice\Lattice\Forms\Components\Form as FormComponent;
 use Lattice\Lattice\Forms\Components\TextInput;
 use Lattice\Lattice\Forms\FormDefinition;
 use Lattice\Lattice\Http\LatticeResponse;
+use Lattice\Lattice\Ui\Components\Button;
+use Lattice\Lattice\Ui\Components\Grid;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
 
 #[AsForm('teams.invite')]
 class InviteTeamMemberForm extends FormDefinition
@@ -75,6 +74,6 @@ class InviteTeamMemberForm extends FormDefinition
         Notification::route('mail', $invitation->email)
             ->notify(new TeamInvitation($invitation));
 
-        return $this->toast(Variant::Success, __('teams.invite.sent'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return $this->toast(__('teams.invite.sent'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }

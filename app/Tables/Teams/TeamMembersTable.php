@@ -12,6 +12,7 @@ use App\Models\User;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Actions\Components\ActionGroup;
 use Lattice\Lattice\Attributes\AsTable;
+use Lattice\Lattice\Core\Enums\ColorName;
 use Lattice\Lattice\Tables\CallbackTableSource;
 use Lattice\Lattice\Tables\Columns\StackColumn;
 use Lattice\Lattice\Tables\Columns\TextColumn;
@@ -20,6 +21,8 @@ use Lattice\Lattice\Tables\Enums\PaginationType;
 use Lattice\Lattice\Tables\TableDefinition;
 use Lattice\Lattice\Tables\TableQuery;
 use Lattice\Lattice\Tables\TableResult;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Size;
 
 #[AsTable('teams.members')]
 class TeamMembersTable extends TableDefinition
@@ -41,9 +44,9 @@ class TeamMembersTable extends TableDefinition
         return [
             StackColumn::make('member')
                 ->label(__('teams.members.column'))
-                ->columns([
-                    TextColumn::make('name')->label(__('common.field.name')),
-                    TextColumn::make('email')->label(__('common.field.email')),
+                ->schema([
+                    Text::make('')->dataKey('text', 'name')->color(ColorName::Default),
+                    Text::make('')->dataKey('text', 'email')->size(Size::Sm),
                 ]),
             TextColumn::make('role_label')->label(__('common.field.role')),
         ];

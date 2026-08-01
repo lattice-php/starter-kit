@@ -13,10 +13,9 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Core\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Choice;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.members.update')]
 class UpdateMemberRole extends ActionDefinition
@@ -29,7 +28,7 @@ class UpdateMemberRole extends ActionDefinition
         return $action
             ->label(__('teams.members.change-role'))
             ->method(HttpMethod::Patch)
-            ->variant(ButtonVariant::Secondary)
+            ->variant(Variant::Secondary)
             ->form([
                 Choice::make('role', __('common.field.role'))
                     ->enum(TeamRole::assignableCases())
@@ -56,7 +55,7 @@ class UpdateMemberRole extends ActionDefinition
             ->update(['role' => TeamRole::from((string) $validated['role'])]);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('teams.members.role-updated'))
+            ->toast(__('teams.members.role-updated'))
             ->reloadComponent('teams.members');
     }
 }

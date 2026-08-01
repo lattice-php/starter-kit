@@ -13,17 +13,17 @@ use App\Tables\Teams\TeamInvitationsTable;
 use App\Tables\Teams\TeamMembersTable;
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsPage;
-use Lattice\Lattice\Core\Components\Heading;
-use Lattice\Lattice\Core\Components\Stack;
-use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\Gap;
-use Lattice\Lattice\Core\Enums\PageContainer;
-use Lattice\Lattice\Core\Enums\PageLayout;
-use Lattice\Lattice\Core\Enums\Width;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Http\Page;
 use Lattice\Lattice\Tables\Components\Table;
+use Lattice\Lattice\Ui\Components\Heading;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\PageContainer;
+use Lattice\Lattice\Ui\Enums\PageLayout;
+use Lattice\Lattice\Ui\Enums\Width;
 
 #[AsPage(route: 'settings/teams/{team}', name: 'teams.edit', layout: PageLayout::App, container: PageContainer::Default, middleware: ['web', 'auth', 'verified', 'can:view,team'])]
 class TeamPage extends Page
@@ -61,18 +61,18 @@ class TeamPage extends Page
                             Heading::make(__('teams.show.details-heading'), 2),
                             Text::make(__('teams.show.details-subtitle')),
                         ])
-                        ->when($user->can('update', $team)),
+                        ->visible($user->can('update', $team)),
                     Form::use(UpdateTeamForm::class, ['team' => $team->slug])
-                        ->when($user->can('update', $team)),
+                        ->visible($user->can('update', $team)),
                     Stack::make('team-invite-heading')
                         ->gap(Gap::Small)
                         ->schema([
                             Heading::make(__('teams.show.invite-heading'), 2),
                             Text::make(__('teams.show.invite-subtitle')),
                         ])
-                        ->when($user->can('inviteMember', $team)),
+                        ->visible($user->can('inviteMember', $team)),
                     Form::use(InviteTeamMemberForm::class, ['team' => $team->slug])
-                        ->when($user->can('inviteMember', $team)),
+                        ->visible($user->can('inviteMember', $team)),
                     Stack::make('team-members-heading')
                         ->gap(Gap::Small)
                         ->schema([
@@ -88,7 +88,7 @@ class TeamPage extends Page
                         ]),
                     Table::lazy(TeamInvitationsTable::class, ['team' => $team->slug]),
                     Form::use(DeleteTeamForm::class, ['team' => $team->slug])
-                        ->when($user->can('delete', $team)),
+                        ->visible($user->can('delete', $team)),
                 ]),
         ]);
     }

@@ -1,13 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 return [
+    // Component packages add their own roots via composer `extra.lattice.discover` — no app config needed.
     'discover' => [
         base_path('app'),
     ],
 
+    'discovery' => [
+        'cache_path' => null,
+    ],
+
     'security' => [
         'ref_lifetime' => 30,
+    ],
+
+    'refs' => [
+        'middleware' => ['web'],
     ],
 
     'files' => [
@@ -25,34 +35,49 @@ return [
         'enabled' => env('LATTICE_REALTIME_ENABLED', true),
     ],
 
+    'frontend' => [
+        'dist_path' => null,
+        'path' => 'vendor/lattice',
+        'echo' => null,
+    ],
+
+    // Pages ship unauthenticated by default; authorization is opt-in via
+    // attribute middleware or Page::authorize(). `#[AsPage(middleware: [])]`
+    // opts a page out of this default entirely.
+    'pages' => [
+        'middleware' => ['web'],
+    ],
+
     'forms' => [
-        'endpoint' => 'lattice/forms/{form}',
         'middleware' => ['web', 'auth'],
     ],
 
     'tables' => [
-        'endpoint' => 'lattice/tables/{table}',
         'middleware' => ['web', 'auth'],
     ],
 
     'fragments' => [
-        'endpoint' => 'lattice/fragments/{fragment}',
         'middleware' => ['web', 'auth'],
     ],
 
     'remote-sources' => [
-        'endpoint' => 'lattice/remote-sources/{source}/token',
         'middleware' => ['web', 'auth'],
     ],
 
     'actions' => [
-        'endpoint' => 'lattice/actions/{action}',
         'middleware' => ['web', 'auth'],
     ],
 
     'bulk-actions' => [
-        'endpoint' => 'lattice/bulk-actions/{bulkAction}',
         'middleware' => ['web', 'auth'],
+    ],
+
+    'notifications' => [
+        'endpoint' => 'lattice/notifications',
+        'middleware' => ['web', 'auth'],
+        'per_page' => 15,
+        'polling_interval' => null,
+        'prune_after_days' => 30,
     ],
 
     'typescript' => [

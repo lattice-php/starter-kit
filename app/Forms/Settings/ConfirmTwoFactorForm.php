@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Core\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Forms\Components\OtpInput;
 use Lattice\Lattice\Forms\FormDefinition;
@@ -41,6 +40,6 @@ class ConfirmTwoFactorForm extends FormDefinition
 
         ($this->confirm)($user, (string) $request->input('code'));
 
-        return $this->toast(Variant::Success, __('settings.two-factor.enabled-toast'))->back();
+        return $this->toast(__('settings.two-factor.enabled-toast'))->back();
     }
 }

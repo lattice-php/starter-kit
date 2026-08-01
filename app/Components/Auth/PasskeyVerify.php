@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Components\Auth;
 
-use Lattice\Lattice\Core\Components\Component;
+use Lattice\Lattice\Attributes\AsComponent;
+use Lattice\Lattice\Ui\Components\Component;
 
+#[AsComponent('auth.passkey-verify')]
 class PasskeyVerify extends Component
 {
     public string $optionsUrl;
@@ -45,10 +47,5 @@ class PasskeyVerify extends Component
         $this->separator = $separator;
 
         return $this;
-    }
-
-    protected function type(): string
-    {
-        return 'auth.passkey-verify';
     }
 }

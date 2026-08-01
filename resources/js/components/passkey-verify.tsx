@@ -1,14 +1,12 @@
 import type { UrlMethodPair } from "@inertiajs/core";
 import { router } from "@inertiajs/react";
 import { usePasskeyVerify } from "@laravel/passkeys/react";
-import { Button } from "@lattice-php/lattice/core/components/button";
-import { Spinner } from "@lattice-php/lattice/core/components/spinner";
-import type { RendererComponent } from "@lattice-php/lattice/core/types";
-import InputError from "@lattice-php/lattice/form/components/base/input-error";
+import type { RendererComponent } from "@lattice-php/lattice";
+import { Button, InputError, Spinner } from "@lattice-php/lattice/ui";
 import { IconRenderer } from "@lattice-php/lattice/icons";
 import { useT } from "@lattice-php/lattice/i18n";
 
-declare module "@lattice-php/lattice/core/types" {
+declare module "@lattice-php/lattice" {
     interface ComponentProps {
         "auth.passkey-verify": {
             label?: string;
@@ -55,7 +53,7 @@ function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerify
             <div className="grid gap-2">
                 <Button
                     type="button"
-                    variant="outline"
+                    emphasis="outline"
                     className="w-full"
                     onClick={verify}
                     disabled={isLoading}

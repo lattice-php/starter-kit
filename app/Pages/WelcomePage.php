@@ -7,17 +7,17 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Lattice\Lattice\Attributes\AsPage;
-use Lattice\Lattice\Core\Components\Badge;
-use Lattice\Lattice\Core\Components\Button;
-use Lattice\Lattice\Core\Components\Card;
-use Lattice\Lattice\Core\Components\Grid;
-use Lattice\Lattice\Core\Components\Heading;
-use Lattice\Lattice\Core\Components\Stack;
-use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\Gap;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Http\Page;
+use Lattice\Lattice\Ui\Components\Badge;
+use Lattice\Lattice\Ui\Components\Button;
+use Lattice\Lattice\Ui\Components\Card;
+use Lattice\Lattice\Ui\Components\Grid;
+use Lattice\Lattice\Ui\Components\Heading;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\Variant;
 use Throwable;
 
 #[AsPage(route: '/', name: 'home', middleware: ['web'])]
@@ -79,7 +79,7 @@ final class WelcomePage extends Page
         return [
             Button::make(__('common.action.log-in'))
                 ->href($this->namedRouteUrl('login'))
-                ->variant(ButtonVariant::Secondary),
+                ->variant(Variant::Secondary),
             Button::make(__('welcome.actions.register'))
                 ->href($this->namedRouteUrl('register')),
         ];

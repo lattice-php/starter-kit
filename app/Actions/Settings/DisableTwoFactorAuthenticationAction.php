@@ -11,9 +11,8 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action as ActionComponent;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Core\Enums\Variant;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.two-factor.disable')]
 class DisableTwoFactorAuthenticationAction extends ActionDefinition
@@ -27,7 +26,7 @@ class DisableTwoFactorAuthenticationAction extends ActionDefinition
         return $action
             ->label(__('settings.two-factor.disable'))
             ->method(HttpMethod::Post)
-            ->variant(ButtonVariant::Destructive)
+            ->variant(Variant::Danger)
             ->confirm(
                 title: __('settings.two-factor.disable-confirm-title'),
                 description: __('settings.two-factor.disable-confirm-description'),
@@ -44,7 +43,7 @@ class DisableTwoFactorAuthenticationAction extends ActionDefinition
         ($this->disable)($user);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('settings.two-factor.disabled-toast'))
+            ->toast(__('settings.two-factor.disabled-toast'))
             ->reloadPage();
     }
 }

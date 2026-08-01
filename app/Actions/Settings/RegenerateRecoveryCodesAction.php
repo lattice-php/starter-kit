@@ -11,9 +11,8 @@ use Lattice\Lattice\Actions\ActionDefinition;
 use Lattice\Lattice\Actions\ActionResult;
 use Lattice\Lattice\Actions\Components\Action as ActionComponent;
 use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Core\Enums\Variant;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.two-factor.regenerate-recovery-codes')]
 class RegenerateRecoveryCodesAction extends ActionDefinition
@@ -27,7 +26,7 @@ class RegenerateRecoveryCodesAction extends ActionDefinition
         return $action
             ->label(__('settings.recovery-codes.regenerate'))
             ->method(HttpMethod::Post)
-            ->variant(ButtonVariant::Secondary)
+            ->variant(Variant::Secondary)
             ->confirm(
                 title: __('settings.recovery-codes.regenerate-confirm-title'),
                 description: __('settings.recovery-codes.regenerate-confirm-description'),
@@ -44,7 +43,7 @@ class RegenerateRecoveryCodesAction extends ActionDefinition
         ($this->generate)($user);
 
         return ActionResult::success()
-            ->toast(Variant::Success, __('settings.recovery-codes.regenerated'))
+            ->toast(__('settings.recovery-codes.regenerated'))
             ->reloadPage();
     }
 }

@@ -7,6 +7,7 @@ export const iconNames = [
   "align-right",
   "arrow-down",
   "arrow-up",
+  "bell",
   "bold",
   "calendar",
   "check",
@@ -18,13 +19,16 @@ export const iconNames = [
   "circle-check",
   "circle-help",
   "circle-x",
+  "clock",
   "code",
+  "code-xml",
   "columns-3",
   "copy",
   "external-link",
   "eye",
   "eye-off",
   "filter",
+  "heading",
   "heading-1",
   "heading-2",
   "heading-3",
@@ -70,6 +74,7 @@ declare module "@lattice-php/lattice" {
     "align-right": true;
     "arrow-down": true;
     "arrow-up": true;
+    bell: true;
     bold: true;
     calendar: true;
     check: true;
@@ -81,13 +86,16 @@ declare module "@lattice-php/lattice" {
     "circle-check": true;
     "circle-help": true;
     "circle-x": true;
+    clock: true;
     code: true;
+    "code-xml": true;
     "columns-3": true;
     copy: true;
     "external-link": true;
     eye: true;
     "eye-off": true;
     filter: true;
+    heading: true;
     "heading-1": true;
     "heading-2": true;
     "heading-3": true;

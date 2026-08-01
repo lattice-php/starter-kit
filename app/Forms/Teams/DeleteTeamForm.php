@@ -11,15 +11,14 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Core\Components\Button;
-use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
-use Lattice\Lattice\Core\Enums\Variant;
 use Lattice\Lattice\Forms\Components\Form as FormComponent;
 use Lattice\Lattice\Forms\Components\TextInput;
 use Lattice\Lattice\Forms\FormDefinition;
 use Lattice\Lattice\Http\LatticeResponse;
+use Lattice\Lattice\Ui\Components\Button;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsForm('teams.delete')]
 class DeleteTeamForm extends FormDefinition
@@ -46,7 +45,7 @@ class DeleteTeamForm extends FormDefinition
                             $fail(__('teams.delete.name-mismatch'));
                         }
                     }]),
-                Button::make(__('teams.delete.submit'))->submit()->variant(ButtonVariant::Destructive),
+                Button::make(__('teams.delete.submit'))->submit()->variant(Variant::Danger),
             ])
             ->withoutSubmitButton();
     }
@@ -59,6 +58,6 @@ class DeleteTeamForm extends FormDefinition
 
         $this->deleteTeam->handle($this->currentUser(), $team);
 
-        return $this->toast(Variant::Success, __('teams.delete.deleted'))->toRoute('teams.index');
+        return $this->toast(__('teams.delete.deleted'))->toRoute('teams.index');
     }
 }

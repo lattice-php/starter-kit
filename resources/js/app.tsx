@@ -1,18 +1,9 @@
 /// <reference types="@lattice-php/lattice/svg-sprite-client" />
-import { createInertiaApp } from "@inertiajs/react";
+/// <reference types="@lattice-php/lattice/vite-client" />
 import { configureEcho } from "@laravel/echo-react";
-import {
-    createLayoutResolver,
-    createPageResolver,
-    initializeTheme,
-    Provider,
-    withVisitHeaders,
-} from "@lattice-php/lattice";
-import { configureI18nFromPageProps, LocaleReload } from "@lattice-php/lattice/i18n";
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createLatticeApp, createPlugin, lazyComponent } from "@lattice-php/lattice";
+import plugins from "virtual:lattice/plugins";
 import sprite from "virtual:svg-sprite";
-import { registry } from "@/registry";
 
 configureEcho({
     broadcaster: "reverb",
@@ -26,36 +17,25 @@ configureEcho({
 
 const applicationName = import.meta.env.VITE_APP_NAME || "Laravel";
 
-void createInertiaApp({
+void createLatticeApp({
     title: (title) => (title ? `${title} - ${applicationName}` : applicationName),
-    resolve: createPageResolver({}),
-    layout: createLayoutResolver(),
     progress: {
         color: "#4B5563",
     },
-    defaults: {
-        visitOptions: withVisitHeaders,
-    },
-    setup({ el, App, props }) {
-        if (!el) {
-            return;
-        }
-
-        const root = createRoot(el);
-        const render = () =>
-            root.render(
-                <StrictMode>
-                    <Provider registry={registry} sprite={sprite}>
-                        <App {...props} />
-                        <LocaleReload />
-                    </Provider>
-                </StrictMode>,
-            );
-
-        void configureI18nFromPageProps(props.initialPage.props, {
-            namespaces: ["lattice", "app"],
-        }).then(render, render);
+    sprite,
+    plugins: [
+        createPlugin({
+            components: {
+                "auth.passkey-verify": lazyComponent(() => import("@/components/passkey-verify")),
+                "settings.passkey-registration": lazyComponent(
+                    () => import("@/components/passkey-registration"),
+                ),
+            },
+            name: "app",
+        }),
+        ...plugins,
+    ],
+    i18n: {
+        namespaces: ["lattice", "app"],
     },
 });
-
-initializeTheme();

@@ -7,9 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use Lattice\Lattice\Actions\Components\Action;
 use Lattice\Lattice\Attributes\AsTable;
-use Lattice\Lattice\Core\Components\Component;
-use Lattice\Lattice\Core\Enums\ButtonVariant;
-use Lattice\Lattice\Core\Enums\HttpMethod;
+use Lattice\Lattice\Core\Enums\ColorName;
 use Lattice\Lattice\Tables\CallbackTableSource;
 use Lattice\Lattice\Tables\Columns\StackColumn;
 use Lattice\Lattice\Tables\Columns\TextColumn;
@@ -18,6 +16,11 @@ use Lattice\Lattice\Tables\Enums\PaginationType;
 use Lattice\Lattice\Tables\TableDefinition;
 use Lattice\Lattice\Tables\TableQuery;
 use Lattice\Lattice\Tables\TableResult;
+use Lattice\Lattice\Ui\Components\Component;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Lattice\Ui\Enums\Size;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 #[AsTable('teams.index')]
 class TeamsTable extends TableDefinition
@@ -37,10 +40,9 @@ class TeamsTable extends TableDefinition
         return [
             StackColumn::make('team')
                 ->label(__('teams.columns.team'))
-                ->columns([
-                    TextColumn::make('name')
-                        ->label(__('common.field.name')),
-                    TextColumn::make('roleLabel')->label(__('common.field.role')),
+                ->schema([
+                    Text::make('')->dataKey('text', 'name')->color(ColorName::Default),
+                    Text::make('')->dataKey('text', 'roleLabel')->size(Size::Sm),
                 ]),
             TextColumn::make('status')->label(__('common.field.status')),
         ];
@@ -63,7 +65,7 @@ class TeamsTable extends TableDefinition
                 ->endpoint(route('teams.edit', ['team' => $slug], absolute: false))
                 ->label(__('teams.actions.edit'))
                 ->method(HttpMethod::Get)
-                ->variant(ButtonVariant::Secondary),
+                ->variant(Variant::Secondary),
         ];
     }
 

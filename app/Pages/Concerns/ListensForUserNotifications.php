@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Pages\Concerns;
 
 use App\Models\User;
-use Lattice\Lattice\Core\Enums\Variant;
 use Lattice\Lattice\Realtime\Listen;
+use Lattice\Lattice\Ui\Enums\Variant;
 
 trait ListensForUserNotifications
 {

@@ -1,13 +1,10 @@
 import { usePasskeyRegister } from "@laravel/passkeys/react";
-import { Button } from "@lattice-php/lattice/core/components/button";
-import type { RendererComponent } from "@lattice-php/lattice/core/types";
-import { Input } from "@lattice-php/lattice/form/components/base/input";
-import InputError from "@lattice-php/lattice/form/components/base/input-error";
-import { Label } from "@lattice-php/lattice/form/components/base/label";
+import type { RendererComponent } from "@lattice-php/lattice";
+import { Button, Input, InputError, Label } from "@lattice-php/lattice/ui";
 import { useT } from "@lattice-php/lattice/i18n";
 import { useState } from "react";
 
-declare module "@lattice-php/lattice/core/types" {
+declare module "@lattice-php/lattice" {
     interface ComponentProps {
         "settings.passkey-registration": Record<string, never>;
     }
@@ -39,7 +36,6 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
                 new CustomEvent("lattice:reload-component", {
                     detail: {
                         component: "settings.passkeys",
-                        type: "reloadComponent",
                     },
                 }),
             );
@@ -64,7 +60,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
 
     if (!showForm) {
         return (
-            <Button variant="outline" onClick={() => setShowForm(true)}>
+            <Button emphasis="outline" onClick={() => setShowForm(true)}>
                 {t("passkey.add", "Add passkey")}
             </Button>
         );
@@ -101,7 +97,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
                 </Button>
                 <Button
                     type="button"
-                    variant="ghost"
+                    emphasis="ghost"
                     onClick={() => {
                         setShowForm(false);
                         setName("");

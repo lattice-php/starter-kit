@@ -21,7 +21,7 @@ test('users can delete their own passkey through the lattice action', function (
     $this->actingAs($user)
         ->callAction(DeletePasskey::class, context: ['passkey' => $passkey->id])
         ->assertOk()
-        ->assertJsonFragment(['type' => 'reloadComponent', 'component' => 'settings.passkeys']);
+        ->assertJsonFragment(['type' => 'reload-component', 'component' => 'settings.passkeys']);
 
     expect($user->passkeys()->whereKey($passkey->id)->exists())->toBeFalse();
 });
@@ -32,7 +32,7 @@ test('users cannot delete another users passkey', function () {
     $passkey = createPasskey($other);
 
     $this->actingAs($user)
-        ->callAction(DeletePasskey::class, context: ['passkey' => $passkey->id])
+        ->callDeniedAction(DeletePasskey::class, context: ['passkey' => $passkey->id])
         ->assertForbidden();
 
     expect($other->passkeys()->whereKey($passkey->id)->exists())->toBeTrue();

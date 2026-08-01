@@ -5,17 +5,17 @@ namespace App\Layouts;
 
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsLayout;
-use Lattice\Lattice\Core\Components\Icon;
-use Lattice\Lattice\Core\Components\Stack;
-use Lattice\Lattice\Core\Enums\Align;
-use Lattice\Lattice\Core\Enums\Gap;
-use Lattice\Lattice\Core\Enums\Height;
-use Lattice\Lattice\Core\Enums\Justify;
-use Lattice\Lattice\Core\Enums\Size;
-use Lattice\Lattice\Core\Enums\Width;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Layouts\Components\Outlet;
 use Lattice\Lattice\Layouts\LayoutDefinition;
+use Lattice\Lattice\Ui\Components\Icon;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Enums\Align;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\Height;
+use Lattice\Lattice\Ui\Enums\Justify;
+use Lattice\Lattice\Ui\Enums\Size;
+use Lattice\Lattice\Ui\Enums\Width;
 
 #[AsLayout('auth')]
 class AuthLayout extends LayoutDefinition

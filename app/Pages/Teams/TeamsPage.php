@@ -8,17 +8,17 @@ use App\Pages\Concerns\ListensForUserNotifications;
 use App\Tables\Teams\TeamsTable;
 use Illuminate\Http\Request;
 use Lattice\Lattice\Attributes\AsPage;
-use Lattice\Lattice\Core\Components\Heading;
-use Lattice\Lattice\Core\Components\Stack;
-use Lattice\Lattice\Core\Components\Text;
-use Lattice\Lattice\Core\Enums\Gap;
-use Lattice\Lattice\Core\Enums\PageContainer;
-use Lattice\Lattice\Core\Enums\PageLayout;
-use Lattice\Lattice\Core\Enums\Width;
 use Lattice\Lattice\Core\PageSchema;
 use Lattice\Lattice\Forms\Components\Form;
 use Lattice\Lattice\Http\Page;
 use Lattice\Lattice\Tables\Components\Table;
+use Lattice\Lattice\Ui\Components\Heading;
+use Lattice\Lattice\Ui\Components\Stack;
+use Lattice\Lattice\Ui\Components\Text;
+use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Lattice\Ui\Enums\PageContainer;
+use Lattice\Lattice\Ui\Enums\PageLayout;
+use Lattice\Lattice\Ui\Enums\Width;
 
 #[AsPage(route: 'settings/teams', name: 'teams.index', layout: PageLayout::App, container: PageContainer::Default, middleware: ['web', 'auth', 'verified'])]
 class TeamsPage extends Page
