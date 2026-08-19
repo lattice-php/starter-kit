@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns;
 
 use App\Models\Team;
-use Lattice\Lattice\Core\Concerns\ResolvesContextModels;
+use Lattice\Core\Concerns\ResolvesContextModels;
 
 trait ResolvesTeamFromContext
 {

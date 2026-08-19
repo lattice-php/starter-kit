@@ -16,6 +16,13 @@ return [
         'ref_lifetime' => 30,
     ],
 
+    'context' => [
+        // Context keys child components inherit from the definition they are
+        // built inside (row actions, modal forms, nested actions). Empty means
+        // no inheritance; explicit context always wins over inherited keys.
+        'inherited_keys' => [],
+    ],
+
     'refs' => [
         'middleware' => ['web'],
     ],
@@ -39,6 +46,7 @@ return [
         'dist_path' => null,
         'path' => 'vendor/lattice',
         'echo' => null,
+        'plugins' => [],
     ],
 
     // Pages ship unauthenticated by default; authorization is opt-in via
@@ -82,6 +90,6 @@ return [
 
     'typescript' => [
         'output' => resource_path('js/lattice/generated.d.ts'),
-        'module' => '@lattice-php/lattice',
+        'module' => '@lattice-php/core',
     ],
 ];

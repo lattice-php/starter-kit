@@ -8,20 +8,21 @@ use App\Concerns\ResolvesCurrentUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\TextInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Http\LatticeResponse;
-use Lattice\Lattice\Ui\Components\Button;
-use Lattice\Lattice\Ui\Components\Component;
-use Lattice\Lattice\Ui\Components\Grid;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\StackDirection;
+use Lattice\Actions\Components\Action;
+use Lattice\Facades\Effects;
+use Lattice\Form\Attributes\AsForm;
+use Lattice\Form\Components\Form;
+use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormDefinition;
+use Lattice\Http\LatticeResponse;
+use Lattice\Ui\Components\Button;
+use Lattice\Ui\Components\Component;
+use Lattice\Ui\Components\Grid;
+use Lattice\Ui\Components\Stack;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\Gap;
+use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\StackDirection;
 
 #[AsForm('settings.profile')]
 class ProfileSettingsForm extends FormDefinition
@@ -70,7 +71,7 @@ class ProfileSettingsForm extends FormDefinition
 
         $user->save();
 
-        return $this->toast(__('settings.profile.updated'))->toRoute('settings.edit');
+        return Effects::respond()->toast(__('settings.profile.updated'))->toRoute('settings.edit');
     }
 
     /**

@@ -6,10 +6,10 @@ namespace App\Actions\Teams;
 use App\Concerns\ResolvesCurrentUser;
 use App\Concerns\ResolvesTeamFromContext;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsAction;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsAction;
 
 #[AsAction('teams.switch')]
 class SwitchTeam extends ActionDefinition

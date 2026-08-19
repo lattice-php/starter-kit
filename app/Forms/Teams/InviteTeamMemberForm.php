@@ -11,15 +11,16 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
-use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Forms\Components\Choice;
-use Lattice\Lattice\Forms\Components\Form as FormComponent;
-use Lattice\Lattice\Forms\Components\TextInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Http\LatticeResponse;
-use Lattice\Lattice\Ui\Components\Button;
-use Lattice\Lattice\Ui\Components\Grid;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Facades\Effects;
+use Lattice\Form\Attributes\AsForm;
+use Lattice\Form\Components\Choice;
+use Lattice\Form\Components\Form as FormComponent;
+use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormDefinition;
+use Lattice\Http\LatticeResponse;
+use Lattice\Ui\Components\Button;
+use Lattice\Ui\Components\Grid;
+use Lattice\Ui\Enums\HttpMethod;
 
 #[AsForm('teams.invite')]
 class InviteTeamMemberForm extends FormDefinition
@@ -74,6 +75,6 @@ class InviteTeamMemberForm extends FormDefinition
         Notification::route('mail', $invitation->email)
             ->notify(new TeamInvitation($invitation));
 
-        return $this->toast(__('teams.invite.sent'))->toRoute('teams.edit', ['team' => $team->slug]);
+        return Effects::respond()->toast(__('teams.invite.sent'))->toRoute('teams.edit', ['team' => $team->slug]);
     }
 }

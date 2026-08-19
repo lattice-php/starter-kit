@@ -5,11 +5,11 @@ namespace App\Actions;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\Emphasis;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsAction;
+use Lattice\Ui\Enums\Emphasis;
 
 #[AsAction('app.locale.set')]
 class SetLocaleAction extends ActionDefinition

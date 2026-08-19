@@ -6,14 +6,15 @@ namespace App\Forms\Settings;
 use App\Concerns\ResolvesCurrentUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
-use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\PasswordInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Http\LatticeResponse;
-use Lattice\Lattice\Ui\Components\Button;
-use Lattice\Lattice\Ui\Components\Grid;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
+use Lattice\Facades\Effects;
+use Lattice\Form\Attributes\AsForm;
+use Lattice\Form\Components\Form;
+use Lattice\Form\Components\PasswordInput;
+use Lattice\Form\FormDefinition;
+use Lattice\Http\LatticeResponse;
+use Lattice\Ui\Components\Button;
+use Lattice\Ui\Components\Grid;
+use Lattice\Ui\Enums\HttpMethod;
 
 #[AsForm('settings.password')]
 class PasswordSettingsForm extends FormDefinition
@@ -57,6 +58,6 @@ class PasswordSettingsForm extends FormDefinition
             'password' => $validated['password'],
         ]);
 
-        return $this->toast(__('settings.password.updated'))->back();
+        return Effects::respond()->toast(__('settings.password.updated'))->back();
     }
 }

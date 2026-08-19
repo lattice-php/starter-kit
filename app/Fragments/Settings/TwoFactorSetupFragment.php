@@ -8,15 +8,15 @@ use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
 use App\Models\User;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use Lattice\Lattice\Attributes\AsFragment;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Fragments\FragmentDefinition;
-use Lattice\Lattice\Ui\Components\RawBlock;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Align;
-use Lattice\Lattice\Ui\Enums\Gap;
+use Lattice\Core\Attributes\AsFragment;
+use Lattice\Form\Components\Form;
+use Lattice\Fragments\FragmentDefinition;
+use Lattice\Ui\Components\RawBlock;
+use Lattice\Ui\Components\Stack;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\Align;
+use Lattice\Ui\Enums\Gap;
+use Lattice\Ui\PageSchema;
 
 #[AsFragment('settings.two-factor-setup')]
 class TwoFactorSetupFragment extends FragmentDefinition

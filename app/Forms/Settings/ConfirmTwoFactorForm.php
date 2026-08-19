@@ -7,11 +7,12 @@ use App\Concerns\ResolvesCurrentUser;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Features;
-use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\OtpInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Http\LatticeResponse;
+use Lattice\Facades\Effects;
+use Lattice\Form\Attributes\AsForm;
+use Lattice\Form\Components\Form;
+use Lattice\Form\Components\OtpInput;
+use Lattice\Form\FormDefinition;
+use Lattice\Http\LatticeResponse;
 
 #[AsForm('settings.two-factor.confirm')]
 class ConfirmTwoFactorForm extends FormDefinition
@@ -40,6 +41,6 @@ class ConfirmTwoFactorForm extends FormDefinition
 
         ($this->confirm)($user, (string) $request->input('code'));
 
-        return $this->toast(__('settings.two-factor.enabled-toast'))->back();
+        return Effects::respond()->toast(__('settings.two-factor.enabled-toast'))->back();
     }
 }

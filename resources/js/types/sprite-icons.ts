@@ -24,10 +24,12 @@ export const iconNames = [
   "code-xml",
   "columns-3",
   "copy",
+  "corner-down-right",
   "external-link",
   "eye",
   "eye-off",
   "filter",
+  "grip-vertical",
   "heading",
   "heading-1",
   "heading-2",
@@ -40,6 +42,7 @@ export const iconNames = [
   "link",
   "list",
   "list-ordered",
+  "list-plus",
   "loader-2",
   "log-out",
   "logo",
@@ -66,7 +69,7 @@ export const iconNames = [
 
 export type IconName = (typeof iconNames)[number];
 
-declare module "@lattice-php/lattice" {
+declare module "@lattice-php/ui" {
   interface KnownIcons {
     "align-center": true;
     "align-justify": true;
@@ -91,10 +94,12 @@ declare module "@lattice-php/lattice" {
     "code-xml": true;
     "columns-3": true;
     copy: true;
+    "corner-down-right": true;
     "external-link": true;
     eye: true;
     "eye-off": true;
     filter: true;
+    "grip-vertical": true;
     heading: true;
     "heading-1": true;
     "heading-2": true;
@@ -107,6 +112,7 @@ declare module "@lattice-php/lattice" {
     link: true;
     list: true;
     "list-ordered": true;
+    "list-plus": true;
     "loader-2": true;
     "log-out": true;
     logo: true;

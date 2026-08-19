@@ -4,15 +4,18 @@ declare(strict_types=1);
 namespace App\Actions\Settings;
 
 use App\Concerns\ResolvesCurrentUser;
+use App\Fragments\Settings\TwoFactorSetupFragment;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action as ActionComponent;
-use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Variant;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action as ActionComponent;
+use Lattice\Core\Attributes\AsAction;
+use Lattice\Fragments\Components\Fragment;
+use Lattice\Ui\Components\Modal;
+use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.two-factor.enable')]
 class EnableTwoFactorAuthenticationAction extends ActionDefinition
@@ -38,6 +41,13 @@ class EnableTwoFactorAuthenticationAction extends ActionDefinition
 
         return ActionResult::success()
             ->toast(__('settings.two-factor.setup-started'), Variant::Info)
-            ->openModal('settings.two-factor-setup');
+            ->openModal(
+                Modal::make('settings.two-factor-setup')
+                    ->title(__('settings.two-factor.setup-title'))
+                    ->description(__('settings.two-factor.setup-description'))
+                    ->schema([
+                        Fragment::lazy(TwoFactorSetupFragment::class),
+                    ]),
+            );
     }
 }

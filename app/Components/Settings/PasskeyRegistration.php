@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Components\Settings;
 
-use Lattice\Lattice\Attributes\AsComponent;
-use Lattice\Lattice\Ui\Components\Component;
+use Lattice\Core\Attributes\AsComponent;
+use Lattice\Ui\Components\Component;
 
 #[AsComponent('settings.passkey-registration')]
 class PasskeyRegistration extends Component

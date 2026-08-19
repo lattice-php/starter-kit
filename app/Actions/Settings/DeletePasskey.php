@@ -5,11 +5,11 @@ namespace App\Actions\Settings;
 
 use App\Concerns\ResolvesCurrentUser;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\Variant;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsAction;
+use Lattice\Ui\Enums\Variant;
 
 #[AsAction('settings.passkeys.delete')]
 class DeletePasskey extends ActionDefinition
