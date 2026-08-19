@@ -2,11 +2,9 @@ import type { UrlMethodPair } from "@inertiajs/core";
 import { router } from "@inertiajs/react";
 import { usePasskeyVerify } from "@laravel/passkeys/react";
 import type { RendererComponent } from "@lattice-php/lattice";
-import { Button, InputError, Spinner } from "@lattice-php/lattice/ui";
-import { IconRenderer } from "@lattice-php/lattice/icons";
-import { useT } from "@lattice-php/lattice/i18n";
+import { Button, IconRenderer, InputError, Spinner, useT } from "@lattice-php/ui";
 
-declare module "@lattice-php/lattice" {
+declare module "@lattice-php/core" {
     interface ComponentProps {
         "auth.passkey-verify": {
             label?: string;

@@ -11,33 +11,29 @@ use App\Concerns\ResolvesCurrentUser;
 use App\Forms\Settings\DeleteAccountForm;
 use App\Forms\Settings\PasswordSettingsForm;
 use App\Forms\Settings\ProfileSettingsForm;
-use App\Fragments\Settings\TwoFactorSetupFragment;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
 use App\Pages\Concerns\ListensForUserNotifications;
 use App\Tables\Settings\PasskeysTable;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Features;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsPage;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Fragments\Components\Fragment;
-use Lattice\Lattice\Http\Page;
-use Lattice\Lattice\Tables\Components\Table;
-use Lattice\Lattice\Ui\Components\Component;
-use Lattice\Lattice\Ui\Components\Heading;
-use Lattice\Lattice\Ui\Components\Modal;
-use Lattice\Lattice\Ui\Components\SegmentedControl;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Tab;
-use Lattice\Lattice\Ui\Components\Tabs;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Ui\Enums\PageContainer;
-use Lattice\Lattice\Ui\Enums\PageLayout;
-use Lattice\Lattice\Ui\Enums\Width;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsPage;
+use Lattice\Core\Enums\PageLayout;
+use Lattice\Form\Components\Form;
+use Lattice\Http\Page;
+use Lattice\Table\Components\Table;
+use Lattice\Ui\Components\Component;
+use Lattice\Ui\Components\Heading;
+use Lattice\Ui\Components\SegmentedControl;
+use Lattice\Ui\Components\Stack;
+use Lattice\Ui\Components\Tab;
+use Lattice\Ui\Components\Tabs;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\Gap;
+use Lattice\Ui\Enums\Width;
+use Lattice\Ui\PageSchema;
 
-#[AsPage(route: 'settings', name: 'settings.edit', layout: PageLayout::App, container: PageContainer::Default, middleware: ['web', 'auth'])]
+#[AsPage(route: 'settings', name: 'settings.edit', layout: PageLayout::App, middleware: ['web', 'auth'])]
 class SettingsPage extends Page
 {
     use ListensForUserNotifications;
@@ -131,13 +127,6 @@ class SettingsPage extends Page
                         ->visible(! $twoFactorEnabled),
                     Action::use(DisableTwoFactorAuthenticationAction::class)
                         ->visible($twoFactorEnabled),
-                ])
-                ->visible($canManageTwoFactor),
-            Modal::make('settings.two-factor-setup')
-                ->title(__('settings.two-factor.setup-title'))
-                ->description(__('settings.two-factor.setup-description'))
-                ->schema([
-                    Fragment::lazy(TwoFactorSetupFragment::class),
                 ])
                 ->visible($canManageTwoFactor),
             $this->recoveryCodesSection($recoveryCodes)

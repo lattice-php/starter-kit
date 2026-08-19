@@ -21,6 +21,7 @@
         "echo-development",
         "tailwindcss-development",
         "lattice-actions",
+        "lattice-closures",
         "lattice-forms",
         "lattice-tables"
     ]

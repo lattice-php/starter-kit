@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Lattice\Lattice\Core\Contracts\HasLabel;
+use Lattice\Core\Contracts\HasLabel;
 
 enum TeamRole: string implements HasLabel
 {

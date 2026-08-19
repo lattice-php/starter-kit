@@ -7,17 +7,17 @@ use App\Concerns\ResolvesCurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Lattice\Lattice\Attributes\AsForm;
-use Lattice\Lattice\Forms\Components\Form;
-use Lattice\Lattice\Forms\Components\PasswordInput;
-use Lattice\Lattice\Forms\FormDefinition;
-use Lattice\Lattice\Ui\Components\Button;
-use Lattice\Lattice\Ui\Components\Heading;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\StackDirection;
-use Lattice\Lattice\Ui\Enums\Variant;
+use Lattice\Form\Attributes\AsForm;
+use Lattice\Form\Components\Form;
+use Lattice\Form\Components\PasswordInput;
+use Lattice\Form\FormDefinition;
+use Lattice\Ui\Components\Button;
+use Lattice\Ui\Components\Heading;
+use Lattice\Ui\Components\Stack;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Variant;
 
 #[AsForm('settings.delete-account')]
 class DeleteAccountForm extends FormDefinition

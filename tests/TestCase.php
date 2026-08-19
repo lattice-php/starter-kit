@@ -6,7 +6,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Fortify\Features;
-use Lattice\Lattice\Support\Testing\InteractsWithLatticeComponents;
+use Lattice\Support\Testing\InteractsWithLatticeComponents;
 
 abstract class TestCase extends BaseTestCase
 {

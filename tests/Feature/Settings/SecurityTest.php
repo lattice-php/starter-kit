@@ -58,6 +58,20 @@ test('the security tab lists recovery codes when two factor is enabled', functio
         ->assertSee('recovery-code-1');
 });
 
+test('enabling two factor ships the setup modal', function () {
+    $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->callAction(EnableTwoFactorAuthenticationAction::class)
+        ->assertOk()
+        ->assertJsonFragment(['type' => 'open-modal']);
+
+    expect($user->fresh()->two_factor_secret)->not->toBeNull();
+});
+
 test('two factor lattice actions require the fortify feature', function () {
     config(['fortify.features' => []]);
 

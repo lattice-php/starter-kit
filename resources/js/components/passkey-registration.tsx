@@ -1,10 +1,9 @@
 import { usePasskeyRegister } from "@laravel/passkeys/react";
 import type { RendererComponent } from "@lattice-php/lattice";
-import { Button, Input, InputError, Label } from "@lattice-php/lattice/ui";
-import { useT } from "@lattice-php/lattice/i18n";
+import { Button, Input, InputError, Label, useT } from "@lattice-php/ui";
 import { useState } from "react";
 
-declare module "@lattice-php/lattice" {
+declare module "@lattice-php/core" {
     interface ComponentProps {
         "settings.passkey-registration": Record<string, never>;
     }

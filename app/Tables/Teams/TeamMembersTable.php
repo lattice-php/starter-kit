@@ -9,20 +9,20 @@ use App\Concerns\ResolvesTeamFromContext;
 use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\User;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Actions\Components\ActionGroup;
-use Lattice\Lattice\Attributes\AsTable;
-use Lattice\Lattice\Core\Enums\ColorName;
-use Lattice\Lattice\Tables\CallbackTableSource;
-use Lattice\Lattice\Tables\Columns\StackColumn;
-use Lattice\Lattice\Tables\Columns\TextColumn;
-use Lattice\Lattice\Tables\Contracts\TableSource;
-use Lattice\Lattice\Tables\Enums\PaginationType;
-use Lattice\Lattice\Tables\TableDefinition;
-use Lattice\Lattice\Tables\TableQuery;
-use Lattice\Lattice\Tables\TableResult;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Size;
+use Lattice\Actions\Components\Action;
+use Lattice\Actions\Components\ActionGroup;
+use Lattice\Core\Enums\ColorName;
+use Lattice\Table\Attributes\AsTable;
+use Lattice\Table\CallbackTableSource;
+use Lattice\Table\Columns\StackColumn;
+use Lattice\Table\Columns\TextColumn;
+use Lattice\Table\Contracts\TableSource;
+use Lattice\Table\Enums\PaginationType;
+use Lattice\Table\TableDefinition;
+use Lattice\Table\TableQuery;
+use Lattice\Table\TableResult;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\Size;
 
 #[AsTable('teams.members')]
 class TeamMembersTable extends TableDefinition

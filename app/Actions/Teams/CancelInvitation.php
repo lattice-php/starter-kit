@@ -6,12 +6,12 @@ namespace App\Actions\Teams;
 use App\Concerns\ResolvesCurrentUser;
 use App\Concerns\ResolvesTeamFromContext;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Variant;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsAction;
+use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.invitations.cancel')]
 class CancelInvitation extends ActionDefinition

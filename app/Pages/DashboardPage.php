@@ -8,21 +8,20 @@ use App\Http\Middleware\SwitchesCurrentTeam;
 use App\Models\Team;
 use App\Pages\Concerns\ListensForUserNotifications;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Attributes\AsPage;
-use Lattice\Lattice\Core\Breadcrumb;
-use Lattice\Lattice\Core\PageSchema;
-use Lattice\Lattice\Http\Page;
-use Lattice\Lattice\Ui\Components\Card;
-use Lattice\Lattice\Ui\Components\Grid;
-use Lattice\Lattice\Ui\Components\Heading;
-use Lattice\Lattice\Ui\Components\Stack;
-use Lattice\Lattice\Ui\Components\Text;
-use Lattice\Lattice\Ui\Enums\Gap;
-use Lattice\Lattice\Ui\Enums\PageContainer;
-use Lattice\Lattice\Ui\Enums\PageLayout;
-use Lattice\Lattice\Ui\Enums\Width;
+use Lattice\Core\Attributes\AsPage;
+use Lattice\Core\Breadcrumb;
+use Lattice\Core\Enums\PageLayout;
+use Lattice\Http\Page;
+use Lattice\Ui\Components\Card;
+use Lattice\Ui\Components\Grid;
+use Lattice\Ui\Components\Heading;
+use Lattice\Ui\Components\Stack;
+use Lattice\Ui\Components\Text;
+use Lattice\Ui\Enums\Gap;
+use Lattice\Ui\Enums\Width;
+use Lattice\Ui\PageSchema;
 
-#[AsPage(route: '{current_team}/dashboard', name: 'dashboard', layout: PageLayout::App, container: PageContainer::Default, middleware: ['web', 'auth', 'verified', 'can:view,current_team', SwitchesCurrentTeam::class])]
+#[AsPage(route: '{current_team}/dashboard', name: 'dashboard', layout: PageLayout::App, middleware: ['web', 'auth', 'verified', 'can:view,current_team', SwitchesCurrentTeam::class])]
 class DashboardPage extends Page
 {
     use ListensForUserNotifications;

@@ -9,12 +9,12 @@ use App\Events\Teams\RemovedFromTeam;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Lattice\Lattice\Actions\ActionDefinition;
-use Lattice\Lattice\Actions\ActionResult;
-use Lattice\Lattice\Actions\Components\Action;
-use Lattice\Lattice\Attributes\AsAction;
-use Lattice\Lattice\Ui\Enums\HttpMethod;
-use Lattice\Lattice\Ui\Enums\Variant;
+use Lattice\Actions\ActionDefinition;
+use Lattice\Actions\ActionResult;
+use Lattice\Actions\Components\Action;
+use Lattice\Core\Attributes\AsAction;
+use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\Variant;
 
 #[AsAction('teams.members.remove')]
 class RemoveMember extends ActionDefinition
