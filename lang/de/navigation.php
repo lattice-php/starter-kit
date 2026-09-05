@@ -5,5 +5,6 @@ return [
     'dashboard' => 'Dashboard',
     'settings' => 'Einstellungen',
     'team-settings' => 'Team-Einstellungen',
+    'toggle-sidebar' => 'Seitenleiste umschalten',
     'select-team' => 'Team auswählen',
 ];

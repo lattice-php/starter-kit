@@ -11,11 +11,16 @@ use App\Pages\DashboardPage;
 use App\Pages\SettingsPage;
 use Illuminate\Http\Request;
 use Lattice\Core\Attributes\AsLayout;
+use Lattice\Core\Enums\Breakpoint;
 use Lattice\Core\Enums\ColorName;
 use Lattice\Core\Support\Affix;
+use Lattice\Facades\Effects;
 use Lattice\Layouts\Components\Outlet;
 use Lattice\Layouts\LayoutDefinition;
 use Lattice\Ui\Components\Avatar;
+use Lattice\Ui\Components\Breadcrumbs;
+use Lattice\Ui\Components\Button;
+use Lattice\Ui\Components\Callouts;
 use Lattice\Ui\Components\Component;
 use Lattice\Ui\Components\Dropdown;
 use Lattice\Ui\Components\Icon as IconComponent;
@@ -24,15 +29,17 @@ use Lattice\Ui\Components\MenuItem;
 use Lattice\Ui\Components\Sidebar;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
+use Lattice\Ui\Components\Topbar;
 use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\AvatarShape;
+use Lattice\Ui\Enums\Emphasis;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Height;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Icon;
-use Lattice\Ui\Enums\Justify;
 use Lattice\Ui\Enums\Orientation;
 use Lattice\Ui\Enums\Placement;
+use Lattice\Ui\Enums\Side;
 use Lattice\Ui\Enums\Size;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
@@ -51,23 +58,37 @@ class AppLayout extends LayoutDefinition
                 ->direction(Orientation::Horizontal)
                 ->height(Height::Screen)
                 ->schema([
-                    Sidebar::make('app-sidebar')->collapsible()->items([
-                        Stack::make('sidebar-body')
-                            ->width(Width::Fill)
-                            ->justify(Justify::Between)
-                            ->schema([
-                                Stack::make('sidebar-top')->schema([
-                                    $this->teamSwitcher($user),
-                                    Menu::make('sidebar')->items([
-                                        MenuItem::fromPage(DashboardPage::class)->label(__('navigation.dashboard'))->prefix(Icon::LayoutDashboard),
-                                    ]),
-                                ]),
-                                $this->userMenu($user),
+                    Sidebar::make('app-sidebar')
+                        ->collapsible()
+                        ->items([
+                            $this->teamSwitcher($user),
+                            Menu::make('sidebar')->items([
+                                MenuItem::fromPage(DashboardPage::class)->label(__('navigation.dashboard'))->prefix(Icon::LayoutDashboard),
                             ]),
-                    ]),
+                        ]),
                     Stack::make('app-main')
                         ->width(Width::Fill)
                         ->schema([
+                            Topbar::make('app-topbar')->sticky()->items([
+                                // The sidebar ships no trigger of its own: without this
+                                // button the mobile drawer can never open and the desktop
+                                // rail can never collapse.
+                                Button::make(__('navigation.toggle-sidebar'), 'sidebar-toggle')
+                                    ->icon(Icon::PanelLeft)
+                                    ->emphasis(Emphasis::Ghost)
+                                    ->effects(Effects::toggleSidebar('app-sidebar')),
+                                Breadcrumbs::make('app-breadcrumbs')->visibleFrom(Breakpoint::Md),
+                                Stack::make('topbar-end')
+                                    ->float(Side::End)
+                                    ->width(Width::Auto)
+                                    ->direction(Orientation::Horizontal)
+                                    ->align(Align::Center)
+                                    ->gap(Gap::Small)
+                                    ->schema([
+                                        $this->userMenu($user),
+                                    ]),
+                            ]),
+                            Callouts::make('app-callouts'),
                             Outlet::make(),
                         ]),
                 ]),
@@ -100,7 +121,7 @@ class AppLayout extends LayoutDefinition
     private function userMenu(User $user): Dropdown
     {
         return Dropdown::make('user-menu')
-            ->placement(Placement::Top)
+            ->placement(Placement::Bottom)
             ->trigger([
                 Stack::make()
                     ->direction(Orientation::Horizontal)
@@ -111,6 +132,7 @@ class AppLayout extends LayoutDefinition
                         Stack::make()
                             ->width(Width::Fill)
                             ->gap(Gap::None)
+                            ->visibleFrom(Breakpoint::Md)
                             ->schema([
                                 Text::make($user->name)
                                     ->size(Size::Sm)
