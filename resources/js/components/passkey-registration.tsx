@@ -1,13 +1,8 @@
 import { usePasskeyRegister } from "@laravel/passkeys/react";
 import type { RendererComponent } from "@lattice-php/lattice";
-import { Button, Input, InputError, Label, useT } from "@lattice-php/ui";
-import { useState } from "react";
-
-declare module "@lattice-php/core" {
-    interface ComponentProps {
-        "settings.passkey-registration": Record<string, never>;
-    }
-}
+import { Input, InputError, Label } from "@lattice-php/form";
+import { Button, useT } from "@lattice-php/ui";
+import { type FormEvent, useState } from "react";
 
 function suggestedPasskeyName(connector: string): string {
     const ua = navigator.userAgent;
@@ -41,7 +36,7 @@ const PasskeyRegistration: RendererComponent<"settings.passkey-registration"> = 
         },
     });
 
-    async function handleSubmit(event: React.FormEvent): Promise<void> {
+    async function handleSubmit(event: FormEvent): Promise<void> {
         event.preventDefault();
 
         if (name.trim()) {

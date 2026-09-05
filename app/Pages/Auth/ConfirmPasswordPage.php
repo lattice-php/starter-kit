@@ -15,9 +15,9 @@ use Lattice\Ui\Components\Grid;
 use Lattice\Ui\Components\Heading;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
-use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -36,7 +36,7 @@ class ConfirmPasswordPage extends Page
                 ->schema([
                     Heading::make(__('auth.confirm-password.heading'), 2),
                     Text::make(__('auth.confirm-password.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             PasskeyVerify::make(
                 route('passkey.confirm-options', absolute: false),

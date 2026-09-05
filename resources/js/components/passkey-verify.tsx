@@ -2,28 +2,17 @@ import type { UrlMethodPair } from "@inertiajs/core";
 import { router } from "@inertiajs/react";
 import { usePasskeyVerify } from "@laravel/passkeys/react";
 import type { RendererComponent } from "@lattice-php/lattice";
-import { Button, IconRenderer, InputError, Spinner, useT } from "@lattice-php/ui";
-
-declare module "@lattice-php/core" {
-    interface ComponentProps {
-        "auth.passkey-verify": {
-            label?: string;
-            loadingLabel?: string;
-            optionsUrl?: string;
-            separator?: string;
-            submitUrl?: string;
-        };
-    }
-}
+import { InputError } from "@lattice-php/form";
+import { Button, IconRenderer, Spinner, useT } from "@lattice-php/ui";
 
 type PasskeyVerifyProps = {
     routes?: {
         options: UrlMethodPair;
         submit: UrlMethodPair;
     };
-    label?: string;
-    loadingLabel?: string;
-    separator?: string;
+    label?: string | null;
+    loadingLabel?: string | null;
+    separator?: string | null;
 };
 
 function PasskeyVerify({ routes, label, loadingLabel, separator }: PasskeyVerifyProps = {}) {

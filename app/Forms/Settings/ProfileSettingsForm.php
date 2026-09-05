@@ -13,6 +13,7 @@ use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form;
 use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 use Lattice\Ui\Components\Button;
@@ -22,7 +23,7 @@ use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
-use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Orientation;
 
 #[AsForm('settings.profile')]
 class ProfileSettingsForm extends FormDefinition
@@ -59,11 +60,11 @@ class ProfileSettingsForm extends FormDefinition
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
         $user = $this->currentUser();
 
-        $user->fill($this->validate($request));
+        $user->fill($data->all());
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -85,7 +86,7 @@ class ProfileSettingsForm extends FormDefinition
 
         $components = [
             Stack::make('profile-verification-notice')
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('settings.profile.unverified')),

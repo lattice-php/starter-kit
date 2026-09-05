@@ -11,6 +11,7 @@ use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form;
 use Lattice\Form\Components\OtpInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 
@@ -33,13 +34,13 @@ class ConfirmTwoFactorForm extends FormDefinition
             ]);
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
         $user = $this->currentUser();
 
         abort_unless(Features::canManageTwoFactorAuthentication(), 403);
 
-        ($this->confirm)($user, (string) $request->input('code'));
+        ($this->confirm)($user, $data->string('code')->toString());
 
         return Effects::respond()->toast(__('settings.two-factor.enabled-toast'))->back();
     }

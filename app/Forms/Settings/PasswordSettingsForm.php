@@ -10,6 +10,7 @@ use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form;
 use Lattice\Form\Components\PasswordInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 use Lattice\Ui\Components\Button;
@@ -48,14 +49,10 @@ class PasswordSettingsForm extends FormDefinition
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
-        $user = $this->currentUser();
-
-        $validated = $this->validate($request);
-
-        $user->update([
-            'password' => $validated['password'],
+        $this->currentUser()->update([
+            'password' => $data->string('password')->toString(),
         ]);
 
         return Effects::respond()->toast(__('settings.password.updated'))->back();

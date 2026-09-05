@@ -10,29 +10,30 @@ use App\Models\User;
 use App\Pages\DashboardPage;
 use App\Pages\SettingsPage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Lattice\Core\Attributes\AsLayout;
 use Lattice\Core\Enums\ColorName;
 use Lattice\Core\Support\Affix;
-use Lattice\Layouts\Components\Dropdown;
-use Lattice\Layouts\Components\Menu;
-use Lattice\Layouts\Components\MenuItem;
 use Lattice\Layouts\Components\Outlet;
-use Lattice\Layouts\Components\Sidebar;
 use Lattice\Layouts\LayoutDefinition;
+use Lattice\Ui\Components\Avatar;
+use Lattice\Ui\Components\Component;
+use Lattice\Ui\Components\Dropdown;
 use Lattice\Ui\Components\Icon as IconComponent;
-use Lattice\Ui\Components\RawBlock;
+use Lattice\Ui\Components\Menu;
+use Lattice\Ui\Components\MenuItem;
+use Lattice\Ui\Components\Sidebar;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Align;
+use Lattice\Ui\Enums\AvatarShape;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Height;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Icon;
 use Lattice\Ui\Enums\Justify;
+use Lattice\Ui\Enums\Orientation;
 use Lattice\Ui\Enums\Placement;
 use Lattice\Ui\Enums\Size;
-use Lattice\Ui\Enums\StackDirection;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
 
@@ -47,7 +48,7 @@ class AppLayout extends LayoutDefinition
 
         return $schema->schema([
             Stack::make('app-shell')
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->height(Height::Screen)
                 ->schema([
                     Sidebar::make('app-sidebar')->collapsible()->items([
@@ -102,11 +103,11 @@ class AppLayout extends LayoutDefinition
             ->placement(Placement::Top)
             ->trigger([
                 Stack::make()
-                    ->direction(StackDirection::Row)
+                    ->direction(Orientation::Horizontal)
                     ->align(Align::Center)
                     ->gap(Gap::Medium)
                     ->schema([
-                        RawBlock::make('user-menu-avatar')->html($this->avatarSvg($user)),
+                        Avatar::make(key: 'user-menu-avatar')->name($user->name)->shape(AvatarShape::Rounded),
                         Stack::make()
                             ->width(Width::Fill)
                             ->gap(Gap::None)
@@ -151,11 +152,14 @@ class AppLayout extends LayoutDefinition
         }, $locales);
     }
 
+    /**
+     * @return array<int, Component>
+     */
     private function dropdownTrigger(string $icon, string $label): array
     {
         return [
             Stack::make()
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->align(Align::Center)
                 ->gap(Gap::Small)
                 ->schema([
@@ -166,30 +170,5 @@ class AppLayout extends LayoutDefinition
                         ->hideWhenCollapsed(),
                 ]),
         ];
-    }
-
-    private function avatarSvg(User $user): string
-    {
-        $name = $user->name;
-        $initials = e($this->initials($name));
-        $label = e($name);
-
-        return <<<HTML
-<svg class="size-8 shrink-0 rounded-md bg-lt-muted text-lt-fg" viewBox="0 0 32 32" role="img" aria-label="{$label}">
-    <rect width="32" height="32" rx="6" fill="currentColor" opacity=".08"/>
-    <text x="16" y="20" text-anchor="middle" class="fill-current text-xs font-medium">{$initials}</text>
-</svg>
-HTML;
-    }
-
-    private function initials(string $name): string
-    {
-        return Str::of($name)
-            ->trim()
-            ->explode(' ')
-            ->filter()
-            ->take(2)
-            ->map(fn (string $part): string => Str::of($part)->substr(0, 1)->upper()->toString())
-            ->implode('');
     }
 }

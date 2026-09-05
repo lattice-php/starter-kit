@@ -19,7 +19,8 @@ use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
-use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Orientation;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -38,7 +39,7 @@ class RegisterPage extends Page
                 ->schema([
                     Heading::make(__('auth.register.heading'), 2),
                     Text::make(__('auth.register.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             Form::make('register-form')
                 ->action(route('register.store', absolute: false))
@@ -77,7 +78,7 @@ class RegisterPage extends Page
             Button::make(__('auth.register.submit'))->submit(),
             Stack::make('register-login-prompt')
                 ->align(Align::Center)
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('auth.register.have-account')),

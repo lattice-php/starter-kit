@@ -20,7 +20,8 @@ use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
-use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Orientation;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -41,7 +42,7 @@ class ForgotPasswordPage extends Page
                 ->schema([
                     Heading::make(__('auth.forgot-password.heading'), 2),
                     Text::make(__('auth.forgot-password.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             Form::make('forgot-password-form')
                 ->action(route('password.email', absolute: false))
@@ -72,7 +73,7 @@ class ForgotPasswordPage extends Page
             Button::make(__('auth.forgot-password.submit'))->submit(),
             Stack::make('forgot-password-login-prompt')
                 ->align(Align::Center)
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('auth.forgot-password.return')),
