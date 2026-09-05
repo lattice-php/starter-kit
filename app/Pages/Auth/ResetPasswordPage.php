@@ -17,9 +17,9 @@ use Lattice\Ui\Components\Grid;
 use Lattice\Ui\Components\Heading;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
-use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -40,7 +40,7 @@ class ResetPasswordPage extends Page
                 ->gap(Gap::Small)
                 ->schema([
                     Heading::make(__('auth.reset-password.heading'), 2),
-                    Text::make(__('auth.reset-password.subtitle'))->align(Align::Center),
+                    Text::make(__('auth.reset-password.subtitle'))->align(TextAlign::Center),
                 ]),
             Form::make('reset-password-form')
                 ->action(route('password.update', absolute: false))

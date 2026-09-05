@@ -37,14 +37,14 @@ it('renders teams and opens team editing from the row action', function () {
     $page->assertSee('Teams')
         ->assertSee('Lattice Core')
         ->assertNoJavaScriptErrors()
-        ->click('[data-lattice-component="teams.'.$team->id.'.edit"]')
+        ->click('[data-test="action-teams.'.$team->id.'.edit"]')
         ->assertPathIs('/settings/teams/lattice-core')
         ->assertSee('Manage team settings, members, and invitations.')
         ->assertSee('Grace Hopper')
-        ->click('[data-lattice-component="teams.members.'.$member->id.'.actions"] button')
+        ->click('[data-test="teams.members.'.$member->id.'.actions"]')
         ->assertSee('Change role')
         ->assertSee('Remove')
-        ->click('[data-lattice-component="teams.invitations.'.$invitation->id.'.actions"] button')
+        ->click('[data-test="teams.invitations.'.$invitation->id.'.actions"]')
         ->assertSee('Cancel')
         ->assertNoJavaScriptErrors();
 });

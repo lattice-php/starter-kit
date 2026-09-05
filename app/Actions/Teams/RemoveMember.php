@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Teams;
 
-use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Events\Teams\RemovedFromTeam;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action;
@@ -16,12 +13,9 @@ use Lattice\Core\Attributes\AsAction;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Variant;
 
-#[AsAction('teams.members.remove')]
+#[AsAction('teams.members.remove', can: 'removeMember', on: 'team')]
 class RemoveMember extends ActionDefinition
 {
-    use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
-
     public function definition(Action $action): Action
     {
         return $action
@@ -35,18 +29,14 @@ class RemoveMember extends ActionDefinition
             );
     }
 
-    #[\Override]
-    public function authorize(Request $request): bool
+    public function handle(): ActionResult
     {
-        return $this->currentUser()->can('removeMember', $this->teamFromContext());
-    }
+        /** @var Team $team */
+        $team = $this->contextModel('team');
+        /** @var User $member */
+        $member = $this->contextModel('member');
 
-    public function handle(Request $request): ActionResult
-    {
-        $team = $this->teamFromContext();
-        $member = User::findOrFail($this->contextInt('member'));
-
-        abort_if($team->owner()?->is($member), 403, __('teams.members.owner-cannot-be-removed'));
+        abort_if($team->owner()?->is($member) === true, 403, __('teams.members.owner-cannot-be-removed'));
 
         $team->memberships()->where('user_id', $member->id)->delete();
 

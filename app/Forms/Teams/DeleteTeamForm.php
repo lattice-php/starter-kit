@@ -5,11 +5,9 @@ namespace App\Forms\Teams;
 
 use App\Actions\Teams\DeleteTeam;
 use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Models\Team;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form as FormComponent;
@@ -21,17 +19,16 @@ use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Variant;
 
-#[AsForm('teams.delete')]
+#[AsForm('teams.delete', can: 'delete', on: 'team')]
 class DeleteTeamForm extends FormDefinition
 {
     use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
 
     public function __construct(private readonly DeleteTeam $deleteTeam) {}
 
     public function definition(FormComponent $form, Request $request): FormComponent
     {
-        $team = $request->route('team');
+        $team = $this->contextModelOrNull('team');
 
         return $form
             ->method(HttpMethod::Delete)
@@ -42,7 +39,10 @@ class DeleteTeamForm extends FormDefinition
                     ->required()
                     ->rules(['string'])
                     ->rules(fn (): array => [function (string $attribute, mixed $value, Closure $fail): void {
-                        if ((string) $value !== $this->teamFromContext()->name) {
+                        /** @var Team $team */
+                        $team = $this->contextModel('team');
+
+                        if ((string) $value !== $team->name) {
                             $fail(__('teams.delete.name-mismatch'));
                         }
                     }]),
@@ -51,11 +51,10 @@ class DeleteTeamForm extends FormDefinition
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(): LatticeResponse
     {
-        $team = $this->teamFromContext();
-
-        Gate::authorize('delete', $team);
+        /** @var Team $team */
+        $team = $this->contextModel('team');
 
         $this->deleteTeam->handle($this->currentUser(), $team);
 

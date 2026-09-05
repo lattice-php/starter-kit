@@ -14,9 +14,9 @@ use Lattice\Ui\Components\Heading;
 use Lattice\Ui\Components\Link;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
-use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -37,7 +37,7 @@ class VerifyEmailPage extends Page
                 ->schema([
                     Heading::make(__('auth.verify-email.heading'), 2),
                     Text::make(__('auth.verify-email.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             Form::make('verify-email-form')
                 ->action(route('verification.send', absolute: false))

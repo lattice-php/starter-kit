@@ -19,7 +19,7 @@
             })();
         </script>
 
-        {{-- Inline style matching lattice's default theme background, applied before the stylesheet loads. --}}
+        {{-- Inline style to set the HTML background color before the stylesheet loads; values mirror lattice's --lt-bg defaults --}}
         <style>
             html {
                 background-color: oklch(0.976 0.003 210);
@@ -34,17 +34,8 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-        @fonts
-
         @viteReactRefresh
-        @php
-            $viteAssets = ['resources/css/app.css', 'resources/js/app.tsx'];
-
-            if ($page['component'] !== 'lattice/page') {
-                $viteAssets[] = "resources/js/pages/{$page['component']}.tsx";
-            }
-        @endphp
-        @vite($viteAssets)
+        @vite(['resources/css/app.css', 'resources/js/app.tsx'])
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>

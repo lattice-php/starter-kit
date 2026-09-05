@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Settings;
 
-use App\Concerns\ResolvesCurrentUser;
-use Illuminate\Http\Request;
+use Laravel\Passkeys\Passkey;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action;
@@ -14,8 +13,6 @@ use Lattice\Ui\Enums\Variant;
 #[AsAction('settings.passkeys.delete')]
 class DeletePasskey extends ActionDefinition
 {
-    use ResolvesCurrentUser;
-
     public function definition(Action $action): Action
     {
         return $action
@@ -28,15 +25,16 @@ class DeletePasskey extends ActionDefinition
             );
     }
 
-    #[\Override]
-    public function authorize(Request $request): bool
+    /**
+     * The `passkey` context resolver scopes the lookup to the signed-in user,
+     * so a reference naming someone else's passkey resolves to nothing.
+     */
+    public function handle(): ActionResult
     {
-        return $this->currentUser()->passkeys()->whereKey($this->context('passkey'))->exists();
-    }
+        /** @var Passkey $passkey */
+        $passkey = $this->contextModel('passkey');
 
-    public function handle(Request $request): ActionResult
-    {
-        $this->currentUser()->passkeys()->whereKey($this->context('passkey'))->delete();
+        $passkey->delete();
 
         return ActionResult::success()
             ->toast(__('settings.passkeys.removed'))

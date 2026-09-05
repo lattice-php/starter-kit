@@ -32,8 +32,8 @@ test('users cannot delete another users passkey', function () {
     $passkey = createPasskey($other);
 
     $this->actingAs($user)
-        ->callDeniedAction(DeletePasskey::class, context: ['passkey' => $passkey->id])
-        ->assertForbidden();
+        ->callAction(DeletePasskey::class, context: ['passkey' => $passkey->id])
+        ->assertNotFound();
 
     expect($other->passkeys()->whereKey($passkey->id)->exists())->toBeTrue();
 });

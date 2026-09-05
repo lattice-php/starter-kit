@@ -24,7 +24,8 @@ use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\HttpMethod;
-use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Orientation;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -47,7 +48,7 @@ class LoginPage extends Page
                 ->schema([
                     Heading::make(__('auth.login.heading'), 2),
                     Text::make(__('auth.login.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             PasskeyVerify::make(
                 route('passkey.login-options', absolute: false),
@@ -84,7 +85,7 @@ class LoginPage extends Page
             Button::make(__('common.action.log-in'))->submit(),
             Stack::make('login-register-prompt')
                 ->align(Align::Center)
-                ->direction(StackDirection::Row)
+                ->direction(Orientation::Horizontal)
                 ->gap(Gap::ExtraSmall)
                 ->schema([
                     Text::make(__('auth.login.no-account')),

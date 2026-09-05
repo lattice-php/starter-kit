@@ -5,7 +5,6 @@ namespace App\Actions\Settings;
 
 use App\Concerns\ResolvesCurrentUser;
 use App\Fragments\Settings\TwoFactorSetupFragment;
-use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Lattice\Actions\ActionDefinition;
@@ -31,7 +30,7 @@ class EnableTwoFactorAuthenticationAction extends ActionDefinition
             ->method(HttpMethod::Post);
     }
 
-    public function handle(Request $request): ActionResult
+    public function handle(): ActionResult
     {
         $user = $this->currentUser();
 

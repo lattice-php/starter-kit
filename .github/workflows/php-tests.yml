@@ -1,0 +1,37 @@
+name: php-tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+# No node toolchain and no Playwright download: the Unit and Feature suites never
+# touch public/build. That work lives in the js and browser workflows.
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        php-version: ['8.4', '8.5']
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-test-env
+        with:
+          php_version: ${{ matrix.php-version }}
+
+      - name: Tests
+        timeout-minutes: 6
+        run: php artisan test --compact --parallel --exclude-testsuite Browser

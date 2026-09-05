@@ -6,6 +6,8 @@ export const iconNames = [
   "align-left",
   "align-right",
   "arrow-down",
+  "arrow-left-to-line",
+  "arrow-right-to-line",
   "arrow-up",
   "bell",
   "bold",
@@ -22,6 +24,7 @@ export const iconNames = [
   "clock",
   "code",
   "code-xml",
+  "columns-2",
   "columns-3",
   "copy",
   "corner-down-right",
@@ -34,11 +37,17 @@ export const iconNames = [
   "heading-1",
   "heading-2",
   "heading-3",
+  "heading-4",
+  "heading-5",
+  "heading-6",
   "highlighter",
+  "image",
+  "images",
   "info",
   "italic",
   "key-round",
   "layout-dashboard",
+  "layout-template",
   "link",
   "list",
   "list-ordered",
@@ -48,21 +57,26 @@ export const iconNames = [
   "logo",
   "minus",
   "more-horizontal",
+  "move-vertical",
   "panel-left",
   "pencil",
   "pencil-line",
+  "pilcrow",
   "plus",
   "quote",
+  "redo-2",
   "rotate-ccw",
   "rows-3",
   "search",
   "send",
   "settings",
   "smile",
+  "square",
   "strikethrough",
   "table",
   "trash-2",
   "underline",
+  "undo-2",
   "users",
   "x",
 ] as const;
@@ -76,6 +90,8 @@ declare module "@lattice-php/ui" {
     "align-left": true;
     "align-right": true;
     "arrow-down": true;
+    "arrow-left-to-line": true;
+    "arrow-right-to-line": true;
     "arrow-up": true;
     bell: true;
     bold: true;
@@ -92,6 +108,7 @@ declare module "@lattice-php/ui" {
     clock: true;
     code: true;
     "code-xml": true;
+    "columns-2": true;
     "columns-3": true;
     copy: true;
     "corner-down-right": true;
@@ -104,11 +121,17 @@ declare module "@lattice-php/ui" {
     "heading-1": true;
     "heading-2": true;
     "heading-3": true;
+    "heading-4": true;
+    "heading-5": true;
+    "heading-6": true;
     highlighter: true;
+    image: true;
+    images: true;
     info: true;
     italic: true;
     "key-round": true;
     "layout-dashboard": true;
+    "layout-template": true;
     link: true;
     list: true;
     "list-ordered": true;
@@ -118,21 +141,26 @@ declare module "@lattice-php/ui" {
     logo: true;
     minus: true;
     "more-horizontal": true;
+    "move-vertical": true;
     "panel-left": true;
     pencil: true;
     "pencil-line": true;
+    pilcrow: true;
     plus: true;
     quote: true;
+    "redo-2": true;
     "rotate-ccw": true;
     "rows-3": true;
     search: true;
     send: true;
     settings: true;
     smile: true;
+    square: true;
     strikethrough: true;
     table: true;
     "trash-2": true;
     underline: true;
+    "undo-2": true;
     users: true;
     x: true;
   }

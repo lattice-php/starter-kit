@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Tables\Teams;
 
 use App\Actions\Teams\CancelInvitation;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Models\Team;
 use App\Models\TeamInvitation;
 use App\Models\User;
@@ -23,11 +22,9 @@ use Lattice\Table\TableResult;
 use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Size;
 
-#[AsTable('teams.invitations')]
+#[AsTable('teams.invitations', can: 'view', on: 'team')]
 class TeamInvitationsTable extends TableDefinition
 {
-    use ResolvesTeamFromContext;
-
     public function layout(): string
     {
         return 'grid';
@@ -53,10 +50,11 @@ class TeamInvitationsTable extends TableDefinition
 
     public function actions(array $row): array
     {
-        $team = $this->optionalTeamFromContext();
+        /** @var Team $team */
+        $team = $this->contextModel('team');
         $user = auth()->user();
 
-        if (! $team instanceof Team || ! $user instanceof User || ! $user->can('cancelInvitation', $team)) {
+        if (! $user instanceof User || ! $user->can('cancelInvitation', $team)) {
             return [];
         }
 
@@ -64,7 +62,7 @@ class TeamInvitationsTable extends TableDefinition
             ActionGroup::make("teams.invitations.{$row['id']}.actions")
                 ->label(__('teams.invitations.actions-label'))
                 ->actions([
-                    Action::use(CancelInvitation::class, ['team' => $team->slug, 'invitation' => $row['code']]),
+                    Action::use(CancelInvitation::class, ['invitation' => $row['code']]),
                 ]),
         ];
     }
@@ -72,10 +70,9 @@ class TeamInvitationsTable extends TableDefinition
     public function source(): TableSource
     {
         return new CallbackTableSource(function (TableQuery $query): TableResult {
-            $team = $this->optionalTeamFromContext();
-            $user = auth()->user();
+            $team = $this->contextModelOrNull('team');
 
-            if (! $team instanceof Team || ! $user instanceof User || ! $user->belongsToTeam($team)) {
+            if (! $team instanceof Team) {
                 return TableResult::fromItems([]);
             }
 

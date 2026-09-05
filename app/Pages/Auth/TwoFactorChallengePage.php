@@ -13,8 +13,8 @@ use Lattice\Http\Page;
 use Lattice\Ui\Components\Heading;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
-use Lattice\Ui\Enums\Align;
 use Lattice\Ui\Enums\Gap;
+use Lattice\Ui\Enums\TextAlign;
 use Lattice\Ui\PageSchema;
 
 #[AsPage(layout: PageLayout::Auth)]
@@ -33,7 +33,7 @@ class TwoFactorChallengePage extends Page
                 ->schema([
                     Heading::make(__('auth.two-factor.heading'), 2),
                     Text::make(__('auth.two-factor.subtitle'))
-                        ->align(Align::Center),
+                        ->align(TextAlign::Center),
                 ]),
             Form::make('two-factor-challenge')
                 ->action(route('two-factor.login.store', absolute: false))

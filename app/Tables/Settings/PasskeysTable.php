@@ -74,7 +74,7 @@ class PasskeysTable extends TableDefinition
                         'id' => $passkey->id,
                         'name' => $passkey->name,
                         'authenticator' => $passkey->authenticator ?? '',
-                        'created_at_diff' => __('settings.passkeys.added', ['time' => $passkey->created_at->diffForHumans()]),
+                        'created_at_diff' => __('settings.passkeys.added', ['time' => $passkey->created_at?->diffForHumans() ?? '']),
                         'last_used_at_diff' => $passkey->last_used_at === null
                             ? __('settings.passkeys.never-used')
                             : __('settings.passkeys.last-used-at', ['time' => $passkey->last_used_at->diffForHumans()]),

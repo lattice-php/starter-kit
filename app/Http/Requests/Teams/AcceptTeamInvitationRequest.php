@@ -31,6 +31,9 @@ class AcceptTeamInvitationRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function validationData(): array
     {
         return array_merge(parent::validationData(), [

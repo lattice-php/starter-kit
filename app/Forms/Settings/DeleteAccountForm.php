@@ -16,7 +16,7 @@ use Lattice\Ui\Components\Heading;
 use Lattice\Ui\Components\Stack;
 use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\HttpMethod;
-use Lattice\Ui\Enums\StackDirection;
+use Lattice\Ui\Enums\Orientation;
 use Lattice\Ui\Enums\Variant;
 
 #[AsForm('settings.delete-account')]
@@ -37,7 +37,7 @@ class DeleteAccountForm extends FormDefinition
                     ->required()
                     ->rules(['current_password']),
                 Stack::make('delete-account-actions')
-                    ->direction(StackDirection::Row)
+                    ->direction(Orientation::Horizontal)
                     ->schema([
                         Button::make(__('settings.delete-account.submit'))->submit()->variant(Variant::Danger),
                     ]),
@@ -49,8 +49,6 @@ class DeleteAccountForm extends FormDefinition
     public function handle(Request $request): RedirectResponse
     {
         $user = $this->currentUser();
-
-        $this->validate($request);
 
         Auth::logout();
 

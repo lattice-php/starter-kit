@@ -1,0 +1,36 @@
+name: php-static
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+# Style and static analysis need vendor/ but no node toolchain, so this reports
+# minutes before the suites do.
+jobs:
+  php-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-test-env
+
+      - name: Check PHP Code Style
+        run: composer lint:check
+
+      - name: Static Analysis
+        run: vendor/bin/phpstan analyse --no-progress
+
+      - name: Rector
+        run: composer rector:check

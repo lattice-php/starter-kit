@@ -33,7 +33,7 @@ test('confirming a valid code through the lattice form enables two factor', func
     app(EnableTwoFactorAuthentication::class)($user);
     $user->refresh();
 
-    $secret = Fortify::currentEncrypter()->decrypt($user->two_factor_secret);
+    $secret = Fortify::currentEncrypter()->decrypt((string) $user->two_factor_secret);
     $code = app(Google2FA::class)->getCurrentOtp($secret);
 
     $this->actingAs($user)
@@ -41,7 +41,7 @@ test('confirming a valid code through the lattice form enables two factor', func
         ->submitForm(ConfirmTwoFactorForm::class, ['code' => $code])
         ->assertRedirect();
 
-    expect($user->fresh()->hasEnabledTwoFactorAuthentication())->toBeTrue();
+    expect($user->refresh()->hasEnabledTwoFactorAuthentication())->toBeTrue();
 });
 
 test('the security tab lists recovery codes when two factor is enabled', function () {
@@ -69,7 +69,7 @@ test('enabling two factor ships the setup modal', function () {
         ->assertOk()
         ->assertJsonFragment(['type' => 'open-modal']);
 
-    expect($user->fresh()->two_factor_secret)->not->toBeNull();
+    expect($user->refresh()->two_factor_secret)->not->toBeNull();
 });
 
 test('two factor lattice actions require the fortify feature', function () {

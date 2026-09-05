@@ -20,7 +20,7 @@ test('the dashboard landing redirects to the current team dashboard', function (
     $user = User::factory()->create();
 
     $this->actingAs($user)->get(route('dashboard.home'))
-        ->assertRedirect(route('dashboard', ['current_team' => $user->personalTeam()->slug]));
+        ->assertRedirect(route('dashboard', ['current_team' => personalTeam($user)->slug]));
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {

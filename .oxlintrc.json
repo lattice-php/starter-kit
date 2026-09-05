@@ -1,13 +1,15 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "ignorePatterns": ["resources/js/types/sprite-icons.ts"],
+  "ignorePatterns": ["resources/js/types/sprite-icons.ts", "resources/js/lattice/generated.d.ts"],
   "plugins": ["typescript", "unicorn", "oxc", "react", "jsx-a11y", "import"],
   "categories": {
-    "correctness": "error"
+    "correctness": "error",
+    "suspicious": "warn"
   },
   "rules": {
     "jsx-a11y/no-autofocus": "off",
-    "jsx-a11y/prefer-tag-over-role": "off"
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "env": {
     "builtin": true

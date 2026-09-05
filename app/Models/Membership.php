@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Enums\TeamRole;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -32,10 +33,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @mixin \Eloquent
  */
 #[Fillable(['team_id', 'user_id', 'role'])]
+#[Table(name: 'team_members')]
 class Membership extends Pivot
 {
-    protected $table = 'team_members';
-
     public $incrementing = true;
 
     /**

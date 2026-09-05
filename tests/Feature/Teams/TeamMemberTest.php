@@ -19,7 +19,7 @@ test('team member roles can be updated by owners', function () {
         ->callAction(UpdateMemberRole::class, ['role' => TeamRole::Admin->value], ['team' => $team->slug, 'member' => $member->id])
         ->assertOk();
 
-    expect($team->members()->where('user_id', $member->id)->first()->pivot->role->value)->toEqual(TeamRole::Admin->value);
+    expect($member->teamRole($team))->toBe(TeamRole::Admin);
 });
 
 test('team member roles cannot be updated by non owners', function () {
@@ -49,7 +49,7 @@ test('team members can be removed by owners', function () {
         ->callAction(RemoveMember::class, [], ['team' => $team->slug, 'member' => $member->id])
         ->assertOk();
 
-    expect($member->fresh()->belongsToTeam($team))->toBeFalse();
+    expect($member->refresh()->belongsToTeam($team))->toBeFalse();
 });
 
 test('team members cannot be removed by non owners', function () {
@@ -77,7 +77,7 @@ test('team owner cannot be removed', function () {
         ->callAction(RemoveMember::class, [], ['team' => $team->slug, 'member' => $owner->id])
         ->assertForbidden();
 
-    expect($owner->fresh()->belongsToTeam($team))->toBeTrue();
+    expect($owner->refresh()->belongsToTeam($team))->toBeTrue();
 });
 
 test('team member role cannot be set to owner', function () {
@@ -92,13 +92,13 @@ test('team member role cannot be set to owner', function () {
         ->callAction(UpdateMemberRole::class, ['role' => TeamRole::Owner->value], ['team' => $team->slug, 'member' => $member->id])
         ->assertSessionHasErrors('role');
 
-    expect($team->members()->where('user_id', $member->id)->first()->pivot->role->value)->toEqual(TeamRole::Member->value);
+    expect($member->teamRole($team))->toBe(TeamRole::Member);
 });
 
 test('removed member current team is set to personal team', function () {
     $owner = User::factory()->create();
     $member = User::factory()->create();
-    $personalTeam = $member->personalTeam();
+    $personalTeam = personalTeam($member);
     $team = Team::factory()->create();
 
     $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
@@ -109,5 +109,5 @@ test('removed member current team is set to personal team', function () {
     $this->actingAs($owner)
         ->callAction(RemoveMember::class, [], ['team' => $team->slug, 'member' => $member->id]);
 
-    expect($member->fresh()->current_team_id)->toEqual($personalTeam->id);
+    expect($member->refresh()->current_team_id)->toEqual($personalTeam->id);
 });

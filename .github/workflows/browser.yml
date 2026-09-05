@@ -1,0 +1,44 @@
+name: browser
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+# Split out from the Unit/Feature suites so a flaking browser run reports its own
+# status check instead of failing the context that carries the fast tests.
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-test-env
+        with:
+          build_js: 'true'
+          enable_playwright: 'true'
+
+      - name: Browser Tests
+        timeout-minutes: 6
+        run: php artisan test tests/Browser --compact
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-screenshots
+          path: tests/Browser/Screenshots/
+          if-no-files-found: ignore
+          retention-days: 7

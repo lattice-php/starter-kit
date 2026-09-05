@@ -19,7 +19,7 @@ use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
 
-#[AsPage(route: 'settings/teams', name: 'teams.index', layout: PageLayout::App, middleware: ['web', 'auth', 'verified'])]
+#[AsPage(route: 'settings/teams', name: 'teams.index', layout: PageLayout::App, middleware: ['auth', 'verified'])]
 class TeamsPage extends Page
 {
     use ListensForUserNotifications;

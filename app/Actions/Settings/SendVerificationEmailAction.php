@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Actions\Settings;
 
 use App\Concerns\ResolvesCurrentUser;
-use Illuminate\Http\Request;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action as ActionComponent;
@@ -26,7 +25,7 @@ class SendVerificationEmailAction extends ActionDefinition
             ->emphasis(Emphasis::Link);
     }
 
-    public function handle(Request $request): ActionResult
+    public function handle(): ActionResult
     {
         $user = $this->currentUser();
 

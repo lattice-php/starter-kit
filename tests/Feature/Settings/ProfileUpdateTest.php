@@ -37,7 +37,7 @@ test('changing the email resets the verification status', function () {
         ])
         ->assertRedirect();
 
-    expect($user->fresh()->email_verified_at)->toBeNull();
+    expect($user->refresh()->email_verified_at)->toBeNull();
 });
 
 test('updating with an unchanged email keeps the verification status', function () {
@@ -53,5 +53,5 @@ test('updating with an unchanged email keeps the verification status', function 
         ])
         ->assertRedirect();
 
-    expect($user->fresh()->email_verified_at)->not->toBeNull();
+    expect($user->refresh()->email_verified_at)->not->toBeNull();
 });
