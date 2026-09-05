@@ -70,6 +70,7 @@ There are no page components to write. A screen is a PHP class:
 | `app/Forms/`               | `#[AsForm]` classes — fields, validation, and submit handling         |
 | `app/Tables/`              | `#[AsTable]` classes — columns, sources, and row actions              |
 | `app/Actions/`             | `#[AsAction]` classes — server-side effects (toast, redirect, reload) |
+| `app/Components/`          | custom wire components, plus the `PageHeader` factory pages open with |
 | `resources/js/components/` | the handful of custom React components, registered in `app.tsx`       |
 
 Records reach a definition through Lattice's context registry rather than through route parameters —
