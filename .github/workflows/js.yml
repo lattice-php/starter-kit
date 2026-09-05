@@ -1,0 +1,49 @@
+name: js
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+# vendor/ is installed even though nothing here runs PHP tests: the Vite build
+# resolves Lattice component packages out of composer's installed.json, and
+# lattice:typescript needs the PHP definitions to generate from.
+jobs:
+  js:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-test-env
+        with:
+          install_js: 'true'
+
+      - name: Check Frontend Formatting
+        run: npm run format:check
+
+      - name: Lint Frontend
+        run: npm run lint:check
+
+      - name: Check Types
+        run: npm run types:check
+
+      # The committed wire types must match what the PHP definitions produce;
+      # a stale generated.d.ts is a silent type lie on the client.
+      - name: Check Generated Lattice Types
+        run: |
+          php artisan lattice:typescript
+          git diff --exit-code resources/js/lattice/generated.d.ts
+
+      - name: Build
+        run: npm run build

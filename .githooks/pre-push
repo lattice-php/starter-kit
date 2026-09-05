@@ -1,0 +1,92 @@
+#!/bin/sh
+set -e
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+
+zero='0000000000000000000000000000000000000000'
+
+# git feeds pre-push "<local ref> <local sha> <remote ref> <remote sha>" per ref.
+# Anything unexpected (no stdin, unknown remote sha, deletions mixed in) falls
+# through to running the full gate — being slow is the safe failure here.
+changed_files() {
+    scope_known=0
+    while read -r _local_ref local_sha _remote_ref remote_sha; do
+        [ "$local_sha" = "$zero" ] && continue
+
+        if [ "$remote_sha" = "$zero" ] || ! git cat-file -e "$remote_sha" 2>/dev/null; then
+            base="$(git merge-base origin/main "$local_sha" 2>/dev/null || true)"
+            [ -z "$base" ] && return 1
+        else
+            base="$remote_sha"
+        fi
+
+        git diff --name-only "$base" "$local_sha" || return 1
+        scope_known=1
+    done
+
+    [ "$scope_known" = 1 ] || return 1
+}
+
+files="$(changed_files || echo '__UNKNOWN__')"
+
+if [ -z "$files" ]; then
+    printf 'nothing to push\n'
+    exit 0
+fi
+
+matches() {
+    printf '%s\n' "$files" | grep -qE "$1"
+}
+
+if [ "$files" != '__UNKNOWN__' ]; then
+    # Docs and agent/meta files carry no code the gates can check.
+    if ! matches '^(app|bootstrap|config|database|lang|public|resources|routes|tests)/|^(composer|package|phpunit|pint|tsconfig|vite\.config)|^\.oxlintrc'; then
+        printf 'docs/meta only — skipping the gate\n'
+        exit 0
+    fi
+fi
+
+run_php=1
+run_ts=1
+run_build=1
+
+if [ "$files" != '__UNKNOWN__' ]; then
+    matches '\.php$|^composer\.(json|lock)$|^(config|database|routes|lang)/' || run_php=0
+    matches '\.(ts|tsx|css)$|^(package\.json|package-lock\.json|tsconfig\.json|vite\.config\.ts|\.oxlintrc\.json)$' || run_ts=0
+    matches '\.(ts|tsx|css)$|^(package\.json|package-lock\.json|vite\.config\.ts)$' || run_build=0
+fi
+
+# The JS and PHP gates are independent, so the JS gate runs in the background
+# while phpstan holds the foreground; its buffered log is shown only on failure.
+# Repeating the JS checks here is deliberate: pre-commit already fixes them, but
+# a --no-verify commit would otherwise reach CI unchecked.
+js_pid=''
+if [ "$run_ts" = 1 ]; then
+    printf 'npm run format:check + lint:check + types:check (background)\n'
+    js_log="$(mktemp)"
+    { npm run format:check && npm run lint:check && npm run types:check; } >"$js_log" 2>&1 &
+    js_pid=$!
+fi
+
+if [ "$run_php" = 1 ]; then
+    printf 'phpstan\n'
+    vendor/bin/phpstan analyse --no-progress
+fi
+
+if [ -n "$js_pid" ]; then
+    if ! wait "$js_pid"; then
+        cat "$js_log" >&2
+        rm -f "$js_log"
+        exit 1
+    fi
+    rm -f "$js_log"
+fi
+
+printf 'composer test\n'
+composer test
+
+if [ "$run_build" = 1 ]; then
+    printf 'npm run build\n'
+    npm run build
+fi

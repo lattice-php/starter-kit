@@ -1,0 +1,80 @@
+#!/bin/sh
+set -e
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root"
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+# A file that is staged AND dirty carries hunks the author deliberately held
+# back. Formatting it in place and re-staging would sweep those into the commit,
+# so those files are only checked and the commit is refused instead.
+split_staged() {
+    kind="$1"
+    shift
+    git diff --cached --name-only --diff-filter=ACMR -- "$@" | sort >"$tmp/staged.$kind"
+    git diff --name-only -- "$@" | sort >"$tmp/dirty.$kind"
+    comm -23 "$tmp/staged.$kind" "$tmp/dirty.$kind" >"$tmp/fix.$kind"
+    comm -12 "$tmp/staged.$kind" "$tmp/dirty.$kind" >"$tmp/check.$kind"
+}
+
+# NUL-delimited so paths with spaces survive.
+run() {
+    list="$1"
+    shift
+    tr '\n' '\0' <"$list" | xargs -0 "$@"
+}
+
+has() {
+    [ -s "$1" ]
+}
+
+split_staged php '*.php'
+split_staged ts '*.ts' '*.tsx' ':(exclude)resources/js/types/sprite-icons.ts'
+split_staged md '*.md'
+
+if has "$tmp/fix.php"; then
+    printf 'rector + pint (staged PHP)\n'
+    # Rector before pint: rector's output is not pint-clean, pint normalizes it.
+    run "$tmp/fix.php" ./vendor/bin/rector process --config=rector.php --no-progress-bar
+    run "$tmp/fix.php" ./vendor/bin/pint
+    run "$tmp/fix.php" git add
+fi
+
+if has "$tmp/fix.ts"; then
+    printf 'oxfmt + oxlint (staged TypeScript)\n'
+    run "$tmp/fix.ts" ./node_modules/.bin/oxfmt --write
+    run "$tmp/fix.ts" ./node_modules/.bin/oxlint --fix --no-error-on-unmatched-pattern
+    run "$tmp/fix.ts" git add
+    run "$tmp/fix.ts" ./node_modules/.bin/oxlint --no-error-on-unmatched-pattern
+fi
+
+if has "$tmp/fix.md"; then
+    printf 'oxfmt (staged Markdown)\n'
+    run "$tmp/fix.md" ./node_modules/.bin/oxfmt --write
+    run "$tmp/fix.md" git add
+fi
+
+if has "$tmp/check.php" || has "$tmp/check.ts" || has "$tmp/check.md"; then
+    printf '\npartially staged — checked, not fixed:\n'
+    cat "$tmp/check.php" "$tmp/check.ts" "$tmp/check.md"
+
+    failed=0
+    if has "$tmp/check.php"; then
+        run "$tmp/check.php" ./vendor/bin/pint --test || failed=1
+        run "$tmp/check.php" ./vendor/bin/rector process --config=rector.php --dry-run --no-progress-bar || failed=1
+    fi
+    if has "$tmp/check.ts"; then
+        run "$tmp/check.ts" ./node_modules/.bin/oxfmt --check || failed=1
+        run "$tmp/check.ts" ./node_modules/.bin/oxlint --no-error-on-unmatched-pattern || failed=1
+    fi
+    if has "$tmp/check.md"; then
+        run "$tmp/check.md" ./node_modules/.bin/oxfmt --check || failed=1
+    fi
+
+    if [ "$failed" -ne 0 ]; then
+        printf '\nStage or stash the rest of these files, then commit again.\n' >&2
+        exit 1
+    fi
+fi
