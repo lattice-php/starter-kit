@@ -7,8 +7,12 @@ paths:
 
 ## Pest, with RefreshDatabase applied globally
 
-`tests/Pest.php` binds `Tests\TestCase` and `RefreshDatabase` to the `Feature` and `Browser` suites. Never re-add
-`uses(RefreshDatabase::class)` in a test file.
+`tests/Pest.php` binds `Tests\TestCase` plus `RefreshDatabase` to the `Feature` suite and `Tests\BrowserTestCase` to
+the `Browser` suite. Never re-add `uses(RefreshDatabase::class)` in a test file.
+
+`Tests\TestCase` stubs Vite (`withoutVite()`): a feature test renders a real route, and `@vite` throws without a
+built manifest. That is what keeps the Feature suite off the node toolchain. `Tests\BrowserTestCase` turns the stub
+off, because a browser test drives the built bundle.
 
 ## Prefer feature tests
 
