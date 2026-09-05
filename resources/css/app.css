@@ -4,6 +4,14 @@
 @import '@fontsource-variable/instrument-sans/wght.css';
 
 @source '../views';
+/*
+ * The lattice vite plugin sources every discovered *component* package, and
+ * @lattice-php/ui/css sources its own dist — but not the sibling runtime
+ * packages. @lattice-php/core owns the responsive-visibility wrapper
+ * (`hidden md:contents`), so without this glob `visibleFrom()`/`hiddenFrom()`
+ * silently hide a node at every width.
+ */
+@source '../../node_modules/@lattice-php/*/dist';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));

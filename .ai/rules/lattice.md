@@ -49,6 +49,12 @@ Lattice validates a form or action form before `handle()` runs and passes the re
 rest of the `ValidatedInput` API. Never call `$this->validate($request)` yourself, and never read raw request input
 for a field the schema declares.
 
+## A table calls actions() once per row
+
+An unmemoized `$user->can(...)` in `actions()` is a query per row. `App\Tables\Concerns\AuthorizesRowActions` caches
+the answer on the definition instance, which lives exactly one render — the window in which it cannot change. Reach
+for it rather than a cache on the model, where a later `attach()` would leave it stale.
+
 ## An empty ActionGroup still renders
 
 Lattice drops an unauthorized row action, but the `ActionGroup` wrapping it is a plain container and would render as

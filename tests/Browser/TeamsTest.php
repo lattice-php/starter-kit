@@ -39,6 +39,7 @@ it('renders teams and opens team editing from the row action', function () {
         ->assertNoJavaScriptErrors()
         ->click('[data-test="action-teams.'.$team->id.'.edit"]')
         ->assertPathIs('/settings/teams/lattice-core')
+        ->assertSeeIn('[data-test="app-breadcrumbs"]', 'Lattice Core')
         ->assertSee('Manage team settings, members, and invitations.')
         ->assertSee('Grace Hopper')
         ->click('[data-test="teams.members.'.$member->id.'.actions"]')
