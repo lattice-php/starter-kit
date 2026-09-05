@@ -6,21 +6,19 @@ namespace App\Pages;
 use App\Actions\Settings\DisableTwoFactorAuthenticationAction;
 use App\Actions\Settings\EnableTwoFactorAuthenticationAction;
 use App\Actions\Settings\RegenerateRecoveryCodesAction;
+use App\Components\PageHeader;
 use App\Components\Settings\PasskeyRegistration;
 use App\Concerns\ResolvesCurrentUser;
 use App\Forms\Settings\DeleteAccountForm;
 use App\Forms\Settings\PasswordSettingsForm;
 use App\Forms\Settings\ProfileSettingsForm;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
-use App\Pages\Concerns\ListensForUserNotifications;
 use App\Tables\Settings\PasskeysTable;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Features;
 use Lattice\Actions\Components\Action;
 use Lattice\Core\Attributes\AsPage;
-use Lattice\Core\Enums\PageLayout;
 use Lattice\Form\Components\Form;
-use Lattice\Http\Page;
 use Lattice\Table\Components\Table;
 use Lattice\Ui\Components\Component;
 use Lattice\Ui\Components\Heading;
@@ -33,10 +31,11 @@ use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
 
-#[AsPage(route: 'settings', name: 'settings.edit', layout: PageLayout::App, middleware: ['auth'])]
-class SettingsPage extends Page
+// No `verified` here, unlike every other app page: the profile tab is where an
+// unverified user resends their verification mail.
+#[AsPage(route: 'settings', name: 'settings.edit', middleware: ['auth'])]
+class SettingsPage extends AppPage
 {
-    use ListensForUserNotifications;
     use ResolvesCurrentUser;
 
     public function title(): string
@@ -55,12 +54,7 @@ class SettingsPage extends Page
                 ->gap(Gap::Large)
                 ->width(Width::Medium)
                 ->schema([
-                    Stack::make('settings-heading')
-                        ->gap(Gap::Small)
-                        ->schema([
-                            Heading::make(__('settings.heading'), 1),
-                            Text::make(__('settings.subtitle')),
-                        ]),
+                    PageHeader::make('settings-heading', __('settings.heading'), __('settings.subtitle')),
                     Tabs::make('settings-tabs')
                         ->defaultValue('profile')
                         ->schema([
@@ -89,12 +83,7 @@ class SettingsPage extends Page
     private function profileTab(): array
     {
         return [
-            Stack::make('profile-heading')
-                ->gap(Gap::Small)
-                ->schema([
-                    Heading::make(__('settings.profile.heading'), 2),
-                    Text::make(__('settings.profile.subtitle')),
-                ]),
+            PageHeader::section('profile-heading', __('settings.profile.heading'), __('settings.profile.subtitle')),
             Form::use(ProfileSettingsForm::class),
             Form::use(DeleteAccountForm::class),
         ];
@@ -111,12 +100,7 @@ class SettingsPage extends Page
         array $recoveryCodes = [],
     ): array {
         return [
-            Stack::make('security-heading')
-                ->gap(Gap::Small)
-                ->schema([
-                    Heading::make(__('settings.security.heading'), 2),
-                    Text::make(__('settings.security.subtitle')),
-                ]),
+            PageHeader::section('security-heading', __('settings.security.heading'), __('settings.security.subtitle')),
             Form::use(PasswordSettingsForm::class),
             Stack::make('two-factor-authentication')
                 ->gap(Gap::Small)
@@ -131,12 +115,7 @@ class SettingsPage extends Page
                 ->visible($canManageTwoFactor),
             $this->recoveryCodesSection($recoveryCodes)
                 ->visible($canManageTwoFactor && $twoFactorEnabled),
-            Stack::make('passkey-heading')
-                ->gap(Gap::Small)
-                ->schema([
-                    Heading::make(__('settings.passkeys.heading'), 2),
-                    Text::make(__('settings.passkeys.subtitle')),
-                ])
+            PageHeader::section('passkey-heading', __('settings.passkeys.heading'), __('settings.passkeys.subtitle'))
                 ->visible($canManagePasskeys),
             Table::lazy(PasskeysTable::class)
                 ->visible($canManagePasskeys),
@@ -183,12 +162,7 @@ class SettingsPage extends Page
     private function appearanceTab(string $appearance): array
     {
         return [
-            Stack::make('appearance-heading')
-                ->gap(Gap::Small)
-                ->schema([
-                    Heading::make(__('settings.appearance.heading'), 2),
-                    Text::make(__('settings.appearance.subtitle')),
-                ]),
+            PageHeader::section('appearance-heading', __('settings.appearance.heading'), __('settings.appearance.subtitle')),
             SegmentedControl::make('appearance', __('settings.appearance.label'))
                 ->value($appearance)
                 ->emits('lattice:appearance-change')
