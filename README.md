@@ -11,7 +11,7 @@ hand-writing the client.
 - **Authentication** — login, registration, password reset, and email verification via
   [Laravel Fortify](https://laravel.com/docs/fortify), plus **two-factor authentication** and
   **passkeys**.
-- **Teams** — multi-tenant teams with memberships, roles, and email invitations.
+- **Teams** — memberships, roles, and email invitations.
 - **Account settings** — profile, password, and security management.
 - **Realtime notifications** — live in-app toasts powered by [Laravel Reverb](https://laravel.com/docs/reverb)
   and Echo. Invite a teammate who already has an account and they are notified instantly, wherever
@@ -59,12 +59,40 @@ variables in `.env` (`reverb:install` generates them). The client connects in
 `resources/js/app.tsx` via `configureEcho`, and pages declare their listeners in PHP — see
 `app/Pages/Concerns/ListensForUserNotifications.php` for the team-invitation example.
 
-## Testing
+## Project layout
+
+There are no page components to write. A screen is a PHP class:
+
+| Directory                  | What lives there                                                      |
+| -------------------------- | --------------------------------------------------------------------- |
+| `app/Pages/`               | `#[AsPage]` classes — each registers its own route                    |
+| `app/Layouts/`             | `#[AsLayout]` classes — the app and auth chrome                       |
+| `app/Forms/`               | `#[AsForm]` classes — fields, validation, and submit handling         |
+| `app/Tables/`              | `#[AsTable]` classes — columns, sources, and row actions              |
+| `app/Actions/`             | `#[AsAction]` classes — server-side effects (toast, redirect, reload) |
+| `resources/js/components/` | the handful of custom React components, registered in `app.tsx`       |
+
+Records reach a definition through Lattice's context registry rather than through route parameters —
+the keys are registered in `AppServiceProvider::registerLatticeContext()`.
+
+## Testing and verification
 
 ```bash
-composer test          # Pint + the full Pest suite (feature, unit, browser)
-./vendor/bin/pest      # tests only
+composer test          # Pint + the Unit and Feature suites, in parallel
+composer test:browser  # the Pest browser suite (needs `npm run build` first)
+composer ci:check      # everything CI runs: frontend checks, PHPStan, Rector, tests
 ```
+
+Git hooks enforce the gate locally: `composer install` points `core.hooksPath` at `.githooks`, where
+**pre-commit** formats staged files and **pre-push** runs PHPStan, the test suite, and the build,
+scoped to what the push touches. Run `composer hooks:install` if the hooks are not active.
+
+## Working with an AI agent
+
+The kit ships agent instructions: `.ai/guidelines/` holds the project-wide guidance and `.ai/rules/`
+holds path-scoped conventions (`.ai/rules/index.md` maps globs to rule files).
+[Laravel Boost](https://github.com/laravel/boost) compiles them into `CLAUDE.md` / `AGENTS.md` with
+`php artisan boost:update` — both are git-ignored and regenerated locally.
 
 ## License
 
