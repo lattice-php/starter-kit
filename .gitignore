@@ -1,16 +1,14 @@
 /.phpunit.cache
+/.worktrees
 /bootstrap/ssr
 /tests/Browser/Screenshots
 /node_modules
 /public/build
-/public/fonts-manifest.dev.json
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
-/resources/js/actions
-/resources/js/routes
-/resources/js/wayfinder
+/resources/js/lattice/typescript-transformer-manifest.json
 /vendor
 .DS_Store
 .env
@@ -38,7 +36,10 @@ AGENTS.md
 CLAUDE.md
 docs/superpowers
 .superpowers
-storage/wayfinder-cache
+
+.playwright-mcp
 
 **/caddy
 /frankenphp
+/.phpstan-cache
+/.rector-cache

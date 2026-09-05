@@ -1,18 +1,25 @@
 @import 'tailwindcss';
 
 @import '@lattice-php/lattice/css';
+@import '@fontsource-variable/instrument-sans/wght.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+/*
+ * Lattice owns the design tokens (--lt-*, cascade-layered defaults); unlayered
+ * overrides here win regardless of import order.
+ */
+:root {
+    --lt-font-sans:
+        'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+}
 
+@theme {
     /* Bigger type scale — overrides lattice's compact default --text-* tokens. */
     --text-xs: 0.75rem;
     --text-xs--line-height: 1rem;
