@@ -4,33 +4,26 @@ declare(strict_types=1);
 namespace App\Actions\Teams;
 
 use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
-use Illuminate\Http\Request;
+use App\Models\Team;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action;
 use Lattice\Core\Attributes\AsAction;
 
-#[AsAction('teams.switch')]
+#[AsAction('teams.switch', can: 'view', on: 'team')]
 class SwitchTeam extends ActionDefinition
 {
     use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
 
     public function definition(Action $action): Action
     {
         return $action->label(__('teams.switch.label'));
     }
 
-    #[\Override]
-    public function authorize(Request $request): bool
+    public function handle(): ActionResult
     {
-        return $this->currentUser()->can('view', $this->teamFromContext());
-    }
-
-    public function handle(Request $request): ActionResult
-    {
-        $team = $this->teamFromContext();
+        /** @var Team $team */
+        $team = $this->contextModel('team');
 
         $this->currentUser()->switchTeam($team);
 

@@ -3,26 +3,22 @@ declare(strict_types=1);
 
 namespace App\Actions\Teams;
 
-use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Enums\TeamRole;
+use App\Models\Team;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action;
 use Lattice\Core\Attributes\AsAction;
 use Lattice\Form\Components\Choice;
+use Lattice\Form\FormData;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Variant;
 
-#[AsAction('teams.members.update')]
+#[AsAction('teams.members.update', can: 'updateMember', on: 'team')]
 class UpdateMemberRole extends ActionDefinition
 {
-    use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
-
     public function definition(Action $action): Action
     {
         return $action
@@ -37,22 +33,17 @@ class UpdateMemberRole extends ActionDefinition
             ]);
     }
 
-    #[\Override]
-    public function authorize(Request $request): bool
+    public function handle(FormData $data): ActionResult
     {
-        return $this->currentUser()->can('updateMember', $this->teamFromContext());
-    }
-
-    public function handle(Request $request): ActionResult
-    {
-        $team = $this->teamFromContext();
-        $validated = $this->validate($request);
-        $member = User::findOrFail($this->contextInt('member'));
+        /** @var Team $team */
+        $team = $this->contextModel('team');
+        /** @var User $member */
+        $member = $this->contextModel('member');
 
         $team->memberships()
             ->where('user_id', $member->id)
             ->firstOrFail()
-            ->update(['role' => TeamRole::from((string) $validated['role'])]);
+            ->update(['role' => $data->enum('role', TeamRole::class)]);
 
         return ActionResult::success()
             ->toast(__('teams.members.role-updated'))

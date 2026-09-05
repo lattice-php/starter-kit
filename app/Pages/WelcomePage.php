@@ -20,7 +20,7 @@ use Lattice\Ui\Enums\Variant;
 use Lattice\Ui\PageSchema;
 use Throwable;
 
-#[AsPage(route: '/', name: 'home', middleware: ['web'])]
+#[AsPage(route: '/', name: 'home')]
 final class WelcomePage extends Page
 {
     private ?Authenticatable $user = null;

@@ -5,7 +5,6 @@ namespace App\Tables\Teams;
 
 use App\Actions\Teams\RemoveMember;
 use App\Actions\Teams\UpdateMemberRole;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\User;
@@ -24,11 +23,9 @@ use Lattice\Table\TableResult;
 use Lattice\Ui\Components\Text;
 use Lattice\Ui\Enums\Size;
 
-#[AsTable('teams.members')]
+#[AsTable('teams.members', can: 'view', on: 'team')]
 class TeamMembersTable extends TableDefinition
 {
-    use ResolvesTeamFromContext;
-
     public function layout(): string
     {
         return 'grid';
@@ -54,18 +51,15 @@ class TeamMembersTable extends TableDefinition
 
     public function actions(array $row): array
     {
-        $team = $this->optionalTeamFromContext();
+        /** @var Team $team */
+        $team = $this->contextModel('team');
         $user = auth()->user();
 
-        if (! $team instanceof Team || ! $user instanceof User) {
+        if (! $user instanceof User || TeamRole::tryFrom((string) ($row['role'] ?? '')) === TeamRole::Owner) {
             return [];
         }
 
-        if (TeamRole::tryFrom((string) ($row['role'] ?? '')) === TeamRole::Owner) {
-            return [];
-        }
-
-        $context = ['team' => $team->slug, 'member' => $row['id']];
+        $context = ['member' => $row['id']];
         $actions = [];
 
         if ($user->can('updateMember', $team)) {
@@ -90,10 +84,9 @@ class TeamMembersTable extends TableDefinition
     public function source(): TableSource
     {
         return new CallbackTableSource(function (TableQuery $query): TableResult {
-            $team = $this->optionalTeamFromContext();
-            $user = auth()->user();
+            $team = $this->contextModelOrNull('team');
 
-            if (! $team instanceof Team || ! $user instanceof User || ! $user->belongsToTeam($team)) {
+            if (! $team instanceof Team) {
                 return TableResult::fromItems([]);
             }
 

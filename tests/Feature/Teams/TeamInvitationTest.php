@@ -87,7 +87,7 @@ test('team invitations cannot be created by members', function () {
     $team->members()->attach($member, ['role' => TeamRole::Member->value]);
 
     $this->actingAs($member)
-        ->submitForm(InviteTeamMemberForm::class, ['email' => 'invited@example.com', 'role' => TeamRole::Member->value], ['team' => $team->slug])
+        ->submitDeniedForm(InviteTeamMemberForm::class, ['email' => 'invited@example.com', 'role' => TeamRole::Member->value], ['team' => $team->slug])
         ->assertForbidden();
 });
 
@@ -127,8 +127,8 @@ test('team invitations can be accepted', function () {
         ->get(route('invitations.accept', $invitation))
         ->assertRedirect(route('dashboard', ['current_team' => $team->slug]));
 
-    expect($invitedUser->fresh()->belongsToTeam($team))->toBeTrue();
-    expect($invitation->fresh()->accepted_at)->not->toBeNull();
+    expect($invitedUser->refresh()->belongsToTeam($team))->toBeTrue()
+        ->and($invitation->refresh()->accepted_at)->not->toBeNull();
 });
 
 test('team invitations cannot be accepted by uninvited user', function () {
@@ -148,7 +148,7 @@ test('team invitations cannot be accepted by uninvited user', function () {
         ->get(route('invitations.accept', $invitation))
         ->assertSessionHasErrors('invitation');
 
-    expect($uninvitedUser->fresh()->belongsToTeam($team))->toBeFalse();
+    expect($uninvitedUser->refresh()->belongsToTeam($team))->toBeFalse();
 });
 
 test('expired invitations cannot be accepted', function () {
@@ -168,7 +168,7 @@ test('expired invitations cannot be accepted', function () {
         ->get(route('invitations.accept', $invitation))
         ->assertSessionHasErrors('invitation');
 
-    expect($invitedUser->fresh()->belongsToTeam($team))->toBeFalse();
+    expect($invitedUser->refresh()->belongsToTeam($team))->toBeFalse();
 });
 
 test('inviting an existing user broadcasts a realtime notification to them', function () {

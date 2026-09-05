@@ -10,6 +10,7 @@ use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form as FormComponent;
 use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 use Lattice\Ui\Components\Button;
@@ -41,11 +42,9 @@ class CreateTeamForm extends FormDefinition
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
-        $validated = $this->validate($request);
-
-        $team = $this->createTeam->handle($this->currentUser(), (string) $validated['name']);
+        $team = $this->createTeam->handle($this->currentUser(), $data->string('name')->toString());
 
         return Effects::respond()->toast(__('teams.create.created'))->toRoute('teams.edit', ['team' => $team->slug]);
     }

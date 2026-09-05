@@ -7,6 +7,7 @@ use App\Enums\TeamRole;
 use Carbon\CarbonImmutable;
 use Database\Factories\TeamFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\RouteKey;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,7 @@ use Illuminate\Support\Str;
  * @property CarbonImmutable|null $deleted_at
  * @property-read Collection<int, TeamInvitation> $invitations
  * @property-read int|null $invitations_count
- * @property-read Membership|null $pivot
+ * @property-read Membership $pivot
  * @property-read Collection<int, User> $members
  * @property-read int|null $members_count
  * @property-read Collection<int, Membership> $memberships
@@ -49,6 +50,7 @@ use Illuminate\Support\Str;
  * @mixin \Eloquent
  */
 #[Fillable(['name', 'slug', 'is_personal'])]
+#[RouteKey('slug')]
 class Team extends Model
 {
     /** @use HasFactory<TeamFactory> */
@@ -71,7 +73,7 @@ class Team extends Model
         });
     }
 
-    public function owner(): ?Model
+    public function owner(): ?User
     {
         return $this->members()
             ->wherePivot('role', TeamRole::Owner->value)
@@ -128,11 +130,6 @@ class Team extends Model
         return [
             'is_personal' => 'boolean',
         ];
-    }
-
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
     }
 
     protected static function generateUniqueTeamSlug(string $name, ?int $excludeId = null): string

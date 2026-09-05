@@ -82,7 +82,7 @@ test('teams cannot be updated by members', function () {
     $team->members()->attach($member, ['role' => TeamRole::Member->value]);
 
     $this->actingAs($member)
-        ->submitForm(UpdateTeamForm::class, ['name' => 'Updated Name'], ['team' => $team->slug])
+        ->submitDeniedForm(UpdateTeamForm::class, ['name' => 'Updated Name'], ['team' => $team->slug])
         ->assertForbidden();
 });
 
@@ -135,12 +135,12 @@ test('deleting current team switches to alphabetically first remaining team', fu
 
     $this->assertSoftDeleted('teams', ['id' => $zuluTeam->id]);
 
-    expect($user->fresh()->current_team_id)->toEqual($alphaTeam->id);
+    expect($user->refresh()->current_team_id)->toEqual($alphaTeam->id);
 });
 
 test('deleting current team falls back to personal team when alphabetically first', function () {
     $user = User::factory()->create();
-    $personalTeam = $user->personalTeam();
+    $personalTeam = personalTeam($user);
     $team = Team::factory()->create(['name' => 'Zulu Team']);
     $team->members()->attach($user, ['role' => TeamRole::Owner->value]);
 
@@ -152,12 +152,12 @@ test('deleting current team falls back to personal team when alphabetically firs
 
     $this->assertSoftDeleted('teams', ['id' => $team->id]);
 
-    expect($user->fresh()->current_team_id)->toEqual($personalTeam->id);
+    expect($user->refresh()->current_team_id)->toEqual($personalTeam->id);
 });
 
 test('deleting non current team leaves current team unchanged', function () {
     $user = User::factory()->create();
-    $personalTeam = $user->personalTeam();
+    $personalTeam = personalTeam($user);
     $team = Team::factory()->create();
     $team->members()->attach($user, ['role' => TeamRole::Owner->value]);
 
@@ -169,7 +169,7 @@ test('deleting non current team leaves current team unchanged', function () {
 
     $this->assertSoftDeleted('teams', ['id' => $team->id]);
 
-    expect($user->fresh()->current_team_id)->toEqual($personalTeam->id);
+    expect($user->refresh()->current_team_id)->toEqual($personalTeam->id);
 });
 
 test('deleting team switches other affected users to their personal team', function () {
@@ -187,15 +187,15 @@ test('deleting team switches other affected users to their personal team', funct
         ->submitForm(DeleteTeamForm::class, ['name' => $team->name], ['team' => $team->slug])
         ->assertRedirect();
 
-    expect($member->fresh()->current_team_id)->toEqual($member->personalTeam()->id);
+    expect($member->refresh()->current_team_id)->toEqual(personalTeam($member)->id);
 });
 
 test('personal teams cannot be deleted', function () {
     $user = User::factory()->create();
-    $personalTeam = $user->personalTeam();
+    $personalTeam = personalTeam($user);
 
     $this->actingAs($user)
-        ->submitForm(DeleteTeamForm::class, ['name' => $personalTeam->name], ['team' => $personalTeam->slug])
+        ->submitDeniedForm(DeleteTeamForm::class, ['name' => $personalTeam->name], ['team' => $personalTeam->slug])
         ->assertForbidden();
 
     $this->assertDatabaseHas('teams', [
@@ -213,7 +213,7 @@ test('teams cannot be deleted by non owners', function () {
     $team->members()->attach($member, ['role' => TeamRole::Member->value]);
 
     $this->actingAs($member)
-        ->submitForm(DeleteTeamForm::class, ['name' => $team->name], ['team' => $team->slug])
+        ->submitDeniedForm(DeleteTeamForm::class, ['name' => $team->name], ['team' => $team->slug])
         ->assertForbidden();
 });
 
@@ -228,7 +228,7 @@ test('users can switch teams', function () {
         ->assertOk()
         ->assertJsonFragment(['type' => 'redirect', 'url' => route('dashboard', ['current_team' => $team->slug])]);
 
-    expect($user->fresh()->current_team_id)->toEqual($team->id);
+    expect($user->refresh()->current_team_id)->toEqual($team->id);
 });
 
 test('users cannot switch to team they dont belong to', function () {

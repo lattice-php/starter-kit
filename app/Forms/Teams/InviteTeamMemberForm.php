@@ -4,29 +4,28 @@ declare(strict_types=1);
 namespace App\Forms\Teams;
 
 use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
 use App\Enums\TeamRole;
+use App\Models\Team;
 use App\Notifications\Teams\TeamInvitation;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Choice;
 use Lattice\Form\Components\Form as FormComponent;
 use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 use Lattice\Ui\Components\Button;
 use Lattice\Ui\Components\Grid;
 use Lattice\Ui\Enums\HttpMethod;
 
-#[AsForm('teams.invite')]
+#[AsForm('teams.invite', can: 'inviteMember', on: 'team')]
 class InviteTeamMemberForm extends FormDefinition
 {
     use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
 
     public function definition(FormComponent $form, Request $request): FormComponent
     {
@@ -43,7 +42,10 @@ class InviteTeamMemberForm extends FormDefinition
                             ->required()
                             ->rules(['string', 'max:255'])
                             ->rules(fn (): array => [function (string $attribute, mixed $value, Closure $fail): void {
-                                if ($this->teamFromContext()->hasMemberOrPendingInvitation((string) $value)) {
+                                /** @var Team $team */
+                                $team = $this->contextModel('team');
+
+                                if ($team->hasMemberOrPendingInvitation((string) $value)) {
                                     $fail(__('teams.invite.already-member'));
                                 }
                             }]),
@@ -57,17 +59,14 @@ class InviteTeamMemberForm extends FormDefinition
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
-        $team = $this->teamFromContext();
-
-        Gate::authorize('inviteMember', $team);
-
-        $validated = $this->validate($request);
+        /** @var Team $team */
+        $team = $this->contextModel('team');
 
         $invitation = $team->invitations()->create([
-            'email' => (string) $validated['email'],
-            'role' => TeamRole::from((string) $validated['role']),
+            'email' => $data->string('email')->toString(),
+            'role' => $data->enum('role', TeamRole::class),
             'invited_by' => $this->currentUser()->id,
             'expires_at' => now()->addDays(3),
         ]);

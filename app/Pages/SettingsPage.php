@@ -33,7 +33,7 @@ use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
 
-#[AsPage(route: 'settings', name: 'settings.edit', layout: PageLayout::App, middleware: ['web', 'auth'])]
+#[AsPage(route: 'settings', name: 'settings.edit', layout: PageLayout::App, middleware: ['auth'])]
 class SettingsPage extends Page
 {
     use ListensForUserNotifications;

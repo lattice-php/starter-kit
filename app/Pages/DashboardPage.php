@@ -21,7 +21,7 @@ use Lattice\Ui\Enums\Gap;
 use Lattice\Ui\Enums\Width;
 use Lattice\Ui\PageSchema;
 
-#[AsPage(route: '{current_team}/dashboard', name: 'dashboard', layout: PageLayout::App, middleware: ['web', 'auth', 'verified', 'can:view,current_team', SwitchesCurrentTeam::class])]
+#[AsPage(route: '{current_team}/dashboard', name: 'dashboard', layout: PageLayout::App, middleware: ['auth', 'verified', SwitchesCurrentTeam::class], can: 'view', on: 'current_team')]
 class DashboardPage extends Page
 {
     use ListensForUserNotifications;

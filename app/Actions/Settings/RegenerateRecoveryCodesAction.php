@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Actions\Settings;
 
 use App\Concerns\ResolvesCurrentUser;
-use Illuminate\Http\Request;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Laravel\Fortify\Features;
 use Lattice\Actions\ActionDefinition;
@@ -34,7 +33,7 @@ class RegenerateRecoveryCodesAction extends ActionDefinition
             );
     }
 
-    public function handle(Request $request): ActionResult
+    public function handle(): ActionResult
     {
         $user = $this->currentUser();
 

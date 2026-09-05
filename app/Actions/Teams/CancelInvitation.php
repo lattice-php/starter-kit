@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Teams;
 
-use App\Concerns\ResolvesCurrentUser;
-use App\Concerns\ResolvesTeamFromContext;
-use Illuminate\Http\Request;
+use App\Models\TeamInvitation;
 use Lattice\Actions\ActionDefinition;
 use Lattice\Actions\ActionResult;
 use Lattice\Actions\Components\Action;
@@ -13,12 +11,9 @@ use Lattice\Core\Attributes\AsAction;
 use Lattice\Ui\Enums\HttpMethod;
 use Lattice\Ui\Enums\Variant;
 
-#[AsAction('teams.invitations.cancel')]
+#[AsAction('teams.invitations.cancel', can: 'cancelInvitation', on: 'team')]
 class CancelInvitation extends ActionDefinition
 {
-    use ResolvesCurrentUser;
-    use ResolvesTeamFromContext;
-
     public function definition(Action $action): Action
     {
         return $action
@@ -32,20 +27,12 @@ class CancelInvitation extends ActionDefinition
             );
     }
 
-    #[\Override]
-    public function authorize(Request $request): bool
+    public function handle(): ActionResult
     {
-        return $this->currentUser()->can('cancelInvitation', $this->teamFromContext());
-    }
+        /** @var TeamInvitation $invitation */
+        $invitation = $this->contextModel('invitation');
 
-    public function handle(Request $request): ActionResult
-    {
-        $team = $this->teamFromContext();
-
-        $team->invitations()
-            ->where('code', $this->contextString('invitation'))
-            ->firstOrFail()
-            ->delete();
+        $invitation->delete();
 
         return ActionResult::success()
             ->toast(__('teams.invitations.cancelled'))

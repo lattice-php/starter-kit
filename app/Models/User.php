@@ -49,7 +49,7 @@ use Laravel\Passkeys\Passkey;
  * @property-read int|null $owned_teams_count
  * @property-read Collection<int, Passkey> $passkeys
  * @property-read int|null $passkeys_count
- * @property-read Membership|null $pivot
+ * @property-read Membership $pivot
  * @property-read Collection<int, Membership> $teamMemberships
  * @property-read int|null $team_memberships_count
  * @property-read Collection<int, Team> $teams
@@ -168,10 +168,13 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
 
     public function fallbackTeam(?Team $excluding = null): ?Team
     {
-        return $this->teams()
-            ->when($excluding, fn ($query) => $query->where('teams.id', '!=', $excluding->id))
-            ->orderByRaw('LOWER(teams.name)')
-            ->first();
+        $teams = $this->teams()->orderByRaw('LOWER(teams.name)');
+
+        if ($excluding instanceof Team) {
+            $teams->where('teams.id', '!=', $excluding->id);
+        }
+
+        return $teams->first();
     }
 
     public function hasTeamPermission(Team $team, TeamPermission $permission): bool

@@ -3,29 +3,26 @@ declare(strict_types=1);
 
 namespace App\Forms\Teams;
 
-use App\Concerns\ResolvesTeamFromContext;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Lattice\Facades\Effects;
 use Lattice\Form\Attributes\AsForm;
 use Lattice\Form\Components\Form as FormComponent;
 use Lattice\Form\Components\TextInput;
+use Lattice\Form\FormData;
 use Lattice\Form\FormDefinition;
 use Lattice\Http\LatticeResponse;
 use Lattice\Ui\Components\Button;
 use Lattice\Ui\Components\Grid;
 use Lattice\Ui\Enums\HttpMethod;
 
-#[AsForm('teams.update')]
+#[AsForm('teams.update', can: 'update', on: 'team')]
 class UpdateTeamForm extends FormDefinition
 {
-    use ResolvesTeamFromContext;
-
     public function definition(FormComponent $form, Request $request): FormComponent
     {
-        $team = $request->route('team');
+        $team = $this->contextModelOrNull('team');
 
         return $form
             ->method(HttpMethod::Patch)
@@ -39,25 +36,22 @@ class UpdateTeamForm extends FormDefinition
                             ->required()
                             ->rules(['string', 'max:255']),
                     ]),
-                Button::make(__('teams.update.submit'))->submit(),
+                Button::make(__('common.action.save'))->submit(),
             ])
             ->withoutSubmitButton();
     }
 
-    public function handle(Request $request): LatticeResponse
+    public function handle(FormData $data): LatticeResponse
     {
-        $validated = $this->validate($request);
+        /** @var Team $team */
+        $team = $this->contextModel('team');
 
-        $team = $this->teamFromContext();
+        $team = DB::transaction(function () use ($team, $data): Team {
+            $locked = Team::whereKey($team->id)->lockForUpdate()->firstOrFail();
 
-        Gate::authorize('update', $team);
+            $locked->update(['name' => $data->string('name')->toString()]);
 
-        $team = DB::transaction(function () use ($team, $validated): Team {
-            $team = Team::whereKey($team->id)->lockForUpdate()->firstOrFail();
-
-            $team->update(['name' => (string) $validated['name']]);
-
-            return $team;
+            return $locked;
         });
 
         return Effects::respond()->toast(__('teams.update.updated'))->toRoute('teams.edit', ['team' => $team->slug]);
