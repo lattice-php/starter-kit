@@ -78,19 +78,21 @@ class TeamsTable extends TableDefinition
                 return TableResult::fromItems([]);
             }
 
+            // The membership pivot already carries the role, so reading it off the
+            // loaded row keeps this to one query instead of one per team.
             return TableResult::fromItems(
                 $user->teams()->get()->map(fn (Team $team): array => [
                     'id' => $team->id,
                     'name' => $team->name,
                     'slug' => $team->slug,
-                    'roleLabel' => $user->teamRole($team)?->getLabel(),
+                    'roleLabel' => $team->pivot->role->getLabel(),
                     'status' => $this->statusFor($team->is_personal, $user->isCurrentTeam($team)),
                 ]),
             );
         });
     }
 
-    private function statusFor(bool $isPersonal, ?bool $isCurrent): string
+    private function statusFor(bool $isPersonal, bool $isCurrent): string
     {
         return collect([
             $isPersonal ? __('teams.status.personal') : null,

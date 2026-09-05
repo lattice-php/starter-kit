@@ -82,11 +82,12 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
     /**
-     * @return BelongsToMany<Team, $this>
+     * @return BelongsToMany<Team, $this, Membership, 'pivot'>
      */
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_members', 'user_id', 'team_id')
+            ->using(Membership::class)
             ->withPivot(['role'])
             ->withTimestamps();
     }

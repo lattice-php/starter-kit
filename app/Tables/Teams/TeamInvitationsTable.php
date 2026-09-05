@@ -6,7 +6,7 @@ namespace App\Tables\Teams;
 use App\Actions\Teams\CancelInvitation;
 use App\Models\Team;
 use App\Models\TeamInvitation;
-use App\Models\User;
+use App\Tables\Concerns\AuthorizesRowActions;
 use Lattice\Actions\Components\Action;
 use Lattice\Actions\Components\ActionGroup;
 use Lattice\Core\Enums\ColorName;
@@ -25,6 +25,8 @@ use Lattice\Ui\Enums\Size;
 #[AsTable('teams.invitations', can: 'view', on: 'team')]
 class TeamInvitationsTable extends TableDefinition
 {
+    use AuthorizesRowActions;
+
     public function layout(): string
     {
         return 'grid';
@@ -52,9 +54,8 @@ class TeamInvitationsTable extends TableDefinition
     {
         /** @var Team $team */
         $team = $this->contextModel('team');
-        $user = auth()->user();
 
-        if (! $user instanceof User || ! $user->can('cancelInvitation', $team)) {
+        if (! $this->allows('cancelInvitation', $team)) {
             return [];
         }
 

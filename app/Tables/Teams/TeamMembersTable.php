@@ -8,6 +8,7 @@ use App\Actions\Teams\UpdateMemberRole;
 use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\User;
+use App\Tables\Concerns\AuthorizesRowActions;
 use Lattice\Actions\Components\Action;
 use Lattice\Actions\Components\ActionGroup;
 use Lattice\Core\Enums\ColorName;
@@ -26,6 +27,8 @@ use Lattice\Ui\Enums\Size;
 #[AsTable('teams.members', can: 'view', on: 'team')]
 class TeamMembersTable extends TableDefinition
 {
+    use AuthorizesRowActions;
+
     public function layout(): string
     {
         return 'grid';
@@ -53,20 +56,19 @@ class TeamMembersTable extends TableDefinition
     {
         /** @var Team $team */
         $team = $this->contextModel('team');
-        $user = auth()->user();
 
-        if (! $user instanceof User || TeamRole::tryFrom((string) ($row['role'] ?? '')) === TeamRole::Owner) {
+        if (TeamRole::tryFrom((string) ($row['role'] ?? '')) === TeamRole::Owner) {
             return [];
         }
 
         $context = ['member' => $row['id']];
         $actions = [];
 
-        if ($user->can('updateMember', $team)) {
+        if ($this->allows('updateMember', $team)) {
             $actions[] = Action::use(UpdateMemberRole::class, $context);
         }
 
-        if ($user->can('removeMember', $team)) {
+        if ($this->allows('removeMember', $team)) {
             $actions[] = Action::use(RemoveMember::class, $context);
         }
 
