@@ -19,7 +19,7 @@
         "laravel/framework": "^13.30.1",
         "laravel/reverb": "^1.11.1",
         "laravel/tinker": "^3.0.2",
-        "lattice-php/lattice": "^0.72.1"
+        "lattice-php/lattice": "^0.77.0"
     },
     "require-dev": {
         "bambamboole/laravel-translation-dumper": "^2.2",
