@@ -12,32 +12,32 @@
         "types:check": "tsc --noEmit"
     },
     "devDependencies": {
-        "@inertiajs/vite": "^3.7.0",
-        "@tailwindcss/vite": "^4.3.3",
-        "@types/node": "^26.4.1",
-        "@types/react": "^19.2.18",
-        "@types/react-dom": "^19.2.7",
-        "@vitejs/plugin-react": "^6.1.1",
+        "@inertiajs/vite": "^3.11.0",
+        "@tailwindcss/vite": "^4.3.5",
+        "@types/node": "^26.6.6",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
+        "@vitejs/plugin-react": "^6.2.1",
         "babel-plugin-react-compiler": "^1.0.0",
-        "laravel-vite-plugin": "^3.2.0",
-        "oxfmt": "^0.66.0",
-        "oxlint": "^1.81.0",
-        "playwright": "^1.62.1",
+        "laravel-vite-plugin": "^3.2.1",
+        "oxfmt": "^0.77.0",
+        "oxlint": "^1.92.0",
+        "playwright": "^1.65.0",
         "tailwindcss": "^4.3.3",
         "typescript": "^7.0.2",
-        "vite": "^8.2.2"
+        "vite": "^8.3.6"
     },
     "dependencies": {
         "@fontsource-variable/instrument-sans": "^5.3.0",
-        "@inertiajs/react": "^3.7.0",
-        "@laravel/echo-react": "^2.4.0",
-        "@laravel/passkeys": "^0.4.0",
-        "@lattice-php/core": "^0.72.2",
-        "@lattice-php/form": "^0.72.2",
-        "@lattice-php/lattice": "^0.72.2",
-        "@lattice-php/ui": "^0.72.2",
+        "@inertiajs/react": "^3.11.0",
+        "@laravel/echo-react": "^2.6.3",
+        "@laravel/passkeys": "^0.4.1",
+        "@lattice-php/core": "^0.78.1",
+        "@lattice-php/form": "^0.78.1",
+        "@lattice-php/lattice": "^0.78.1",
+        "@lattice-php/ui": "^0.78.1",
         "pusher-js": "^8.6.0",
-        "react": "^19.2.8",
-        "react-dom": "^19.2.8"
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1"
     }
 }
